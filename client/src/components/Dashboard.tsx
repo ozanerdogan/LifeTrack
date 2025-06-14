@@ -22,7 +22,8 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
   const [editingHabit, setEditingHabit] = useState<Habit | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedTag, setSelectedTag] = useState('All Tags');
-  const [openMenuId, setOpenMenuId] = useState<string | null>(null);
+  const [openTodoMenuId, setOpenTodoMenuId] = useState<string | null>(null);
+  const [openHabitMenuId, setOpenHabitMenuId] = useState<string | null>(null);
   const [showTagInput, setShowTagInput] = useState(false);
   const [newTagName, setNewTagName] = useState('');
   const [expandedTodo, setExpandedTodo] = useState<string | null>(null);
@@ -53,23 +54,23 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
   const handleEditTodo = (todo: Todo) => {
     setEditingTodo(todo);
     setShowTodoModal(true);
-    setOpenMenuId(null);
+    setOpenTodoMenuId(null);
   };
 
   const handleEditHabit = (habit: Habit) => {
     setEditingHabit(habit);
     setShowHabitModal(true);
-    setOpenMenuId(null);
+    setOpenHabitMenuId(null);
   };
 
   const handleDeleteTodo = (id: string) => {
     deleteTodo(id);
-    setOpenMenuId(null);
+    setOpenTodoMenuId(null);
   };
 
   const handleDeleteHabit = (id: string) => {
     deleteHabit(id);
-    setOpenMenuId(null);
+    setOpenHabitMenuId(null);
   };
 
   const handleAddNewTag = () => {
@@ -319,48 +320,7 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
               </div>
             </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Checklist</label>
-              <div className="space-y-2">
-                {formData.checklist.map(item => (
-                  <div key={item.id} className="flex items-center space-x-2">
-                    <input
-                      type="text"
-                      value={item.text}
-                      onChange={(e) => setFormData(prev => ({
-                        ...prev,
-                        checklist: prev.checklist.map(checkItem =>
-                          checkItem.id === item.id ? { ...checkItem, text: e.target.value } : checkItem
-                        )
-                      }))}
-                      className="flex-1 px-2 py-1 text-sm border border-gray-300 rounded"
-                    />
-                    <button
-                      onClick={() => removeChecklistItem(item.id)}
-                      className="p-1 text-red-600 hover:bg-red-50 rounded"
-                    >
-                      <X className="w-4 h-4" />
-                    </button>
-                  </div>
-                ))}
-                <div className="flex space-x-2">
-                  <input
-                    type="text"
-                    value={newChecklistItem}
-                    onChange={(e) => setNewChecklistItem(e.target.value)}
-                    placeholder="Add checklist item"
-                    className="flex-1 px-2 py-1 text-sm border border-gray-300 rounded"
-                    onKeyPress={(e) => e.key === 'Enter' && addChecklistItem()}
-                  />
-                  <button
-                    onClick={addChecklistItem}
-                    className="px-3 py-1 text-sm bg-gray-600 text-white rounded hover:bg-gray-700"
-                  >
-                    <Plus className="w-4 h-4" />
-                  </button>
-                </div>
-              </div>
-            </div>
+
           </div>
 
           <div className="flex space-x-3 mt-6">
@@ -652,8 +612,6 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
             </div>
           </div>
         </div>
-        </div>
-
         {/* Search and filter bar */}
         <div className="max-w-4xl mx-auto mb-6">
           <div className="bg-white rounded-lg shadow-sm p-4 flex items-center space-x-4">
@@ -784,13 +742,13 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
-                          setOpenMenuId(openMenuId === todo.id ? null : todo.id);
+                          setOpenTodoMenuId(openTodoMenuId === todo.id ? null : todo.id);
                         }}
                         className="p-1 text-gray-400 hover:text-gray-600 opacity-0 group-hover:opacity-100 transition-opacity"
                       >
                         <MoreVertical className="w-4 h-4" />
                       </button>
-                      {openMenuId === todo.id && (
+                      {openTodoMenuId === todo.id && (
                         <div className="absolute right-0 top-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg z-10 min-w-[120px]">
                           <button
                             onClick={(e) => {
@@ -891,13 +849,13 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
                           <button
                             onClick={(e) => {
                               e.stopPropagation();
-                              setOpenMenuId(openMenuId === habit.id ? null : habit.id);
+                              setOpenHabitMenuId(openHabitMenuId === habit.id ? null : habit.id);
                             }}
                             className="p-1 text-gray-400 hover:text-gray-600 opacity-0 group-hover:opacity-100 transition-opacity"
                           >
                             <MoreVertical className="w-4 h-4" />
                           </button>
-                          {openMenuId === habit.id && (
+                          {openHabitMenuId === habit.id && (
                             <div className="absolute right-0 top-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg z-10 min-w-[120px]">
                               <button
                                 onClick={(e) => {
