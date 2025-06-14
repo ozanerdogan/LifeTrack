@@ -3,8 +3,13 @@ import { Calendar, TrendingUp, Target, CheckCircle } from 'lucide-react';
 import { getState, subscribe } from '../utils/globalState';
 
 const ProgressSection: React.FC = () => {
+  const [state, setState] = useState(getState());
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
+  
+  useEffect(() => {
+    return subscribe(setState);
+  }, []);
 
   // Generate calendar data for heatmap
   const generateCalendarData = (type: 'todos' | 'habits') => {

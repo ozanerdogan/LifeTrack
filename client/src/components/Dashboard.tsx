@@ -7,455 +7,155 @@ interface DashboardProps {
 }
 
 const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
-  // State for stats
-  const [health, setHealth] = useState(33);
-  const [maxHealth] = useState(50);
-  const [exp, setExp] = useState(12);
-  const [maxExp] = useState(100);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedTodo, setSelectedTodo] = useState<number | null>(null);
+  const [state, setState] = useState(getState());
+  
+  useEffect(() => {
+    return subscribe(setState);
+  }, []);
+
+  const { user, todos, habits, tags: availableTags } = state;
+
+  // UI State
   const [showTodoModal, setShowTodoModal] = useState(false);
   const [showHabitModal, setShowHabitModal] = useState(false);
-  const [editingTodo, setEditingTodo] = useState<any>(null);
-  const [editingHabit, setEditingHabit] = useState<any>(null);
+  const [editingTodo, setEditingTodo] = useState<Todo | null>(null);
+  const [editingHabit, setEditingHabit] = useState<Habit | null>(null);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedTag, setSelectedTag] = useState('All Tags');
+  const [openMenuId, setOpenMenuId] = useState<string | null>(null);
+  const [showTagInput, setShowTagInput] = useState(false);
+  const [newTagName, setNewTagName] = useState('');
 
-  // Todo data with additional details
-  const [todos, setTodos] = useState([
-    { 
-      id: 1, 
-      text: 'Review project proposal', 
-      completed: false, 
-      priority: 'high',
-      date: '2024-06-15',
-      tag: 'Work',
-      subtodos: ['Check budget section', 'Review timeline', 'Validate requirements'],
-      difficulty: 'hard',
-      description: 'Complete review of the Q2 project proposal'
-    },
-    { 
-      id: 2, 
-      text: 'Call dentist for appointment', 
-      completed: true, 
-      priority: 'medium',
-      date: '2024-06-14',
-      tag: 'Health',
-      subtodos: [],
-      difficulty: 'easy',
-      description: 'Schedule routine dental checkup'
-    },
-    { 
-      id: 3, 
-      text: 'Buy groceries for dinner', 
-      completed: false, 
-      priority: 'low',
-      date: '2024-06-15',
-      tag: 'Personal',
-      subtodos: ['Vegetables', 'Protein', 'Spices'],
-      difficulty: 'medium',
-      description: 'Shopping for tonight\'s meal preparation'
-    },
-  ]);
+  // Filtered todos and habits
+  const filteredTodos = todos.filter(todo => {
+    const matchesSearch = todo.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         todo.description.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesTag = selectedTag === 'All Tags' || todo.tags.includes(selectedTag);
+    return matchesSearch && matchesTag;
+  });
 
-  // Habit data
-  const [habits, setHabits] = useState([
-    { id: 1, name: 'Morning Exercise', completed: true, streak: 6, type: 'daily', isPositive: true, difficulty: 'medium', tag: 'Health' },
-    { id: 2, name: 'Read 30 minutes', completed: false, streak: 4, type: 'daily', isPositive: true, difficulty: 'easy', tag: 'Learning' },
-    { id: 3, name: 'Weekly Review', completed: false, streak: 2, type: 'weekly', isPositive: true, difficulty: 'hard', tag: 'Productivity' },
-    { id: 4, name: 'Meditation', completed: false, streak: 3, type: 'daily', isPositive: true, difficulty: 'easy', tag: 'Wellness' },
-  ]);
+  const filteredHabits = habits.filter(habit => {
+    const matchesSearch = habit.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         habit.description.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesTag = selectedTag === 'All Tags' || habit.tags.includes(selectedTag);
+    return matchesSearch && matchesTag;
+  });
 
-  const toggleTodo = (todoId: number) => {
-    setTodos(prev => prev.map(todo => {
-      if (todo.id === todoId) {
-        const newCompleted = !todo.completed;
-        if (newCompleted) {
-          const expGain = todo.difficulty === 'easy' ? 1 : 
-                         todo.difficulty === 'medium' ? 2 : 
-                         todo.difficulty === 'hard' ? 3 : 4;
-          setExp(prev => Math.min(prev + expGain, maxExp));
-        }
-        return { ...todo, completed: newCompleted };
-      }
-      return todo;
-    }));
+  const handleTodoComplete = (id: string) => {
+    completeTodo(id);
   };
 
-  const toggleHabit = (habitId: number) => {
-    setHabits(prev => prev.map(habit => {
-      if (habit.id === habitId) {
-        const newCompleted = !habit.completed;
-        if (newCompleted) {
-          setExp(prev => Math.min(prev + 1, maxExp));
-          if (habit.isPositive) {
-            const healthGain = habit.difficulty === 'easy' ? 1 : 
-                              habit.difficulty === 'medium' ? 2 : 
-                              habit.difficulty === 'hard' ? 3 : 4;
-            setHealth(prev => Math.min(prev + healthGain, maxHealth));
-          }
-        }
-        return { ...habit, completed: newCompleted };
-      }
-      return habit;
-    }));
+  const handleHabitComplete = (id: string) => {
+    completeHabit(id);
   };
 
-  const adjustHealth = (amount: number) => {
-    setHealth(prev => Math.max(0, Math.min(prev + amount, maxHealth)));
+  const handleEditTodo = (todo: Todo) => {
+    setEditingTodo(todo);
+    setShowTodoModal(true);
+    setOpenMenuId(null);
   };
 
-  const getPriorityColor = (priority: string) => {
-    switch (priority) {
-      case 'high': return 'border-l-red-500 bg-red-50';
-      case 'medium': return 'border-l-yellow-500 bg-yellow-50';
-      case 'low': return 'border-l-green-500 bg-green-50';
-      default: return 'border-l-gray-500 bg-gray-50';
+  const handleEditHabit = (habit: Habit) => {
+    setEditingHabit(habit);
+    setShowHabitModal(true);
+    setOpenMenuId(null);
+  };
+
+  const handleDeleteTodo = (id: string) => {
+    deleteTodo(id);
+    setOpenMenuId(null);
+  };
+
+  const handleDeleteHabit = (id: string) => {
+    deleteHabit(id);
+    setOpenMenuId(null);
+  };
+
+  const handleAddNewTag = () => {
+    if (newTagName.trim()) {
+      addTag(newTagName.trim());
+      setSelectedTag(newTagName.trim());
+      setNewTagName('');
+      setShowTagInput(false);
     }
   };
 
-  const getHabitColor = (color: string) => {
-    const colors = {
-      emerald: 'from-emerald-400 to-emerald-600',
-      blue: 'from-blue-400 to-blue-600',
-      cyan: 'from-cyan-400 to-cyan-600',
-      purple: 'from-purple-400 to-purple-600',
-      orange: 'from-orange-400 to-orange-600',
-    };
-    return colors[color as keyof typeof colors] || colors.blue;
-  };
-
-  return (
-    <div className="space-y-8">
-      {/* Top Section - Avatar and Health/Exp Bars */}
-      <div className="bg-white/70 backdrop-blur-sm rounded-xl p-8 border border-gray-200/50 relative overflow-hidden">
-        {/* Background Art */}
-        <div className="absolute right-0 top-0 bottom-0 w-1/3 opacity-10">
-          <svg viewBox="0 0 200 150" className="w-full h-full">
-            {/* Simple forest background */}
-            <rect width="200" height="150" fill="#e8f5e8"/>
-            <polygon points="20,150 30,120 40,150" fill="#228B22"/>
-            <polygon points="35,150 45,115 55,150" fill="#32CD32"/>
-            <polygon points="50,150 60,125 70,150" fill="#228B22"/>
-            <polygon points="80,150 90,110 100,150" fill="#32CD32"/>
-            <polygon points="120,150 130,120 140,150" fill="#228B22"/>
-            <polygon points="150,150 160,115 170,150" fill="#32CD32"/>
-            <circle cx="25" cy="130" r="15" fill="#90EE90"/>
-            <circle cx="85" cy="125" r="18" fill="#90EE90"/>
-            <circle cx="155" cy="128" r="16" fill="#90EE90"/>
-          </svg>
-        </div>
-        
-        <div className="flex items-center space-x-6 relative z-10">
-          {/* Avatar on the left */}
-          <div className="w-20 h-20 bg-gradient-to-br from-emerald-400 to-blue-500 rounded-full flex items-center justify-center shadow-lg flex-shrink-0">
-            <span className="text-white font-bold text-xl">{avatar}</span>
-          </div>
-          
-          {/* Health and Exp bars - shortened */}
-          <div className="flex-1 max-w-md space-y-4">
-            <div className="text-left">
-              <h1 className="text-2xl font-bold text-gray-900 mb-1">Welcome back, John!</h1>
-              <p className="text-gray-600">Let's make today productive</p>
-            </div>
-
-            {/* Health Bar */}
-            <div className="flex items-center space-x-3">
-              <Heart className="w-6 h-6 text-red-500" />
-              <div className="flex-1">
-                <div className="w-full bg-gray-200 rounded-full h-5">
-                  <div
-                    className="bg-gradient-to-r from-red-500 to-red-600 h-5 rounded-full transition-all duration-500"
-                    style={{ width: `${(health / maxHealth) * 100}%` }}
-                  ></div>
-                </div>
-              </div>
-              <span className="text-sm font-medium text-gray-700 min-w-[50px]">{health}/{maxHealth}</span>
-            </div>
-
-            {/* Experience Bar */}
-            <div className="flex items-center space-x-3">
-              <Star className="w-6 h-6 text-yellow-500" />
-              <div className="flex-1">
-                <div className="w-full bg-gray-200 rounded-full h-5">
-                  <div
-                    className="bg-gradient-to-r from-yellow-400 to-yellow-500 h-5 rounded-full transition-all duration-500"
-                    style={{ width: `${(exp / maxExp) * 100}%` }}
-                  ></div>
-                </div>
-              </div>
-              <span className="text-sm font-medium text-gray-700 min-w-[50px]">{exp}/{maxExp}</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Search and Filter Section */}
-      <div className="bg-white/70 backdrop-blur-sm rounded-xl p-6 border border-gray-200/50">
-        <div className="flex items-center justify-center gap-4">
-          <div className="relative w-80">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-            <input
-              type="text"
-              placeholder="Search to dos and habits..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            />
-          </div>
-          <select className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500">
-            <option value="">All Tags</option>
-            <option value="work">Work</option>
-            <option value="health">Health</option>
-            <option value="personal">Personal</option>
-          </select>
-        </div>
-      </div>
-
-      {/* Main Content - Two Segments */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {/* Left Segment - To Do */}
-        <div className="bg-white/70 backdrop-blur-sm rounded-xl p-6 border border-gray-200/50">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-xl font-semibold text-gray-900 flex items-center">
-              <Target className="w-6 h-6 mr-2 text-blue-600" />
-              To Do
-            </h2>
-            <button className="flex items-center justify-center w-8 h-8 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors">
-              <Plus className="w-5 h-5" />
-            </button>
-          </div>
-
-          <div className="space-y-3">
-            {todos.filter(todo => 
-              todo.text.toLowerCase().includes(searchTerm.toLowerCase()) ||
-              todo.tag.toLowerCase().includes(searchTerm.toLowerCase())
-            ).map((todo) => (
-              <div key={todo.id}>
-                <div
-                  className={`group flex items-center space-x-3 p-4 rounded-lg border-l-4 transition-all duration-200 hover:shadow-md cursor-pointer ${getPriorityColor(todo.priority)}`}
-                  onClick={() => setSelectedTodo(selectedTodo === todo.id ? null : todo.id)}
-                  onDoubleClick={() => {
-                    setEditingTodo(todo);
-                    setShowTodoModal(true);
-                  }}
-                >
-                  <button 
-                    className="flex-shrink-0"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      toggleTodo(todo.id);
-                    }}
-                  >
-                    {todo.completed ? (
-                      <CheckCircle className="w-5 h-5 text-green-600" />
-                    ) : (
-                      <Circle className="w-5 h-5 text-gray-400 group-hover:text-blue-500" />
-                    )}
-                  </button>
-                  <span className={`flex-1 ${todo.completed ? 'line-through text-gray-500' : 'text-gray-900'}`}>
-                    {todo.text}
-                  </span>
-                  <div className="flex items-center space-x-2">
-                    <span className="text-xs px-2 py-1 bg-gray-100 text-gray-600 rounded-full">{todo.tag}</span>
-                  </div>
-                </div>
-                
-                {/* Todo Details Popup */}
-                {selectedTodo === todo.id && (
-                  <div className="mt-2 p-4 bg-gray-50 rounded-lg border">
-                    <div className="flex justify-between items-start mb-3">
-                      <h3 className="font-medium text-gray-900">{todo.text}</h3>
-                      <button 
-                        onClick={() => setSelectedTodo(null)}
-                        className="text-gray-400 hover:text-gray-600"
-                      >
-                        <X className="w-4 h-4" />
-                      </button>
-                    </div>
-                    <div className="space-y-2 text-sm text-gray-600">
-                      <p><strong>Date:</strong> {todo.date}</p>
-                      <p><strong>Tag:</strong> {todo.tag}</p>
-                      <p><strong>Priority:</strong> {todo.priority}</p>
-                      {todo.subtodos.length > 0 && (
-                        <div>
-                          <strong>Sub-tasks:</strong>
-                          <ul className="mt-1 ml-4 space-y-1">
-                            {todo.subtodos.map((subtodo, index) => (
-                              <li key={index} className="flex items-center space-x-2">
-                                <Circle className="w-3 h-3 text-gray-400" />
-                                <span>{subtodo}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Right Segment - Habits */}
-        <div className="bg-white/70 backdrop-blur-sm rounded-xl p-6 border border-gray-200/50">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-xl font-semibold text-gray-900 flex items-center">
-              <Flame className="w-6 h-6 mr-2 text-emerald-600" />
-              Habits
-            </h2>
-            <button 
-              onClick={() => {
-                setEditingHabit(null);
-                setShowHabitModal(true);
-              }}
-              className="flex items-center justify-center w-8 h-8 bg-emerald-600 text-white rounded-full hover:bg-emerald-700 transition-colors"
-            >
-              <Plus className="w-5 h-5" />
-            </button>
-          </div>
-
-          <div className="space-y-3">
-            {habits.filter(habit => 
-              habit.name.toLowerCase().includes(searchTerm.toLowerCase())
-            ).map((habit) => (
-              <div
-                key={habit.id}
-                className="group flex items-center space-x-3 p-4 rounded-lg border border-gray-200 transition-all duration-200 hover:shadow-md cursor-pointer"
-                onDoubleClick={() => {
-                  setEditingHabit(habit);
-                  setShowHabitModal(true);
-                }}
-              >
-                <button 
-                  className={`flex-shrink-0 w-6 h-6 rounded-full border-2 flex items-center justify-center transition-colors ${
-                    habit.isPositive === false 
-                      ? 'border-red-400 hover:border-red-500 text-red-500 hover:bg-red-50' 
-                      : 'border-gray-300 text-gray-300 cursor-not-allowed'
-                  }`}
-                  onClick={() => habit.isPositive === false && adjustHealth(-1)}
-                  disabled={habit.isPositive !== false}
-                >
-                  <Minus className="w-3 h-3" />
-                </button>
-                
-                <button 
-                  className="flex-shrink-0"
-                  onClick={() => toggleHabit(habit.id)}
-                >
-                  {habit.completed ? (
-                    <CheckCircle className="w-5 h-5 text-green-600" />
-                  ) : (
-                    <Circle className="w-5 h-5 text-gray-400 group-hover:text-emerald-500" />
-                  )}
-                </button>
-                
-                <div className="flex-1">
-                  <span className={`block ${habit.completed ? 'line-through text-gray-500' : 'text-gray-900'}`}>
-                    {habit.name}
-                  </span>
-                  <span className="text-xs text-gray-500 capitalize">{habit.type}</span>
-                </div>
-                
-                {habit.streak > 0 && (
-                  <div className="flex items-center space-x-1 text-orange-600">
-                    <Flame className="w-4 h-4" />
-                    <span className="text-sm font-medium">{habit.streak}</span>
-                  </div>
-                )}
-                
-                <button 
-                  className={`flex-shrink-0 w-6 h-6 rounded-full border-2 flex items-center justify-center transition-colors ${
-                    habit.isPositive !== false 
-                      ? 'border-green-400 hover:border-green-500 text-green-500 hover:bg-green-50' 
-                      : 'border-gray-300 text-gray-300 cursor-not-allowed'
-                  }`}
-                  onClick={() => habit.isPositive !== false && adjustHealth(1)}
-                  disabled={habit.isPositive === false}
-                >
-                  <Plus className="w-3 h-3" />
-                </button>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Todo Modal */}
-      {showTodoModal && <TodoModal />}
-      
-      {/* Habit Modal */}
-      {showHabitModal && <HabitModal />}
-    </div>
-  );
-
   function TodoModal() {
     const [formData, setFormData] = useState({
-      title: editingTodo?.text || '',
+      title: editingTodo?.title || '',
       description: editingTodo?.description || '',
-      checklist: editingTodo?.subtodos || [''],
       difficulty: editingTodo?.difficulty || 'easy',
-      dueDate: editingTodo?.date || '',
-      tag: editingTodo?.tag || ''
+      tags: editingTodo?.tags || [],
+      dueDate: editingTodo?.dueDate || '',
+      checklist: editingTodo?.checklist || []
     });
 
-    const handleSubmit = (e: React.FormEvent) => {
-      e.preventDefault();
-      const newTodo = {
-        id: editingTodo?.id || Date.now(),
-        text: formData.title,
+    const [newChecklistItem, setNewChecklistItem] = useState('');
+    const [showTagDropdown, setShowTagDropdown] = useState(false);
+
+    const handleSubmit = () => {
+      if (!formData.title.trim()) return;
+
+      const todoData = {
+        title: formData.title,
         description: formData.description,
-        completed: editingTodo?.completed || false,
-        priority: formData.difficulty === 'easy' ? 'low' : formData.difficulty === 'medium' ? 'medium' : 'high',
-        date: formData.dueDate,
-        tag: formData.tag,
-        subtodos: formData.checklist.filter(item => item.trim()),
-        difficulty: formData.difficulty
+        difficulty: formData.difficulty as 'easy' | 'medium' | 'hard' | 'extreme',
+        tags: formData.tags,
+        dueDate: formData.dueDate,
+        checklist: formData.checklist,
+        completed: false
       };
 
       if (editingTodo) {
-        setTodos(prev => prev.map(todo => todo.id === editingTodo.id ? newTodo : todo));
+        updateTodo(editingTodo.id, todoData);
       } else {
-        setTodos(prev => [...prev, newTodo]);
+        addTodo(todoData);
       }
+
       setShowTodoModal(false);
+      setEditingTodo(null);
     };
 
     const addChecklistItem = () => {
-      setFormData(prev => ({
-        ...prev,
-        checklist: [...prev.checklist, '']
-      }));
-    };
-
-    const updateChecklistItem = (index: number, value: string) => {
-      setFormData(prev => ({
-        ...prev,
-        checklist: prev.checklist.map((item, i) => i === index ? value : item)
-      }));
-    };
-
-    const removeChecklistItem = (index: number) => {
-      setFormData(prev => ({
-        ...prev,
-        checklist: prev.checklist.filter((_, i) => i !== index)
-      }));
-    };
-
-    const deleteTodo = () => {
-      if (editingTodo) {
-        setTodos(prev => prev.filter(todo => todo.id !== editingTodo.id));
-        setShowTodoModal(false);
+      if (newChecklistItem.trim()) {
+        setFormData(prev => ({
+          ...prev,
+          checklist: [...prev.checklist, {
+            id: Math.random().toString(36).substr(2, 9),
+            text: newChecklistItem,
+            completed: false
+          }]
+        }));
+        setNewChecklistItem('');
       }
     };
+
+    const removeChecklistItem = (id: string) => {
+      setFormData(prev => ({
+        ...prev,
+        checklist: prev.checklist.filter(item => item.id !== id)
+      }));
+    };
+
+    const toggleTag = (tag: string) => {
+      setFormData(prev => ({
+        ...prev,
+        tags: prev.tags.includes(tag) 
+          ? prev.tags.filter(t => t !== tag)
+          : [...prev.tags, tag]
+      }));
+    };
+
+    if (!showTodoModal) return null;
 
     return (
       <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
         <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4 max-h-[90vh] overflow-y-auto">
           <h3 className="text-lg font-semibold text-gray-900 mb-4">
-            {editingTodo ? 'Edit To Do' : 'Add To Do'}
+            {editingTodo ? 'Edit To Do' : 'Add New To Do'}
           </h3>
           
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Title</label>
               <input
@@ -463,7 +163,7 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
                 value={formData.title}
                 onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                required
+                placeholder="Enter to do title"
               />
             </div>
 
@@ -473,39 +173,9 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
                 value={formData.description}
                 onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Enter description"
                 rows={3}
               />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Checklist</label>
-              {formData.checklist.map((item, index) => (
-                <div key={index} className="flex items-center space-x-2 mb-2">
-                  <input
-                    type="text"
-                    value={item}
-                    onChange={(e) => updateChecklistItem(index, e.target.value)}
-                    className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    placeholder={`Item ${index + 1}`}
-                  />
-                  {formData.checklist.length > 1 && (
-                    <button
-                      type="button"
-                      onClick={() => removeChecklistItem(index)}
-                      className="text-red-500 hover:text-red-700"
-                    >
-                      <X className="w-4 h-4" />
-                    </button>
-                  )}
-                </div>
-              ))}
-              <button
-                type="button"
-                onClick={addChecklistItem}
-                className="text-blue-600 hover:text-blue-800 text-sm"
-              >
-                + Add new item
-              </button>
             </div>
 
             <div>
@@ -515,10 +185,10 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
                 onChange={(e) => setFormData(prev => ({ ...prev, difficulty: e.target.value }))}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
-                <option value="easy">Easy (1 EXP)</option>
-                <option value="medium">Medium (2 EXP)</option>
-                <option value="hard">Hard (3 EXP)</option>
-                <option value="extreme">Extreme (4 EXP)</option>
+                <option value="easy">Easy (+1 EXP)</option>
+                <option value="medium">Medium (+2 EXP)</option>
+                <option value="hard">Hard (+3 EXP)</option>
+                <option value="extreme">Extreme (+4 EXP)</option>
               </select>
             </div>
 
@@ -533,41 +203,121 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Tag</label>
-              <input
-                type="text"
-                value={formData.tag}
-                onChange={(e) => setFormData(prev => ({ ...prev, tag: e.target.value }))}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="Work, Personal, Health, etc."
-              />
+              <label className="block text-sm font-medium text-gray-700 mb-1">Tags</label>
+              <div className="relative">
+                <button
+                  onClick={() => setShowTagDropdown(!showTagDropdown)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-left"
+                >
+                  {formData.tags.length > 0 ? formData.tags.join(', ') : 'Select tags'}
+                </button>
+                
+                {showTagDropdown && (
+                  <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-300 rounded-lg shadow-lg z-10 max-h-48 overflow-y-auto">
+                    {availableTags.map(tag => (
+                      <div
+                        key={tag}
+                        onClick={() => toggleTag(tag)}
+                        className={`px-3 py-2 cursor-pointer hover:bg-gray-50 ${
+                          formData.tags.includes(tag) ? 'bg-blue-50 text-blue-600' : ''
+                        }`}
+                      >
+                        {tag}
+                      </div>
+                    ))}
+                    <div className="border-t border-gray-200 p-2">
+                      <div className="flex space-x-2">
+                        <input
+                          type="text"
+                          value={newTagName}
+                          onChange={(e) => setNewTagName(e.target.value)}
+                          placeholder="New tag name"
+                          className="flex-1 px-2 py-1 text-sm border border-gray-300 rounded"
+                          onKeyPress={(e) => {
+                            if (e.key === 'Enter') {
+                              handleAddNewTag();
+                              toggleTag(newTagName.trim());
+                            }
+                          }}
+                        />
+                        <button
+                          onClick={() => {
+                            handleAddNewTag();
+                            toggleTag(newTagName.trim());
+                          }}
+                          className="px-2 py-1 text-sm bg-blue-600 text-white rounded hover:bg-blue-700"
+                        >
+                          Add
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
 
-            <div className="flex space-x-3 pt-4">
-              <button
-                type="button"
-                onClick={() => setShowTodoModal(false)}
-                className="flex-1 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"
-              >
-                Cancel
-              </button>
-              {editingTodo && (
-                <button
-                  type="button"
-                  onClick={deleteTodo}
-                  className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
-                >
-                  Delete
-                </button>
-              )}
-              <button
-                type="submit"
-                className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-              >
-                Save
-              </button>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Checklist</label>
+              <div className="space-y-2">
+                {formData.checklist.map(item => (
+                  <div key={item.id} className="flex items-center space-x-2">
+                    <input
+                      type="text"
+                      value={item.text}
+                      onChange={(e) => setFormData(prev => ({
+                        ...prev,
+                        checklist: prev.checklist.map(checkItem =>
+                          checkItem.id === item.id ? { ...checkItem, text: e.target.value } : checkItem
+                        )
+                      }))}
+                      className="flex-1 px-2 py-1 text-sm border border-gray-300 rounded"
+                    />
+                    <button
+                      onClick={() => removeChecklistItem(item.id)}
+                      className="p-1 text-red-600 hover:bg-red-50 rounded"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
+                  </div>
+                ))}
+                <div className="flex space-x-2">
+                  <input
+                    type="text"
+                    value={newChecklistItem}
+                    onChange={(e) => setNewChecklistItem(e.target.value)}
+                    placeholder="Add checklist item"
+                    className="flex-1 px-2 py-1 text-sm border border-gray-300 rounded"
+                    onKeyPress={(e) => e.key === 'Enter' && addChecklistItem()}
+                  />
+                  <button
+                    onClick={addChecklistItem}
+                    className="px-3 py-1 text-sm bg-gray-600 text-white rounded hover:bg-gray-700"
+                  >
+                    <Plus className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
             </div>
-          </form>
+          </div>
+
+          <div className="flex space-x-3 mt-6">
+            <button
+              onClick={() => {
+                setShowTodoModal(false);
+                setEditingTodo(null);
+                setShowTagDropdown(false);
+              }}
+              className="flex-1 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={handleSubmit}
+              className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+            >
+              {editingTodo ? 'Update' : 'Add'} To Do
+            </button>
+          </div>
         </div>
       </div>
     );
@@ -575,59 +325,63 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
 
   function HabitModal() {
     const [formData, setFormData] = useState({
-      title: editingHabit?.name || '',
+      title: editingHabit?.title || '',
       description: editingHabit?.description || '',
-      isPositive: editingHabit?.isPositive !== false,
+      type: editingHabit?.type || 'positive',
       difficulty: editingHabit?.difficulty || 'easy',
-      resetCounter: editingHabit?.type || 'daily',
-      tag: editingHabit?.tag || ''
+      tags: editingHabit?.tags || []
     });
 
-    const handleSubmit = (e: React.FormEvent) => {
-      e.preventDefault();
-      const newHabit = {
-        id: editingHabit?.id || Date.now(),
-        name: formData.title,
+    const [showTagDropdown, setShowTagDropdown] = useState(false);
+
+    const handleSubmit = () => {
+      if (!formData.title.trim()) return;
+
+      const habitData = {
+        title: formData.title,
         description: formData.description,
-        completed: editingHabit?.completed || false,
-        streak: editingHabit?.streak || 0,
-        type: formData.resetCounter,
-        isPositive: formData.isPositive,
-        difficulty: formData.difficulty,
-        tag: formData.tag
+        type: formData.type as 'positive' | 'negative',
+        difficulty: formData.difficulty as 'easy' | 'medium' | 'hard' | 'extreme',
+        tags: formData.tags
       };
 
       if (editingHabit) {
-        setHabits(prev => prev.map(habit => habit.id === editingHabit.id ? newHabit : habit));
+        updateHabit(editingHabit.id, habitData);
       } else {
-        setHabits(prev => [...prev, newHabit]);
+        addHabit(habitData);
       }
+
       setShowHabitModal(false);
+      setEditingHabit(null);
     };
 
-    const deleteHabit = () => {
-      if (editingHabit) {
-        setHabits(prev => prev.filter(habit => habit.id !== editingHabit.id));
-        setShowHabitModal(false);
-      }
+    const toggleTag = (tag: string) => {
+      setFormData(prev => ({
+        ...prev,
+        tags: prev.tags.includes(tag) 
+          ? prev.tags.filter(t => t !== tag)
+          : [...prev.tags, tag]
+      }));
     };
+
+    if (!showHabitModal) return null;
 
     return (
       <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
         <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4 max-h-[90vh] overflow-y-auto">
           <h3 className="text-lg font-semibold text-gray-900 mb-4">
-            {editingHabit ? 'Edit Habit' : 'Add Habit'}
+            {editingHabit ? 'Edit Habit' : 'Add New Habit'}
           </h3>
           
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Title</label>
               <input
                 type="text"
                 value={formData.title}
                 onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                required
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Enter habit title"
               />
             </div>
 
@@ -636,34 +390,35 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
               <textarea
                 value={formData.description}
                 onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Enter description"
                 rows={3}
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Habit Type</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Type</label>
               <div className="flex space-x-4">
-                <button
-                  type="button"
-                  onClick={() => setFormData(prev => ({ ...prev, isPositive: true }))}
-                  className={`flex-1 flex items-center justify-center space-x-2 py-2 px-4 rounded-lg border-2 transition-colors ${
-                    formData.isPositive ? 'border-green-500 bg-green-50 text-green-700' : 'border-gray-300 hover:border-gray-400'
-                  }`}
-                >
-                  <Plus className="w-4 h-4" />
-                  <span>Positive</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setFormData(prev => ({ ...prev, isPositive: false }))}
-                  className={`flex-1 flex items-center justify-center space-x-2 py-2 px-4 rounded-lg border-2 transition-colors ${
-                    !formData.isPositive ? 'border-red-500 bg-red-50 text-red-700' : 'border-gray-300 hover:border-gray-400'
-                  }`}
-                >
-                  <Minus className="w-4 h-4" />
-                  <span>Negative</span>
-                </button>
+                <label className="flex items-center">
+                  <input
+                    type="radio"
+                    value="positive"
+                    checked={formData.type === 'positive'}
+                    onChange={(e) => setFormData(prev => ({ ...prev, type: e.target.value }))}
+                    className="mr-2"
+                  />
+                  Positive (Gain health/exp)
+                </label>
+                <label className="flex items-center">
+                  <input
+                    type="radio"
+                    value="negative"
+                    checked={formData.type === 'negative'}
+                    onChange={(e) => setFormData(prev => ({ ...prev, type: e.target.value }))}
+                    className="mr-2"
+                  />
+                  Negative (Lose health/exp)
+                </label>
               </div>
             </div>
 
@@ -672,68 +427,391 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
               <select
                 value={formData.difficulty}
                 onChange={(e) => setFormData(prev => ({ ...prev, difficulty: e.target.value }))}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
-                <option value="easy">Easy (1 Health)</option>
-                <option value="medium">Medium (2 Health)</option>
-                <option value="hard">Hard (3 Health)</option>
-                <option value="extreme">Extreme (4 Health)</option>
+                <option value="easy">Easy (±1 Health/EXP)</option>
+                <option value="medium">Medium (±2 Health/EXP)</option>
+                <option value="hard">Hard (±3 Health/EXP)</option>
+                <option value="extreme">Extreme (±4 Health/EXP)</option>
               </select>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Reset Counter</label>
-              <select
-                value={formData.resetCounter}
-                onChange={(e) => setFormData(prev => ({ ...prev, resetCounter: e.target.value }))}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
-              >
-                <option value="daily">Daily</option>
-                <option value="weekly">Weekly</option>
-                <option value="monthly">Monthly</option>
-              </select>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Tag</label>
-              <input
-                type="text"
-                value={formData.tag}
-                onChange={(e) => setFormData(prev => ({ ...prev, tag: e.target.value }))}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                placeholder="Health, Productivity, Learning, etc."
-              />
-            </div>
-
-            <div className="flex space-x-3 pt-4">
-              <button
-                type="button"
-                onClick={() => setShowHabitModal(false)}
-                className="flex-1 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"
-              >
-                Cancel
-              </button>
-              {editingHabit && (
+              <label className="block text-sm font-medium text-gray-700 mb-1">Tags</label>
+              <div className="relative">
                 <button
-                  type="button"
-                  onClick={deleteHabit}
-                  className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
+                  onClick={() => setShowTagDropdown(!showTagDropdown)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-left"
                 >
-                  Delete
+                  {formData.tags.length > 0 ? formData.tags.join(', ') : 'Select tags'}
                 </button>
-              )}
-              <button
-                type="submit"
-                className="flex-1 px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700"
-              >
-                Save
-              </button>
+                
+                {showTagDropdown && (
+                  <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-300 rounded-lg shadow-lg z-10 max-h-48 overflow-y-auto">
+                    {availableTags.map(tag => (
+                      <div
+                        key={tag}
+                        onClick={() => toggleTag(tag)}
+                        className={`px-3 py-2 cursor-pointer hover:bg-gray-50 ${
+                          formData.tags.includes(tag) ? 'bg-blue-50 text-blue-600' : ''
+                        }`}
+                      >
+                        {tag}
+                      </div>
+                    ))}
+                    <div className="border-t border-gray-200 p-2">
+                      <div className="flex space-x-2">
+                        <input
+                          type="text"
+                          value={newTagName}
+                          onChange={(e) => setNewTagName(e.target.value)}
+                          placeholder="New tag name"
+                          className="flex-1 px-2 py-1 text-sm border border-gray-300 rounded"
+                          onKeyPress={(e) => {
+                            if (e.key === 'Enter') {
+                              handleAddNewTag();
+                              toggleTag(newTagName.trim());
+                            }
+                          }}
+                        />
+                        <button
+                          onClick={() => {
+                            handleAddNewTag();
+                            toggleTag(newTagName.trim());
+                          }}
+                          className="px-2 py-1 text-sm bg-blue-600 text-white rounded hover:bg-blue-700"
+                        >
+                          Add
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
-          </form>
+          </div>
+
+          <div className="flex space-x-3 mt-6">
+            <button
+              onClick={() => {
+                setShowHabitModal(false);
+                setEditingHabit(null);
+                setShowTagDropdown(false);
+              }}
+              className="flex-1 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={handleSubmit}
+              className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+            >
+              {editingHabit ? 'Update' : 'Add'} Habit
+            </button>
+          </div>
         </div>
       </div>
     );
   }
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-blue-50 to-purple-50 relative overflow-hidden">
+      {/* Decorative forest background */}
+      <div className="absolute inset-0 opacity-10">
+        <div className="absolute bottom-0 left-0 w-32 h-48 bg-emerald-600 rounded-t-full transform -rotate-12"></div>
+        <div className="absolute bottom-0 left-16 w-24 h-36 bg-emerald-700 rounded-t-full transform rotate-6"></div>
+        <div className="absolute bottom-0 left-32 w-28 h-42 bg-emerald-500 rounded-t-full transform -rotate-3"></div>
+        <div className="absolute bottom-0 right-0 w-36 h-52 bg-emerald-600 rounded-t-full transform rotate-12"></div>
+        <div className="absolute bottom-0 right-20 w-32 h-44 bg-emerald-700 rounded-t-full transform -rotate-6"></div>
+        <div className="absolute top-20 left-1/4 w-16 h-16 bg-yellow-300 rounded-full opacity-60"></div>
+        <div className="absolute top-32 right-1/3 w-8 h-8 bg-white rounded-full opacity-80"></div>
+        <div className="absolute top-40 left-1/2 w-6 h-6 bg-white rounded-full opacity-60"></div>
+      </div>
+
+      <div className="relative z-10 p-6">
+        {/* Header with avatar and stats */}
+        <div className="max-w-4xl mx-auto mb-8">
+          <div className="bg-white/80 backdrop-blur-sm rounded-lg shadow-lg p-6 border border-white/20">
+        </div>
+        
+        <div className="flex items-center space-x-6 relative z-10">
+          {/* Avatar on the left */}
+          <div className="w-20 h-20 bg-gradient-to-br from-emerald-400 to-blue-500 rounded-full flex items-center justify-center shadow-lg flex-shrink-0">
+            <span className="text-white font-bold text-xl">{avatar}</span>
+          </div>
+          
+          {/* Health and Exp bars - shortened */}
+          <div className="flex-1 max-w-md space-y-4">
+            <div className="text-left">
+              <div className="w-full bg-gray-200 rounded-full h-3 mb-1">
+                <div 
+                  className="bg-red-500 h-3 rounded-full transition-all duration-300" 
+                  style={{ width: `${(user.health / user.maxHealth) * 100}%` }}
+                ></div>
+              </div>
+              <div className="flex items-center justify-between text-sm text-gray-600">
+                <span className="flex items-center">
+                  <Heart className="w-4 h-4 text-red-500 mr-1" />
+                  Health
+                </span>
+                <span>{user.health}/{user.maxHealth}</span>
+              </div>
+            </div>
+            
+            <div className="text-left">
+              <div className="w-full bg-gray-200 rounded-full h-3 mb-1">
+                <div 
+                  className="bg-yellow-500 h-3 rounded-full transition-all duration-300" 
+                  style={{ width: `${(user.exp % 10) * 10}%` }}
+                ></div>
+              </div>
+              <div className="flex items-center justify-between text-sm text-gray-600">
+                <span className="flex items-center">
+                  <Star className="w-4 h-4 text-yellow-500 mr-1" />
+                  Level {user.level}
+                </span>
+                <span>{user.exp % 10}/10</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
+
+        {/* Search and filter bar */}
+        <div className="max-w-4xl mx-auto mb-6">
+          <div className="bg-white rounded-lg shadow-sm p-4 flex items-center space-x-4">
+            <div className="flex-1 relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+              <input
+                type="text"
+                placeholder="Search to dos and habits..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+            <div className="relative">
+              <select
+                value={selectedTag}
+                onChange={(e) => setSelectedTag(e.target.value)}
+                className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+              >
+                <option value="All Tags">All Tags</option>
+                {availableTags.map(tag => (
+                  <option key={tag} value={tag}>{tag}</option>
+                ))}
+              </select>
+            </div>
+          </div>
+        </div>
+
+        {/* Main content grid */}
+        <div className="max-w-4xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* To Dos Section */}
+          <div className="bg-white rounded-lg shadow-sm">
+            <div className="p-4 border-b border-gray-200 flex items-center justify-between">
+              <h2 className="text-lg font-semibold text-gray-900 flex items-center">
+                <Target className="w-5 h-5 text-blue-600 mr-2" />
+                To Dos ({filteredTodos.filter(t => !t.completed).length})
+              </h2>
+              <button
+                onClick={() => setShowTodoModal(true)}
+                className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+              >
+                <Plus className="w-5 h-5" />
+              </button>
+            </div>
+            <div className="p-4 space-y-3 max-h-96 overflow-y-auto">
+              {filteredTodos.length === 0 ? (
+                <div className="text-center py-8 text-gray-500">
+                  <Target className="w-12 h-12 mx-auto mb-3 text-gray-300" />
+                  <p>No to dos found</p>
+                  <p className="text-sm">Add a new to do to get started!</p>
+                </div>
+              ) : (
+                filteredTodos.map(todo => (
+                  <div key={todo.id} className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg group">
+                    <button
+                      onClick={() => handleTodoComplete(todo.id)}
+                      className={`flex-shrink-0 ${
+                        todo.completed ? 'text-green-600' : 'text-gray-400 hover:text-green-600'
+                      }`}
+                    >
+                      {todo.completed ? (
+                        <CheckCircle className="w-5 h-5" />
+                      ) : (
+                        <Circle className="w-5 h-5" />
+                      )}
+                    </button>
+                    <div className="flex-1 min-w-0">
+                      <h3 className={`font-medium ${
+                        todo.completed ? 'line-through text-gray-500' : 'text-gray-900'
+                      }`}>
+                        {todo.title}
+                      </h3>
+                      {todo.description && (
+                        <p className="text-sm text-gray-600 mt-1">{todo.description}</p>
+                      )}
+                      <div className="flex items-center space-x-2 mt-2">
+                        <span className={`px-2 py-1 text-xs rounded-full ${
+                          todo.difficulty === 'easy' ? 'bg-green-100 text-green-800' :
+                          todo.difficulty === 'medium' ? 'bg-yellow-100 text-yellow-800' :
+                          todo.difficulty === 'hard' ? 'bg-orange-100 text-orange-800' :
+                          'bg-red-100 text-red-800'
+                        }`}>
+                          {todo.difficulty}
+                        </span>
+                        {todo.tags.map(tag => (
+                          <span key={tag} className="px-2 py-1 text-xs bg-blue-100 text-blue-800 rounded-full">
+                            {tag}
+                          </span>
+                        ))}
+                        {todo.dueDate && (
+                          <span className="text-xs text-gray-500 flex items-center">
+                            <Calendar className="w-3 h-3 mr-1" />
+                            {todo.dueDate}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                    <div className="relative">
+                      <button
+                        onClick={() => setOpenMenuId(openMenuId === todo.id ? null : todo.id)}
+                        className="p-1 text-gray-400 hover:text-gray-600 opacity-0 group-hover:opacity-100 transition-opacity"
+                      >
+                        <MoreVertical className="w-4 h-4" />
+                      </button>
+                      {openMenuId === todo.id && (
+                        <div className="absolute right-0 top-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg z-10 min-w-[120px]">
+                          <button
+                            onClick={() => handleEditTodo(todo)}
+                            className="w-full px-3 py-2 text-left text-sm hover:bg-gray-50 flex items-center"
+                          >
+                            <Edit className="w-4 h-4 mr-2" />
+                            Edit
+                          </button>
+                          <button
+                            onClick={() => handleDeleteTodo(todo.id)}
+                            className="w-full px-3 py-2 text-left text-sm hover:bg-gray-50 flex items-center text-red-600"
+                          >
+                            <Trash2 className="w-4 h-4 mr-2" />
+                            Delete
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
+          </div>
+
+          {/* Habits Section */}
+          <div className="bg-white rounded-lg shadow-sm">
+            <div className="p-4 border-b border-gray-200 flex items-center justify-between">
+              <h2 className="text-lg font-semibold text-gray-900 flex items-center">
+                <Flame className="w-5 h-5 text-orange-600 mr-2" />
+                Habits ({filteredHabits.length})
+              </h2>
+              <button
+                onClick={() => setShowHabitModal(true)}
+                className="p-2 text-orange-600 hover:bg-orange-50 rounded-lg transition-colors"
+              >
+                <Plus className="w-5 h-5" />
+              </button>
+            </div>
+            <div className="p-4 space-y-3 max-h-96 overflow-y-auto">
+              {filteredHabits.length === 0 ? (
+                <div className="text-center py-8 text-gray-500">
+                  <Flame className="w-12 h-12 mx-auto mb-3 text-gray-300" />
+                  <p>No habits found</p>
+                  <p className="text-sm">Add a new habit to build consistency!</p>
+                </div>
+              ) : (
+                filteredHabits.map(habit => (
+                  <div key={habit.id} className="p-3 bg-gray-50 rounded-lg group">
+                    <div className="flex items-center justify-between">
+                      <div className="flex-1">
+                        <h3 className="font-medium text-gray-900">{habit.title}</h3>
+                        {habit.description && (
+                          <p className="text-sm text-gray-600 mt-1">{habit.description}</p>
+                        )}
+                        <div className="flex items-center space-x-2 mt-2">
+                          <span className={`px-2 py-1 text-xs rounded-full ${
+                            habit.type === 'positive' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+                          }`}>
+                            {habit.type}
+                          </span>
+                          <span className={`px-2 py-1 text-xs rounded-full ${
+                            habit.difficulty === 'easy' ? 'bg-green-100 text-green-800' :
+                            habit.difficulty === 'medium' ? 'bg-yellow-100 text-yellow-800' :
+                            habit.difficulty === 'hard' ? 'bg-orange-100 text-orange-800' :
+                            'bg-red-100 text-red-800'
+                          }`}>
+                            {habit.difficulty}
+                          </span>
+                          {habit.tags.map(tag => (
+                            <span key={tag} className="px-2 py-1 text-xs bg-blue-100 text-blue-800 rounded-full">
+                              {tag}
+                            </span>
+                          ))}
+                          <span className="text-xs text-gray-500 flex items-center">
+                            <TrendingUp className="w-3 h-3 mr-1" />
+                            {habit.streak} day streak
+                          </span>
+                        </div>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <button
+                          onClick={() => handleHabitComplete(habit.id)}
+                          className={`px-3 py-1 text-sm rounded-lg font-medium ${
+                            habit.type === 'positive'
+                              ? 'bg-green-600 text-white hover:bg-green-700'
+                              : 'bg-red-600 text-white hover:bg-red-700'
+                          }`}
+                        >
+                          {habit.type === 'positive' ? 'Done' : 'Avoided'}
+                        </button>
+                        <div className="relative">
+                          <button
+                            onClick={() => setOpenMenuId(openMenuId === habit.id ? null : habit.id)}
+                            className="p-1 text-gray-400 hover:text-gray-600 opacity-0 group-hover:opacity-100 transition-opacity"
+                          >
+                            <MoreVertical className="w-4 h-4" />
+                          </button>
+                          {openMenuId === habit.id && (
+                            <div className="absolute right-0 top-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg z-10 min-w-[120px]">
+                              <button
+                                onClick={() => handleEditHabit(habit)}
+                                className="w-full px-3 py-2 text-left text-sm hover:bg-gray-50 flex items-center"
+                              >
+                                <Edit className="w-4 h-4 mr-2" />
+                                Edit
+                              </button>
+                              <button
+                                onClick={() => handleDeleteHabit(habit.id)}
+                                className="w-full px-3 py-2 text-left text-sm hover:bg-gray-50 flex items-center text-red-600"
+                              >
+                                <Trash2 className="w-4 h-4 mr-2" />
+                                Delete
+                              </button>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <TodoModal />
+      <HabitModal />
+    </div>
+  );
 };
 
 export default Dashboard;
