@@ -4,7 +4,7 @@ export interface Todo {
   title: string;
   description: string;
   completed: boolean;
-  difficulty: 'easy' | 'medium' | 'hard' | 'extreme';
+  difficulty: "easy" | "medium" | "hard" | "extreme";
   tags: string[];
   dueDate?: string;
   checklist: { id: string; text: string; completed: boolean }[];
@@ -16,8 +16,8 @@ export interface Habit {
   id: string;
   title: string;
   description: string;
-  type: 'positive' | 'negative';
-  difficulty: 'easy' | 'medium' | 'hard' | 'extreme';
+  type: "positive" | "negative";
+  difficulty: "easy" | "medium" | "hard" | "extreme";
   tags: string[];
   streak: number;
   lastCompleted?: string;
@@ -47,11 +47,11 @@ export interface AppState {
 
 export interface HistoryEntry {
   id: string;
-  type: 'todo' | 'habit';
-  action: 'completed' | 'added' | 'edited' | 'deleted';
+  type: "todo" | "habit";
+  action: "completed" | "added" | "edited" | "deleted";
   title: string;
   tags: string[];
-  difficulty: 'easy' | 'medium' | 'hard' | 'extreme';
+  difficulty: "easy" | "medium" | "hard" | "extreme";
   timestamp: string;
   expGained?: number;
   healthChange?: number;
@@ -62,98 +62,107 @@ export const DIFFICULTY_VALUES = {
   easy: { exp: 1, health: 1 },
   medium: { exp: 2, health: 2 },
   hard: { exp: 3, health: 3 },
-  extreme: { exp: 4, health: 4 }
+  extreme: { exp: 4, health: 4 },
 };
 
 // Initial state
 const initialState: AppState = {
   user: {
-    name: 'John Doe',
-    email: 'john@example.com',
-    bio: 'Productivity enthusiast focused on building better habits and achieving goals.',
-    location: 'New York, NY',
-    joinDate: '2024-01-01',
-    avatar: 'JD',
+    name: "John Doe",
+    email: "john@example.com",
+    bio: "Productivity enthusiast focused on building better habits and achieving goals.",
+    location: "New York, NY",
+    joinDate: "2024-01-01",
+    avatar: "JD",
     health: 33,
     maxHealth: 50,
     exp: 12,
-    level: 1
+    level: 1,
   },
   todos: [
     {
-      id: '1',
-      title: 'Review project proposal',
-      description: 'Go through the Q4 project proposal and provide feedback',
+      id: "1",
+      title: "Review project proposal",
+      description: "Go through the Q4 project proposal and provide feedback",
       completed: false,
-      difficulty: 'medium',
-      tags: ['work', 'important'],
-      dueDate: '2024-01-20',
+      difficulty: "medium",
+      tags: ["work", "important"],
+      dueDate: "2024-01-20",
       checklist: [],
-      createdAt: '2024-01-15T10:00:00Z'
+      createdAt: "2024-01-15T10:00:00Z",
     },
     {
-      id: '2',
-      title: 'Update portfolio website',
-      description: 'Add recent projects and update skills section',
+      id: "2",
+      title: "Update portfolio website",
+      description: "Add recent projects and update skills section",
       completed: true,
-      difficulty: 'hard',
-      tags: ['personal', 'coding'],
+      difficulty: "hard",
+      tags: ["personal", "coding"],
       checklist: [
-        { id: '1', text: 'Update projects section', completed: true },
-        { id: '2', text: 'Refresh skills list', completed: true }
+        { id: "1", text: "Update projects section", completed: true },
+        { id: "2", text: "Refresh skills list", completed: true },
       ],
-      createdAt: '2024-01-10T09:00:00Z',
-      completedAt: '2024-01-14T15:30:00Z'
-    }
+      createdAt: "2024-01-10T09:00:00Z",
+      completedAt: "2024-01-14T15:30:00Z",
+    },
   ],
   habits: [
     {
-      id: '1',
-      title: 'Morning Exercise',
-      description: '30 minutes of cardio or strength training',
-      type: 'positive',
-      difficulty: 'medium',
-      tags: ['health', 'fitness'],
+      id: "1",
+      title: "Morning Exercise",
+      description: "30 minutes of cardio or strength training",
+      type: "positive",
+      difficulty: "medium",
+      tags: ["health", "fitness"],
       streak: 5,
-      lastCompleted: '2024-01-15',
-      createdAt: '2024-01-01T06:00:00Z'
+      lastCompleted: "2024-01-15",
+      createdAt: "2024-01-01T06:00:00Z",
     },
     {
-      id: '2',
-      title: 'Social Media Scrolling',
-      description: 'Limit mindless social media browsing',
-      type: 'negative',
-      difficulty: 'easy',
-      tags: ['digital-wellness', 'productivity'],
+      id: "2",
+      title: "Social Media Scrolling",
+      description: "Limit mindless social media browsing",
+      type: "negative",
+      difficulty: "easy",
+      tags: ["digital-wellness", "productivity"],
       streak: 0,
-      createdAt: '2024-01-05T12:00:00Z'
-    }
+      createdAt: "2024-01-05T12:00:00Z",
+    },
   ],
-  tags: ['work', 'important', 'personal', 'coding', 'health', 'fitness', 'digital-wellness', 'productivity'],
+  tags: [
+    "work",
+    "important",
+    "personal",
+    "coding",
+    "health",
+    "fitness",
+    "digital-wellness",
+    "productivity",
+  ],
   history: [
     {
-      id: '1',
-      type: 'todo',
-      action: 'completed',
-      title: 'Update portfolio website',
-      tags: ['personal', 'coding'],
-      difficulty: 'hard',
-      timestamp: '2024-01-14T15:30:00Z',
+      id: "1",
+      type: "todo",
+      action: "completed",
+      title: "Update portfolio website",
+      tags: ["personal", "coding"],
+      difficulty: "hard",
+      timestamp: "2024-01-14T15:30:00Z",
       expGained: 3,
-      healthChange: 0
+      healthChange: 0,
     },
     {
-      id: '2',
-      type: 'habit',
-      action: 'completed',
-      title: 'Morning Exercise',
-      tags: ['health', 'fitness'],
-      difficulty: 'medium',
-      timestamp: '2024-01-15T07:00:00Z',
+      id: "2",
+      type: "habit",
+      action: "completed",
+      title: "Morning Exercise",
+      tags: ["health", "fitness"],
+      difficulty: "medium",
+      timestamp: "2024-01-15T07:00:00Z",
       expGained: 2,
-      healthChange: 2
-    }
-  ]
+      healthChange: 2,
+    },
+  ],
 };
 
 // State management
@@ -164,7 +173,7 @@ export const getState = (): AppState => currentState;
 
 export const setState = (updater: (state: AppState) => AppState) => {
   currentState = updater(currentState);
-  listeners.forEach(listener => listener(currentState));
+  listeners.forEach((listener) => listener(currentState));
 };
 
 export const subscribe = (listener: (state: AppState) => void) => {
@@ -180,49 +189,61 @@ export const subscribe = (listener: (state: AppState) => void) => {
 // Helper functions
 export const generateId = () => Math.random().toString(36).substr(2, 9);
 
-export const addTodo = (todo: Omit<Todo, 'id' | 'createdAt'>) => {
-  setState(state => ({
+export const addTodo = (todo: Omit<Todo, "id" | "createdAt">) => {
+  setState((state) => ({
     ...state,
-    todos: [{
-      ...todo,
-      id: generateId(),
-      createdAt: new Date().toISOString()
-    }, ...state.todos],
+    todos: [
+      {
+        ...todo,
+        id: generateId(),
+        createdAt: new Date().toISOString(),
+      },
+      ...state.todos,
+    ],
     tags: Array.from(new Set([...state.tags, ...todo.tags])),
-    history: [{
-      id: generateId(),
-      type: 'todo',
-      action: 'added',
-      title: todo.title,
-      tags: todo.tags,
-      difficulty: todo.difficulty,
-      timestamp: new Date().toISOString()
-    }, ...state.history]
+    history: [
+      {
+        id: generateId(),
+        type: "todo",
+        action: "added",
+        title: todo.title,
+        tags: todo.tags,
+        difficulty: todo.difficulty,
+        timestamp: new Date().toISOString(),
+      },
+      ...state.history,
+    ],
   }));
 };
 
 export const updateTodo = (id: string, updates: Partial<Todo>) => {
-  setState(state => ({
+  setState((state) => ({
     ...state,
-    todos: state.todos.map(todo => 
-      todo.id === id ? { ...todo, ...updates } : todo
+    todos: state.todos.map((todo) =>
+      todo.id === id ? { ...todo, ...updates } : todo,
     ),
     tags: Array.from(new Set([...state.tags, ...(updates.tags || [])])),
-    history: [{
-      id: generateId(),
-      type: 'todo',
-      action: 'edited',
-      title: state.todos.find(t => t.id === id)?.title || 'Unknown',
-      tags: updates.tags || state.todos.find(t => t.id === id)?.tags || [],
-      difficulty: updates.difficulty || state.todos.find(t => t.id === id)?.difficulty || 'easy',
-      timestamp: new Date().toISOString()
-    }, ...state.history]
+    history: [
+      {
+        id: generateId(),
+        type: "todo",
+        action: "edited",
+        title: state.todos.find((t) => t.id === id)?.title || "Unknown",
+        tags: updates.tags || state.todos.find((t) => t.id === id)?.tags || [],
+        difficulty:
+          updates.difficulty ||
+          state.todos.find((t) => t.id === id)?.difficulty ||
+          "easy",
+        timestamp: new Date().toISOString(),
+      },
+      ...state.history,
+    ],
   }));
 };
 
 export const completeTodo = (id: string) => {
-  setState(state => {
-    const todo = state.todos.find(t => t.id === id);
+  setState((state) => {
+    const todo = state.todos.find((t) => t.id === id);
     if (!todo || todo.completed) return state;
 
     const difficultyValue = DIFFICULTY_VALUES[todo.difficulty];
@@ -231,157 +252,198 @@ export const completeTodo = (id: string) => {
 
     return {
       ...state,
-      todos: state.todos.map(t => 
-        t.id === id ? { ...t, completed: true, completedAt: new Date().toISOString() } : t
+      todos: state.todos.map((t) =>
+        t.id === id
+          ? { ...t, completed: true, completedAt: new Date().toISOString() }
+          : t,
       ),
       user: {
         ...state.user,
         exp: newExp,
-        level: newLevel
+        level: newLevel,
       },
-      history: [{
-        id: generateId(),
-        type: 'todo',
-        action: 'completed',
-        title: todo.title,
-        tags: todo.tags,
-        difficulty: todo.difficulty,
-        timestamp: new Date().toISOString(),
-        expGained: difficultyValue.exp
-      }, ...state.history]
+      history: [
+        {
+          id: generateId(),
+          type: "todo",
+          action: "completed",
+          title: todo.title,
+          tags: todo.tags,
+          difficulty: todo.difficulty,
+          timestamp: new Date().toISOString(),
+          expGained: difficultyValue.exp,
+        },
+        ...state.history,
+      ],
     };
   });
 };
 
-export const addHabit = (habit: Omit<Habit, 'id' | 'createdAt' | 'streak'>) => {
-  setState(state => ({
+export const addHabit = (habit: Omit<Habit, "id" | "createdAt" | "streak">) => {
+  setState((state) => ({
     ...state,
-    habits: [...state.habits, {
-      ...habit,
-      id: generateId(),
-      streak: 0,
-      createdAt: new Date().toISOString()
-    }],
+    habits: [
+      ...state.habits,
+      {
+        ...habit,
+        id: generateId(),
+        streak: 0,
+        createdAt: new Date().toISOString(),
+      },
+    ],
     tags: Array.from(new Set([...state.tags, ...habit.tags])),
-    history: [{
-      id: generateId(),
-      type: 'habit',
-      action: 'added',
-      title: habit.title,
-      tags: habit.tags,
-      difficulty: habit.difficulty,
-      timestamp: new Date().toISOString()
-    }, ...state.history]
+    history: [
+      {
+        id: generateId(),
+        type: "habit",
+        action: "added",
+        title: habit.title,
+        tags: habit.tags,
+        difficulty: habit.difficulty,
+        timestamp: new Date().toISOString(),
+      },
+      ...state.history,
+    ],
   }));
 };
 
 export const updateHabit = (id: string, updates: Partial<Habit>) => {
-  setState(state => ({
+  setState((state) => ({
     ...state,
-    habits: state.habits.map(habit => 
-      habit.id === id ? { ...habit, ...updates } : habit
+    habits: state.habits.map((habit) =>
+      habit.id === id ? { ...habit, ...updates } : habit,
     ),
     tags: Array.from(new Set([...state.tags, ...(updates.tags || [])])),
-    history: [{
-      id: generateId(),
-      type: 'habit',
-      action: 'edited',
-      title: state.habits.find(h => h.id === id)?.title || 'Unknown',
-      tags: updates.tags || state.habits.find(h => h.id === id)?.tags || [],
-      difficulty: updates.difficulty || state.habits.find(h => h.id === id)?.difficulty || 'easy',
-      timestamp: new Date().toISOString()
-    }, ...state.history]
+    history: [
+      {
+        id: generateId(),
+        type: "habit",
+        action: "edited",
+        title: state.habits.find((h) => h.id === id)?.title || "Unknown",
+        tags: updates.tags || state.habits.find((h) => h.id === id)?.tags || [],
+        difficulty:
+          updates.difficulty ||
+          state.habits.find((h) => h.id === id)?.difficulty ||
+          "easy",
+        timestamp: new Date().toISOString(),
+      },
+      ...state.history,
+    ],
   }));
 };
 
 export const completeHabit = (id: string) => {
-  setState(state => {
-    const habit = state.habits.find(h => h.id === id);
+  setState((state) => {
+    const habit = state.habits.find((h) => h.id === id);
     if (!habit) return state;
 
     const difficultyValue = DIFFICULTY_VALUES[habit.difficulty];
-    const isPositive = habit.type === 'positive';
+    const isPositive = habit.type === "positive";
     const expChange = isPositive ? difficultyValue.exp : -difficultyValue.exp;
-    const healthChange = isPositive ? difficultyValue.health : -difficultyValue.health;
-    
+    const healthChange = isPositive
+      ? difficultyValue.health
+      : -difficultyValue.health;
+
     const newExp = Math.max(0, state.user.exp + expChange);
-    const newHealth = Math.max(0, Math.min(state.user.maxHealth, state.user.health + healthChange));
+    const newHealth = Math.max(
+      0,
+      Math.min(state.user.maxHealth, state.user.health + healthChange),
+    );
     const newLevel = Math.floor(newExp / 10) + 1;
 
     return {
       ...state,
-      habits: state.habits.map(h => 
-        h.id === id ? { ...h, streak: h.streak + 1, lastCompleted: new Date().toISOString().split('T')[0] } : h
+      habits: state.habits.map((h) =>
+        h.id === id
+          ? {
+              ...h,
+              streak: h.streak + 1,
+              lastCompleted: new Date().toISOString().split("T")[0],
+            }
+          : h,
       ),
       user: {
         ...state.user,
         exp: newExp,
         health: newHealth,
-        level: newLevel
+        level: newLevel,
       },
-      history: [{
-        id: generateId(),
-        type: 'habit',
-        action: 'completed',
-        title: habit.title,
-        tags: habit.tags,
-        difficulty: habit.difficulty,
-        timestamp: new Date().toISOString(),
-        expGained: expChange,
-        healthChange: healthChange
-      }, ...state.history]
+      history: [
+        {
+          id: generateId(),
+          type: "habit",
+          action: "completed",
+          title: habit.title,
+          tags: habit.tags,
+          difficulty: habit.difficulty,
+          timestamp: new Date().toISOString(),
+          expGained: expChange,
+          healthChange: healthChange,
+        },
+        ...state.history,
+      ],
     };
   });
 };
 
 export const deleteTodo = (id: string) => {
-  setState(state => {
-    const todo = state.todos.find(t => t.id === id);
+  setState((state) => {
+    const todo = state.todos.find((t) => t.id === id);
     return {
       ...state,
-      todos: state.todos.filter(t => t.id !== id),
-      history: todo ? [{
-        id: generateId(),
-        type: 'todo',
-        action: 'deleted',
-        title: todo.title,
-        tags: todo.tags,
-        difficulty: todo.difficulty,
-        timestamp: new Date().toISOString()
-      }, ...state.history] : state.history
+      todos: state.todos.filter((t) => t.id !== id),
+      history: todo
+        ? [
+            {
+              id: generateId(),
+              type: "todo",
+              action: "deleted",
+              title: todo.title,
+              tags: todo.tags,
+              difficulty: todo.difficulty,
+              timestamp: new Date().toISOString(),
+            },
+            ...state.history,
+          ]
+        : state.history,
     };
   });
 };
 
 export const deleteHabit = (id: string) => {
-  setState(state => {
-    const habit = state.habits.find(h => h.id === id);
+  setState((state) => {
+    const habit = state.habits.find((h) => h.id === id);
     return {
       ...state,
-      habits: state.habits.filter(h => h.id !== id),
-      history: habit ? [{
-        id: generateId(),
-        type: 'habit',
-        action: 'deleted',
-        title: habit.title,
-        tags: habit.tags,
-        difficulty: habit.difficulty,
-        timestamp: new Date().toISOString()
-      }, ...state.history] : state.history
+      habits: state.habits.filter((h) => h.id !== id),
+      history: habit
+        ? [
+            {
+              id: generateId(),
+              type: "habit",
+              action: "deleted",
+              title: habit.title,
+              tags: habit.tags,
+              difficulty: habit.difficulty,
+              timestamp: new Date().toISOString(),
+            },
+            ...state.history,
+          ]
+        : state.history,
     };
   });
 };
 
 export const updateUser = (updates: Partial<User>) => {
-  setState(state => ({
+  setState((state) => ({
     ...state,
-    user: { ...state.user, ...updates }
+    user: { ...state.user, ...updates },
   }));
 };
 
 export const addTag = (tag: string) => {
-  setState(state => ({
+  setState((state) => ({
     ...state,
-    tags: Array.from(new Set([...state.tags, tag]))
+    tags: Array.from(new Set([...state.tags, tag])),
   }));
 };
