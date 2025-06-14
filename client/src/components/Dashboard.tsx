@@ -24,6 +24,8 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
   const [selectedTag, setSelectedTag] = useState('All Tags');
   const [openTodoMenuId, setOpenTodoMenuId] = useState<string | null>(null);
   const [openHabitMenuId, setOpenHabitMenuId] = useState<string | null>(null);
+  const [showTagInput, setShowTagInput] = useState(false);
+  const [newTagName, setNewTagName] = useState('');
   const [expandedTodo, setExpandedTodo] = useState<string | null>(null);
 
   // Filtered todos and habits
@@ -71,7 +73,12 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
     setOpenHabitMenuId(null);
   };
 
-
+  const handleAddNewTag = (tagName: string, callback?: () => void) => {
+    if (tagName.trim() && !availableTags.includes(tagName.trim())) {
+      addTag(tagName.trim());
+      if (callback) callback();
+    }
+  };
 
   function TodoModal() {
     const [formData, setFormData] = useState({
