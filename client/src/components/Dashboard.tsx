@@ -355,6 +355,7 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
     });
 
     const [showTagDropdown, setShowTagDropdown] = useState(false);
+    const [newTagName, setNewTagName] = useState('');
 
     const handleSubmit = () => {
       if (!formData.title.trim()) return;
