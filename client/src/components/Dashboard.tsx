@@ -393,7 +393,7 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
       type: editingHabit?.type || 'positive',
       difficulty: editingHabit?.difficulty || 'easy',
       tags: editingHabit?.tags || [],
-      resetCounter: false
+      resetPeriod: 'daily'
     });
 
     const [showTagDropdown, setShowTagDropdown] = useState(false);
@@ -410,10 +410,7 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
       };
 
       if (editingHabit) {
-        updateHabit(editingHabit.id, { 
-          ...habitData, 
-          ...(formData.resetCounter ? { streak: 0 } : {})
-        });
+        updateHabit(editingHabit.id, habitData);
       } else {
         addHabit(habitData);
       }
@@ -504,15 +501,16 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
             </div>
 
             <div>
-              <label className="flex items-center">
-                <input
-                  type="checkbox"
-                  checked={formData.resetCounter}
-                  onChange={(e) => setFormData(prev => ({ ...prev, resetCounter: e.target.checked }))}
-                  className="mr-2 rounded border-gray-300"
-                />
-                <span className="text-sm text-gray-700">Reset streak counter</span>
-              </label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Reset Period</label>
+              <select
+                value={formData.resetPeriod}
+                onChange={(e) => setFormData(prev => ({ ...prev, resetPeriod: e.target.value }))}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="daily">Daily</option>
+                <option value="weekly">Weekly</option>
+                <option value="monthly">Monthly</option>
+              </select>
             </div>
 
             <div>
@@ -761,9 +759,18 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
                           <ul className="space-y-1">
                             {todo.checklist.map(item => (
                               <li key={item.id} className="flex items-center text-sm">
-                                <span className={`mr-2 ${item.completed ? 'text-green-600' : 'text-gray-400'}`}>
+                                <button
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    const updatedChecklist = todo.checklist.map(i => 
+                                      i.id === item.id ? { ...i, completed: !i.completed } : i
+                                    );
+                                    updateTodo(todo.id, { checklist: updatedChecklist });
+                                  }}
+                                  className={`mr-2 ${item.completed ? 'text-green-600' : 'text-gray-400'} hover:text-green-500`}
+                                >
                                   {item.completed ? '✓' : '○'}
-                                </span>
+                                </button>
                                 <span className={item.completed ? 'line-through text-gray-500' : 'text-gray-700'}>
                                   {item.text}
                                 </span>
@@ -775,7 +782,10 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
                     </div>
                     <div className="relative">
                       <button
-                        onClick={() => setOpenMenuId(openMenuId === todo.id ? null : todo.id)}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setOpenMenuId(openMenuId === todo.id ? null : todo.id);
+                        }}
                         className="p-1 text-gray-400 hover:text-gray-600 opacity-0 group-hover:opacity-100 transition-opacity"
                       >
                         <MoreVertical className="w-4 h-4" />
@@ -783,14 +793,20 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
                       {openMenuId === todo.id && (
                         <div className="absolute right-0 top-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg z-10 min-w-[120px]">
                           <button
-                            onClick={() => handleEditTodo(todo)}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleEditTodo(todo);
+                            }}
                             className="w-full px-3 py-2 text-left text-sm hover:bg-gray-50 flex items-center"
                           >
                             <Edit className="w-4 h-4 mr-2" />
                             Edit
                           </button>
                           <button
-                            onClick={() => handleDeleteTodo(todo.id)}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleDeleteTodo(todo.id);
+                            }}
                             className="w-full px-3 py-2 text-left text-sm hover:bg-gray-50 flex items-center text-red-600"
                           >
                             <Trash2 className="w-4 h-4 mr-2" />
@@ -873,7 +889,10 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
                         </button>
                         <div className="relative">
                           <button
-                            onClick={() => setOpenMenuId(openMenuId === habit.id ? null : habit.id)}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setOpenMenuId(openMenuId === habit.id ? null : habit.id);
+                            }}
                             className="p-1 text-gray-400 hover:text-gray-600 opacity-0 group-hover:opacity-100 transition-opacity"
                           >
                             <MoreVertical className="w-4 h-4" />
@@ -881,14 +900,20 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
                           {openMenuId === habit.id && (
                             <div className="absolute right-0 top-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg z-10 min-w-[120px]">
                               <button
-                                onClick={() => handleEditHabit(habit)}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleEditHabit(habit);
+                                }}
                                 className="w-full px-3 py-2 text-left text-sm hover:bg-gray-50 flex items-center"
                               >
                                 <Edit className="w-4 h-4 mr-2" />
                                 Edit
                               </button>
                               <button
-                                onClick={() => handleDeleteHabit(habit.id)}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleDeleteHabit(habit.id);
+                                }}
                                 className="w-full px-3 py-2 text-left text-sm hover:bg-gray-50 flex items-center text-red-600"
                               >
                                 <Trash2 className="w-4 h-4 mr-2" />
