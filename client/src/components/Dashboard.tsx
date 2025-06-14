@@ -25,7 +25,6 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
   const [openTodoMenuId, setOpenTodoMenuId] = useState<string | null>(null);
   const [openHabitMenuId, setOpenHabitMenuId] = useState<string | null>(null);
   const [showTagInput, setShowTagInput] = useState(false);
-  const [newTagName, setNewTagName] = useState('');
   const [expandedTodo, setExpandedTodo] = useState<string | null>(null);
 
   // Filtered todos and habits
@@ -280,7 +279,7 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
                     {availableTags.map(tag => (
                       <div
                         key={tag}
-                        onClick={() => toggleTag(tag)}
+                        onMouseDown={() => toggleTag(tag)}
                         className={`px-3 py-2 cursor-pointer hover:bg-gray-50 ${
                           formData.tags.includes(tag) ? 'bg-blue-50 text-blue-600' : ''
                         }`}
@@ -298,15 +297,14 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
                           className="flex-1 px-2 py-1 text-sm border border-gray-300 rounded"
                           onKeyPress={(e) => {
                             if (e.key === 'Enter') {
-                              handleAddNewTag();
-                              toggleTag(newTagName.trim());
+                              e.preventDefault();
+                              handleAddNewTag(newTagName);
                             }
                           }}
                         />
                         <button
-                          onClick={() => {
-                            handleAddNewTag();
-                            toggleTag(newTagName.trim());
+                          onMouseDown={() => {
+                            handleAddNewTag(newTagName);
                           }}
                           className="px-2 py-1 text-sm bg-blue-600 text-white rounded hover:bg-blue-700"
                         >
@@ -489,7 +487,7 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
                     {availableTags.map(tag => (
                       <div
                         key={tag}
-                        onClick={() => toggleTag(tag)}
+                        onMouseDown={() => toggleTag(tag)}
                         className={`px-3 py-2 cursor-pointer hover:bg-gray-50 ${
                           formData.tags.includes(tag) ? 'bg-blue-50 text-blue-600' : ''
                         }`}
@@ -507,15 +505,14 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
                           className="flex-1 px-2 py-1 text-sm border border-gray-300 rounded"
                           onKeyPress={(e) => {
                             if (e.key === 'Enter') {
-                              handleAddNewTag();
-                              toggleTag(newTagName.trim());
+                              e.preventDefault();
+                              handleAddNewTag(newTagName);
                             }
                           }}
                         />
                         <button
-                          onClick={() => {
-                            handleAddNewTag();
-                            toggleTag(newTagName.trim());
+                          onMouseDown={() => {
+                            handleAddNewTag(newTagName);
                           }}
                           className="px-2 py-1 text-sm bg-blue-600 text-white rounded hover:bg-blue-700"
                         >
