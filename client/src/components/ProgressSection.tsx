@@ -131,8 +131,8 @@ const ProgressSection: React.FC = () => {
             </div>
             
             <div className="text-right">
-              <p className="text-2xl font-bold text-gray-900">{stats.todos.completed}</p>
-              <p className="text-sm text-gray-600">of {stats.todos.total} tasks</p>
+              <p className="text-2xl font-bold text-gray-900">{stats.completedTasks}</p>
+              <p className="text-sm text-gray-600">of {stats.totalTasks} tasks</p>
             </div>
           </div>
 
@@ -182,7 +182,7 @@ const ProgressSection: React.FC = () => {
             
             <div className="flex items-center space-x-2 text-sm text-gray-600">
               <TrendingUp className="w-4 h-4" />
-              <span>{stats.todos.streak} day streak</span>
+              <span>{stats.streak} day streak</span>
             </div>
           </div>
         </div>
@@ -201,8 +201,8 @@ const ProgressSection: React.FC = () => {
             </div>
             
             <div className="text-right">
-              <p className="text-2xl font-bold text-gray-900">{stats.habits.completed}</p>
-              <p className="text-sm text-gray-600">of {stats.habits.total} habits</p>
+              <p className="text-2xl font-bold text-gray-900">{stats.totalHabits}</p>
+              <p className="text-sm text-gray-600">total habits</p>
             </div>
           </div>
 
@@ -252,7 +252,7 @@ const ProgressSection: React.FC = () => {
             
             <div className="flex items-center space-x-2 text-sm text-gray-600">
               <TrendingUp className="w-4 h-4" />
-              <span>{stats.habits.streak} day streak</span>
+              <span>{stats.streak} day streak</span>
             </div>
           </div>
         </div>
