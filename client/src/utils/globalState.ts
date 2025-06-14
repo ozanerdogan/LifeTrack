@@ -207,7 +207,7 @@ export const updateTodo = (id: string, updates: Partial<Todo>) => {
     todos: state.todos.map(todo => 
       todo.id === id ? { ...todo, ...updates } : todo
     ),
-    tags: [...new Set([...state.tags, ...(updates.tags || [])])],
+    tags: Array.from(new Set([...state.tags, ...(updates.tags || [])])),
     history: [{
       id: generateId(),
       type: 'todo',
@@ -281,7 +281,7 @@ export const updateHabit = (id: string, updates: Partial<Habit>) => {
     habits: state.habits.map(habit => 
       habit.id === id ? { ...habit, ...updates } : habit
     ),
-    tags: [...new Set([...state.tags, ...(updates.tags || [])])],
+    tags: Array.from(new Set([...state.tags, ...(updates.tags || [])])),
     history: [{
       id: generateId(),
       type: 'habit',
