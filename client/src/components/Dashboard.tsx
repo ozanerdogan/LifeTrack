@@ -884,6 +884,7 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
 
       <TodoModal />
       <HabitModal />
+      </div>
     </div>
   );
 };
