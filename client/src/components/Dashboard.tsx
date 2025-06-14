@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 import { Plus, CheckCircle, Circle, Target, Flame, TrendingUp, Calendar, Heart, Star, Search, Filter, Minus, X } from 'lucide-react';
 
-const Dashboard: React.FC = () => {
+interface DashboardProps {
+  avatar: string;
+}
+
+const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
   // State for stats
   const [health, setHealth] = useState(33);
   const [maxHealth] = useState(50);
@@ -142,7 +146,7 @@ const Dashboard: React.FC = () => {
         <div className="flex items-center space-x-6 relative z-10">
           {/* Avatar on the left */}
           <div className="w-20 h-20 bg-gradient-to-br from-emerald-400 to-blue-500 rounded-full flex items-center justify-center shadow-lg flex-shrink-0">
-            <span className="text-white font-bold text-xl">JD</span>
+            <span className="text-white font-bold text-xl">{avatar}</span>
           </div>
           
           {/* Health and Exp bars - shortened */}

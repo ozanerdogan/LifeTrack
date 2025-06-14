@@ -14,10 +14,11 @@ function App() {
   const [activeSection, setActiveSection] = useState('home');
   const [sidebarOpen, setSidebarOpen] = useState(window.innerWidth >= 768); // Default open for desktop, closed for mobile
   const [showProfile, setShowProfile] = useState(false);
+  const [avatar, setAvatar] = useState('JD');
 
   const renderContent = () => {
     if (showProfile) {
-      return <ProfileSection />;
+      return <ProfileSection avatar={avatar} setAvatar={setAvatar} />;
     }
 
     switch (activeSection) {
@@ -30,7 +31,7 @@ function App() {
       case 'help':
         return <HelpSection />;
       default:
-        return <Dashboard />;
+        return <Dashboard avatar={avatar} />;
     }
   };
 
