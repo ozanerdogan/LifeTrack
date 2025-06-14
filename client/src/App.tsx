@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import Sidebar from './components/Sidebar';
 import Dashboard from './components/Dashboard';
@@ -8,6 +8,7 @@ import SettingsSection from './components/SettingsSection';
 import HelpSection from './components/HelpSection';
 import ProfileSection from './components/ProfileSection';
 import LoginPage from './components/LoginPage';
+import { getState, subscribe, updateUser } from './utils/globalState';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
