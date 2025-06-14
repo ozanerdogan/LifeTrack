@@ -426,6 +426,7 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
                 <label className="flex items-center">
                   <input
                     type="radio"
+                    name="habitType"
                     value="positive"
                     checked={formData.type === 'positive'}
                     onChange={(e) => setFormData(prev => ({ ...prev, type: e.target.value as 'positive' | 'negative' }))}
@@ -436,9 +437,10 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
                 <label className="flex items-center">
                   <input
                     type="radio"
+                    name="habitType"
                     value="negative"
                     checked={formData.type === 'negative'}
-                    onChange={(e) => setFormData(prev => ({ ...prev, type: e.target.value }))}
+                    onChange={(e) => setFormData(prev => ({ ...prev, type: e.target.value as 'positive' | 'negative' }))}
                     className="mr-2"
                   />
                   Negative (Lose health/exp)
@@ -552,34 +554,23 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-blue-50 to-purple-50 relative overflow-hidden">
-      {/* Decorative forest background */}
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute bottom-0 left-0 w-32 h-48 bg-emerald-600 rounded-t-full transform -rotate-12"></div>
-        <div className="absolute bottom-0 left-16 w-24 h-36 bg-emerald-700 rounded-t-full transform rotate-6"></div>
-        <div className="absolute bottom-0 left-32 w-28 h-42 bg-emerald-500 rounded-t-full transform -rotate-3"></div>
-        <div className="absolute bottom-0 right-0 w-36 h-52 bg-emerald-600 rounded-t-full transform rotate-12"></div>
-        <div className="absolute bottom-0 right-20 w-32 h-44 bg-emerald-700 rounded-t-full transform -rotate-6"></div>
-        <div className="absolute top-20 left-1/4 w-16 h-16 bg-yellow-300 rounded-full opacity-60"></div>
-        <div className="absolute top-32 right-1/3 w-8 h-8 bg-white rounded-full opacity-80"></div>
-        <div className="absolute top-40 left-1/2 w-6 h-6 bg-white rounded-full opacity-60"></div>
-      </div>
-
-      <div className="relative z-10 p-6">
-        {/* Header with avatar and stats */}
-        <div className="max-w-4xl mx-auto mb-8">
-          <div className="bg-white/80 backdrop-blur-sm rounded-lg shadow-lg p-6 border border-white/20">
-        </div>
-        
-        <div className="flex items-center space-x-6 relative z-10">
-          {/* Avatar on the left */}
-          <div className="w-20 h-20 bg-gradient-to-br from-emerald-400 to-blue-500 rounded-full flex items-center justify-center shadow-lg flex-shrink-0">
-            <span className="text-white font-bold text-xl">{avatar}</span>
+    <div className="min-h-screen bg-gray-50">
+      <div className="max-w-6xl mx-auto p-6">
+        {/* User stats */}
+        <div className="bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 backdrop-blur-sm rounded-xl p-6 border border-gray-200/50 mb-6">
+          <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-4">
+            <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-xl">
+              {avatar || user.name.charAt(0).toUpperCase()}
+            </div>
+            <div>
+              <h1 className="text-2xl font-bold text-gray-900">{user.name}</h1>
+              <p className="text-gray-600">Level {user.level} • {user.exp} EXP</p>
+            </div>
           </div>
           
-          {/* Health and Exp bars - shortened */}
-          <div className="flex-1 max-w-md space-y-4">
-            <div className="text-left">
+          <div className="flex items-center space-x-6">
+            <div className="text-right">
               <div className="w-full bg-gray-200 rounded-full h-3 mb-1">
                 <div 
                   className="bg-red-500 h-3 rounded-full transition-all duration-300" 
@@ -612,6 +603,7 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
             </div>
           </div>
         </div>
+
         {/* Search and filter bar */}
         <div className="max-w-4xl mx-auto mb-6">
           <div className="bg-white rounded-lg shadow-sm p-4 flex items-center space-x-4">
