@@ -48,6 +48,12 @@ function App() {
     setIsLoggedIn(true);
   };
 
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    setShowProfile(false);
+    setActiveSection('home');
+  };
+
   // Show login page if not logged in
   if (!isLoggedIn) {
     return <LoginPage onLogin={handleLogin} />;
@@ -66,6 +72,7 @@ function App() {
           activeSection={showProfile ? '' : activeSection}
           onSectionChange={handleSectionChange}
           onClose={() => setSidebarOpen(false)}
+          onLogout={handleLogout}
         />
         
         <main className={`flex-1 transition-all duration-300 ease-in-out ${sidebarOpen ? 'ml-0' : ''}`}>

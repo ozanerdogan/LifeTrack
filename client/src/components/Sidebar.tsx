@@ -1,14 +1,16 @@
-import React from 'react';
-import { Home, TrendingUp, History, Settings, HelpCircle, X } from 'lucide-react';
+import React, { useState } from 'react';
+import { Home, TrendingUp, History, Settings, HelpCircle, X, LogOut } from 'lucide-react';
 
 interface SidebarProps {
   isOpen: boolean;
   activeSection: string;
   onSectionChange: (section: string) => void;
   onClose: () => void;
+  onLogout: () => void;
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ isOpen, activeSection, onSectionChange, onClose }) => {
+const Sidebar: React.FC<SidebarProps> = ({ isOpen, activeSection, onSectionChange, onClose, onLogout }) => {
+  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
   const menuItems = [
     { id: 'home', label: 'Home', icon: Home },
     { id: 'progress', label: 'Progress', icon: TrendingUp },
@@ -78,18 +80,43 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, activeSection, onSectionChang
             </ul>
           </nav>
 
-          {/* User Info */}
+          {/* Logout Button */}
           <div className="p-4 border-t border-gray-200/50">
-            <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-emerald-400 to-blue-500 rounded-full flex items-center justify-center">
-                <span className="text-white font-semibold text-sm">JD</span>
-              </div>
-              <div>
-                <p className="text-sm font-medium text-gray-900">John Doe</p>
-                <p className="text-xs text-gray-500">john@example.com</p>
+            <button
+              onClick={() => setShowLogoutConfirm(true)}
+              className="w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-red-600 hover:bg-red-50 transition-colors duration-200"
+            >
+              <LogOut className="w-5 h-5" />
+              <span className="font-medium">Logout</span>
+            </button>
+          </div>
+
+          {/* Logout Confirmation Modal */}
+          {showLogoutConfirm && (
+            <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+              <div className="bg-white rounded-lg p-6 max-w-sm mx-4">
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">Confirm Logout</h3>
+                <p className="text-gray-600 mb-6">Are you sure you want to logout?</p>
+                <div className="flex space-x-3">
+                  <button
+                    onClick={() => setShowLogoutConfirm(false)}
+                    className="flex-1 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={() => {
+                      setShowLogoutConfirm(false);
+                      onLogout();
+                    }}
+                    className="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+                  >
+                    Logout
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
+          )}
         </div>
       </aside>
     </>

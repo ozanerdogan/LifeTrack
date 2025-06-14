@@ -9,6 +9,10 @@ const Dashboard: React.FC = () => {
   const [maxExp] = useState(100);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedTodo, setSelectedTodo] = useState<number | null>(null);
+  const [showTodoModal, setShowTodoModal] = useState(false);
+  const [showHabitModal, setShowHabitModal] = useState(false);
+  const [editingTodo, setEditingTodo] = useState<any>(null);
+  const [editingHabit, setEditingHabit] = useState<any>(null);
 
   // Todo data with additional details
   const [todos, setTodos] = useState([
@@ -102,15 +106,32 @@ const Dashboard: React.FC = () => {
   return (
     <div className="space-y-8">
       {/* Top Section - Avatar and Health/Exp Bars */}
-      <div className="bg-white/70 backdrop-blur-sm rounded-xl p-8 border border-gray-200/50">
-        <div className="flex items-center space-x-6">
+      <div className="bg-white/70 backdrop-blur-sm rounded-xl p-8 border border-gray-200/50 relative overflow-hidden">
+        {/* Background Art */}
+        <div className="absolute right-0 top-0 bottom-0 w-1/3 opacity-10">
+          <svg viewBox="0 0 200 150" className="w-full h-full">
+            {/* Simple forest background */}
+            <rect width="200" height="150" fill="#e8f5e8"/>
+            <polygon points="20,150 30,120 40,150" fill="#228B22"/>
+            <polygon points="35,150 45,115 55,150" fill="#32CD32"/>
+            <polygon points="50,150 60,125 70,150" fill="#228B22"/>
+            <polygon points="80,150 90,110 100,150" fill="#32CD32"/>
+            <polygon points="120,150 130,120 140,150" fill="#228B22"/>
+            <polygon points="150,150 160,115 170,150" fill="#32CD32"/>
+            <circle cx="25" cy="130" r="15" fill="#90EE90"/>
+            <circle cx="85" cy="125" r="18" fill="#90EE90"/>
+            <circle cx="155" cy="128" r="16" fill="#90EE90"/>
+          </svg>
+        </div>
+        
+        <div className="flex items-center space-x-6 relative z-10">
           {/* Avatar on the left */}
           <div className="w-20 h-20 bg-gradient-to-br from-emerald-400 to-blue-500 rounded-full flex items-center justify-center shadow-lg flex-shrink-0">
             <span className="text-white font-bold text-xl">JD</span>
           </div>
           
-          {/* Health and Exp bars on the right */}
-          <div className="flex-1 space-y-4">
+          {/* Health and Exp bars - shortened */}
+          <div className="flex-1 max-w-md space-y-4">
             <div className="text-left">
               <h1 className="text-2xl font-bold text-gray-900 mb-1">Welcome back, John!</h1>
               <p className="text-gray-600">Let's make today productive</p>
@@ -120,9 +141,9 @@ const Dashboard: React.FC = () => {
             <div className="flex items-center space-x-3">
               <Heart className="w-6 h-6 text-red-500" />
               <div className="flex-1">
-                <div className="w-full bg-gray-200 rounded-full h-6">
+                <div className="w-full bg-gray-200 rounded-full h-5">
                   <div
-                    className="bg-gradient-to-r from-red-500 to-red-600 h-6 rounded-full transition-all duration-500"
+                    className="bg-gradient-to-r from-red-500 to-red-600 h-5 rounded-full transition-all duration-500"
                     style={{ width: `${(health / maxHealth) * 100}%` }}
                   ></div>
                 </div>
@@ -134,9 +155,9 @@ const Dashboard: React.FC = () => {
             <div className="flex items-center space-x-3">
               <Star className="w-6 h-6 text-yellow-500" />
               <div className="flex-1">
-                <div className="w-full bg-gray-200 rounded-full h-6">
+                <div className="w-full bg-gray-200 rounded-full h-5">
                   <div
-                    className="bg-gradient-to-r from-yellow-400 to-yellow-500 h-6 rounded-full transition-all duration-500"
+                    className="bg-gradient-to-r from-yellow-400 to-yellow-500 h-5 rounded-full transition-all duration-500"
                     style={{ width: `${(exp / maxExp) * 100}%` }}
                   ></div>
                 </div>
@@ -149,21 +170,23 @@ const Dashboard: React.FC = () => {
 
       {/* Search and Filter Section */}
       <div className="bg-white/70 backdrop-blur-sm rounded-xl p-6 border border-gray-200/50">
-        <div className="flex flex-col sm:flex-row gap-4">
-          <div className="flex-1 relative">
+        <div className="flex items-center justify-center gap-4">
+          <div className="relative w-80">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
             <input
               type="text"
-              placeholder="Search tasks and habits..."
+              placeholder="Search to dos and habits..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
           </div>
-          <button className="flex items-center space-x-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500">
-            <Filter className="w-5 h-5 text-gray-400" />
-            <span className="text-gray-700">Tags</span>
-          </button>
+          <select className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <option value="">All Tags</option>
+            <option value="work">Work</option>
+            <option value="health">Health</option>
+            <option value="personal">Personal</option>
+          </select>
         </div>
       </div>
 
