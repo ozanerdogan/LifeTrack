@@ -569,36 +569,36 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
             </div>
           </div>
           
-          <div className="flex items-center space-x-6">
-            <div className="text-right">
-              <div className="w-full bg-gray-200 rounded-full h-3 mb-1">
+          <div className="flex items-center space-x-8">
+            <div className="min-w-[200px]">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-base font-medium text-gray-700 flex items-center">
+                  <Heart className="w-5 h-5 text-red-500 mr-2" />
+                  Health
+                </span>
+                <span className="text-base text-gray-600 font-semibold">{user.health}/{user.maxHealth}</span>
+              </div>
+              <div className="w-full bg-gray-200 rounded-full h-6">
                 <div 
-                  className="bg-red-500 h-3 rounded-full transition-all duration-300" 
+                  className="bg-red-500 h-6 rounded-full transition-all duration-300" 
                   style={{ width: `${(user.health / user.maxHealth) * 100}%` }}
                 ></div>
               </div>
-              <div className="flex items-center justify-between text-sm text-gray-600">
-                <span className="flex items-center">
-                  <Heart className="w-4 h-4 text-red-500 mr-1" />
-                  Health
-                </span>
-                <span>{user.health}/{user.maxHealth}</span>
-              </div>
             </div>
             
-            <div className="text-left">
-              <div className="w-full bg-gray-200 rounded-full h-3 mb-1">
-                <div 
-                  className="bg-yellow-500 h-3 rounded-full transition-all duration-300" 
-                  style={{ width: `${(user.exp % 10) * 10}%` }}
-                ></div>
-              </div>
-              <div className="flex items-center justify-between text-sm text-gray-600">
-                <span className="flex items-center">
-                  <Star className="w-4 h-4 text-yellow-500 mr-1" />
+            <div className="min-w-[200px]">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-base font-medium text-gray-700 flex items-center">
+                  <Star className="w-5 h-5 text-yellow-500 mr-2" />
                   Level {user.level}
                 </span>
-                <span>{user.exp % 10}/10</span>
+                <span className="text-base text-gray-600 font-semibold">{user.exp % 10}/10</span>
+              </div>
+              <div className="w-full bg-gray-200 rounded-full h-6">
+                <div 
+                  className="bg-yellow-500 h-6 rounded-full transition-all duration-300" 
+                  style={{ width: `${(user.exp % 10) * 10}%` }}
+                ></div>
               </div>
             </div>
           </div>
