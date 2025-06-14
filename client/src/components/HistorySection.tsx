@@ -89,7 +89,7 @@ const HistorySection: React.FC = () => {
               onChange={(e) => setSelectedFilter(e.target.value)}
               className="border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
             >
-              <option value="all">All Categories</option>
+              <option value="all">All Tags</option>
               <option value="work">Work</option>
               <option value="personal">Personal</option>
               <option value="health">Health</option>
@@ -110,8 +110,8 @@ const HistorySection: React.FC = () => {
                 <CheckCircle className="w-5 h-5" />
               </div>
               <div>
-                <h2 className="text-xl font-semibold text-gray-900">Completed Tasks</h2>
-                <p className="text-sm text-gray-600">{filteredTodos.length} tasks completed</p>
+                <h2 className="text-xl font-semibold text-gray-900">Completed To Dos</h2>
+                <p className="text-sm text-gray-600">{filteredTodos.length} to dos completed</p>
               </div>
             </div>
           </div>

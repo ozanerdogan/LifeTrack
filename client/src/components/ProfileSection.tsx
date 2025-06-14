@@ -1,8 +1,14 @@
 import React, { useState } from 'react';
 import { User, Edit, Camera, Award, Calendar, Target, TrendingUp, Settings } from 'lucide-react';
 
-const ProfileSection: React.FC = () => {
+interface ProfileSectionProps {
+  avatar: string;
+  setAvatar: (avatar: string) => void;
+}
+
+const ProfileSection: React.FC<ProfileSectionProps> = ({ avatar, setAvatar }) => {
   const [isEditing, setIsEditing] = useState(false);
+  const [showAvatarPicker, setShowAvatarPicker] = useState(false);
   const [profile, setProfile] = useState({
     name: 'John Doe',
     email: 'john@example.com',
@@ -10,6 +16,12 @@ const ProfileSection: React.FC = () => {
     joinDate: '2024-01-01',
     location: 'New York, NY'
   });
+
+  const avatarOptions = [
+    '🐱', '🐶', '🐻', '🦊', '🐰', '🐼',
+    '👨', '👩', '👦', '👧', '🧑', '👴',
+    '🤖', '👽', '🎭', '🎨', '⭐', '🌟'
+  ];
 
   const stats = {
     totalTasks: 156,

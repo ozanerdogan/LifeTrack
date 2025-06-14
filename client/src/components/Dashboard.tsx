@@ -23,7 +23,9 @@ const Dashboard: React.FC = () => {
       priority: 'high',
       date: '2024-06-15',
       tag: 'Work',
-      subtodos: ['Check budget section', 'Review timeline', 'Validate requirements']
+      subtodos: ['Check budget section', 'Review timeline', 'Validate requirements'],
+      difficulty: 'hard',
+      description: 'Complete review of the Q2 project proposal'
     },
     { 
       id: 2, 
@@ -32,7 +34,9 @@ const Dashboard: React.FC = () => {
       priority: 'medium',
       date: '2024-06-14',
       tag: 'Health',
-      subtodos: []
+      subtodos: [],
+      difficulty: 'easy',
+      description: 'Schedule routine dental checkup'
     },
     { 
       id: 3, 
@@ -41,16 +45,18 @@ const Dashboard: React.FC = () => {
       priority: 'low',
       date: '2024-06-15',
       tag: 'Personal',
-      subtodos: ['Vegetables', 'Protein', 'Spices']
+      subtodos: ['Vegetables', 'Protein', 'Spices'],
+      difficulty: 'medium',
+      description: 'Shopping for tonight\'s meal preparation'
     },
   ]);
 
   // Habit data
   const [habits, setHabits] = useState([
-    { id: 1, name: 'Morning Exercise', completed: true, streak: 6, type: 'daily' },
-    { id: 2, name: 'Read 30 minutes', completed: false, streak: 4, type: 'daily' },
-    { id: 3, name: 'Weekly Review', completed: false, streak: 2, type: 'weekly' },
-    { id: 4, name: 'Meditation', completed: false, streak: 3, type: 'daily' },
+    { id: 1, name: 'Morning Exercise', completed: true, streak: 6, type: 'daily', isPositive: true, difficulty: 'medium', tag: 'Health' },
+    { id: 2, name: 'Read 30 minutes', completed: false, streak: 4, type: 'daily', isPositive: true, difficulty: 'easy', tag: 'Learning' },
+    { id: 3, name: 'Weekly Review', completed: false, streak: 2, type: 'weekly', isPositive: true, difficulty: 'hard', tag: 'Productivity' },
+    { id: 4, name: 'Meditation', completed: false, streak: 3, type: 'daily', isPositive: true, difficulty: 'easy', tag: 'Wellness' },
   ]);
 
   const toggleTodo = (todoId: number) => {
@@ -353,8 +359,13 @@ const Dashboard: React.FC = () => {
                 )}
                 
                 <button 
-                  className="flex-shrink-0 w-6 h-6 rounded-full border-2 border-green-400 hover:border-green-500 flex items-center justify-center text-green-500 hover:bg-green-50"
-                  onClick={() => adjustHealth(1)}
+                  className={`flex-shrink-0 w-6 h-6 rounded-full border-2 flex items-center justify-center transition-colors ${
+                    habit.isPositive !== false 
+                      ? 'border-green-400 hover:border-green-500 text-green-500 hover:bg-green-50' 
+                      : 'border-gray-300 text-gray-300 cursor-not-allowed'
+                  }`}
+                  onClick={() => habit.isPositive !== false && adjustHealth(1)}
+                  disabled={habit.isPositive === false}
                 >
                   <Plus className="w-3 h-3" />
                 </button>
