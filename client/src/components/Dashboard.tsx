@@ -182,7 +182,7 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
               <label className="block text-sm font-medium text-gray-700 mb-1">Difficulty</label>
               <select
                 value={formData.difficulty}
-                onChange={(e) => setFormData(prev => ({ ...prev, difficulty: e.target.value }))}
+                onChange={(e) => setFormData(prev => ({ ...prev, difficulty: e.target.value as 'easy' | 'medium' | 'hard' | 'extreme' }))}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 <option value="easy">Easy (+1 EXP)</option>
@@ -404,7 +404,7 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
                     type="radio"
                     value="positive"
                     checked={formData.type === 'positive'}
-                    onChange={(e) => setFormData(prev => ({ ...prev, type: e.target.value }))}
+                    onChange={(e) => setFormData(prev => ({ ...prev, type: e.target.value as 'positive' | 'negative' }))}
                     className="mr-2"
                   />
                   Positive (Gain health/exp)
@@ -426,7 +426,7 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
               <label className="block text-sm font-medium text-gray-700 mb-1">Difficulty</label>
               <select
                 value={formData.difficulty}
-                onChange={(e) => setFormData(prev => ({ ...prev, difficulty: e.target.value }))}
+                onChange={(e) => setFormData(prev => ({ ...prev, difficulty: e.target.value as 'easy' | 'medium' | 'hard' | 'extreme' }))}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 <option value="easy">Easy (±1 Health/EXP)</option>
