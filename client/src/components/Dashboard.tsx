@@ -75,7 +75,6 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
   const handleAddNewTag = () => {
     if (newTagName.trim()) {
       addTag(newTagName.trim());
-      setSelectedTag(newTagName.trim());
       setNewTagName('');
       setShowTagInput(false);
     }
@@ -177,6 +176,69 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
                 placeholder="Enter description"
                 rows={3}
               />
+            </div>
+
+            {/* Checklist */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Checklist</label>
+              <div className="space-y-2">
+                {formData.checklist.map(item => (
+                  <div key={item.id} className="flex items-center space-x-2">
+                    <input
+                      type="checkbox"
+                      checked={item.completed}
+                      onChange={(e) => {
+                        setFormData(prev => ({
+                          ...prev,
+                          checklist: prev.checklist.map(i => 
+                            i.id === item.id ? { ...i, completed: e.target.checked } : i
+                          )
+                        }));
+                      }}
+                      className="rounded border-gray-300"
+                    />
+                    <input
+                      type="text"
+                      value={item.text}
+                      onChange={(e) => {
+                        setFormData(prev => ({
+                          ...prev,
+                          checklist: prev.checklist.map(i => 
+                            i.id === item.id ? { ...i, text: e.target.value } : i
+                          )
+                        }));
+                      }}
+                      className="flex-1 px-2 py-1 border border-gray-300 rounded text-sm"
+                    />
+                    <button
+                      onClick={() => {
+                        setFormData(prev => ({
+                          ...prev,
+                          checklist: prev.checklist.filter(i => i.id !== item.id)
+                        }));
+                      }}
+                      className="text-red-500 hover:text-red-700 text-sm"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                ))}
+                <div className="flex items-center space-x-2">
+                  <input
+                    type="text"
+                    value={newChecklistItem}
+                    onChange={(e) => setNewChecklistItem(e.target.value)}
+                    placeholder="Add checklist item"
+                    className="flex-1 px-2 py-1 border border-gray-300 rounded text-sm"
+                  />
+                  <button
+                    onClick={addChecklistItem}
+                    className="bg-blue-500 text-white px-3 py-1 rounded text-sm hover:bg-blue-600"
+                  >
+                    Add
+                  </button>
+                </div>
+              </div>
             </div>
 
             <div>
@@ -330,7 +392,8 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
       description: editingHabit?.description || '',
       type: editingHabit?.type || 'positive',
       difficulty: editingHabit?.difficulty || 'easy',
-      tags: editingHabit?.tags || []
+      tags: editingHabit?.tags || [],
+      resetCounter: false
     });
 
     const [showTagDropdown, setShowTagDropdown] = useState(false);
@@ -347,7 +410,10 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
       };
 
       if (editingHabit) {
-        updateHabit(editingHabit.id, habitData);
+        updateHabit(editingHabit.id, { 
+          ...habitData, 
+          ...(formData.resetCounter ? { streak: 0 } : {})
+        });
       } else {
         addHabit(habitData);
       }
@@ -435,6 +501,18 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
                 <option value="hard">Hard (±3 Health/EXP)</option>
                 <option value="extreme">Extreme (±4 Health/EXP)</option>
               </select>
+            </div>
+
+            <div>
+              <label className="flex items-center">
+                <input
+                  type="checkbox"
+                  checked={formData.resetCounter}
+                  onChange={(e) => setFormData(prev => ({ ...prev, resetCounter: e.target.checked }))}
+                  className="mr-2 rounded border-gray-300"
+                />
+                <span className="text-sm text-gray-700">Reset streak counter</span>
+              </label>
             </div>
 
             <div>

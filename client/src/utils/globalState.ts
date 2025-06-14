@@ -183,11 +183,11 @@ export const generateId = () => Math.random().toString(36).substr(2, 9);
 export const addTodo = (todo: Omit<Todo, 'id' | 'createdAt'>) => {
   setState(state => ({
     ...state,
-    todos: [...state.todos, {
+    todos: [{
       ...todo,
       id: generateId(),
       createdAt: new Date().toISOString()
-    }],
+    }, ...state.todos],
     tags: Array.from(new Set([...state.tags, ...todo.tags])),
     history: [{
       id: generateId(),
