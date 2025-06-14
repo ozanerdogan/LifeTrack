@@ -66,16 +66,11 @@ const ProgressSection: React.FC = () => {
   const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
   const stats = {
-    todos: {
-      completed: 156,
-      total: 200,
-      streak: 12
-    },
-    habits: {
-      completed: 89,
-      total: 120,
-      streak: 8
-    }
+    totalTasks: state.todos.length,
+    completedTasks: state.todos.filter(t => t.completed).length,
+    totalHabits: state.habits.length,
+    streak: Math.max(...state.habits.map(h => h.streak), 0),
+    weekProgress: state.todos.length > 0 ? state.todos.filter(t => t.completed).length / state.todos.length : 0
   };
 
   return (

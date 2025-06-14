@@ -14,11 +14,15 @@ function App() {
   const [activeSection, setActiveSection] = useState('home');
   const [sidebarOpen, setSidebarOpen] = useState(window.innerWidth >= 768); // Default open for desktop, closed for mobile
   const [showProfile, setShowProfile] = useState(false);
-  const [avatar, setAvatar] = useState('JD');
+  const [globalState, setGlobalState] = useState(getState());
+  
+  useEffect(() => {
+    return subscribe(setGlobalState);
+  }, []);
 
   const renderContent = () => {
     if (showProfile) {
-      return <ProfileSection avatar={avatar} setAvatar={setAvatar} />;
+      return <ProfileSection avatar={globalState.user.avatar} setAvatar={(avatar) => updateUser({ avatar })} />;
     }
 
     switch (activeSection) {
@@ -31,7 +35,7 @@ function App() {
       case 'help':
         return <HelpSection />;
       default:
-        return <Dashboard avatar={avatar} />;
+        return <Dashboard avatar={globalState.user.avatar} />;
     }
   };
 

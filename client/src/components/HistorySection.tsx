@@ -1,204 +1,199 @@
-import React, { useState } from 'react';
-import { Calendar, CheckCircle, Target, Search, Filter, Clock } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Calendar, CheckCircle, Target, Flame, Clock, Filter, Search } from 'lucide-react';
+import { getState, subscribe } from '../utils/globalState';
 
 const HistorySection: React.FC = () => {
+  const [state, setState] = useState(getState());
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedFilter, setSelectedFilter] = useState('all');
+  const [selectedCategory, setSelectedCategory] = useState('All Tags');
+  const [selectedDate, setSelectedDate] = useState('');
+  const [selectedType, setSelectedType] = useState('All Types');
+  
+  useEffect(() => {
+    return subscribe(setState);
+  }, []);
 
-  const completedTodos = [
-    { id: 1, text: 'Review project proposal', completedAt: '2024-01-15 14:30', category: 'work' },
-    { id: 2, text: 'Call dentist for appointment', completedAt: '2024-01-15 11:20', category: 'personal' },
-    { id: 3, text: 'Update portfolio website', completedAt: '2024-01-14 16:45', category: 'work' },
-    { id: 4, text: 'Buy groceries for dinner', completedAt: '2024-01-14 09:15', category: 'personal' },
-    { id: 5, text: 'Finish quarterly report', completedAt: '2024-01-13 17:30', category: 'work' },
-    { id: 6, text: 'Plan weekend trip', completedAt: '2024-01-13 12:00', category: 'personal' },
-    { id: 7, text: 'Submit expense reports', completedAt: '2024-01-12 15:20', category: 'work' },
-    { id: 8, text: 'Clean garage', completedAt: '2024-01-12 10:30', category: 'personal' },
-  ];
+  const { history, tags } = state;
+  const categories = ['All Tags', ...tags];
+  const types = ['All Types', 'todo', 'habit'];
 
-  const completedHabits = [
-    { id: 1, name: 'Morning Exercise', completedAt: '2024-01-15 07:00', streak: 6, category: 'health' },
-    { id: 2, name: 'Drink 8 glasses water', completedAt: '2024-01-15 20:00', streak: 8, category: 'health' },
-    { id: 3, name: 'Write in Journal', completedAt: '2024-01-15 22:30', streak: 2, category: 'personal' },
-    { id: 4, name: 'Read 30 minutes', completedAt: '2024-01-14 19:45', streak: 4, category: 'learning' },
-    { id: 5, name: 'Meditation', completedAt: '2024-01-14 06:30', streak: 3, category: 'wellness' },
-    { id: 6, name: 'Morning Exercise', completedAt: '2024-01-14 07:15', streak: 5, category: 'health' },
-    { id: 7, name: 'Drink 8 glasses water', completedAt: '2024-01-14 21:00', streak: 7, category: 'health' },
-    { id: 8, name: 'Write in Journal', completedAt: '2024-01-13 23:00', streak: 1, category: 'personal' },
-  ];
+  // Filter history data
+  const filteredHistory = history.filter(item => {
+    const matchesSearch = item.title.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesCategory = selectedCategory === 'All Tags' || item.tags.includes(selectedCategory);
+    const matchesType = selectedType === 'All Types' || item.type === selectedType;
+    const matchesDate = !selectedDate || item.timestamp.startsWith(selectedDate);
+    
+    return matchesSearch && matchesCategory && matchesType && matchesDate;
+  });
 
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', { 
-      month: 'short', 
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
-    });
+  const getActionColor = (action: string) => {
+    switch (action) {
+      case 'completed': return 'text-green-600 bg-green-50';
+      case 'added': return 'text-blue-600 bg-blue-50';
+      case 'edited': return 'text-yellow-600 bg-yellow-50';
+      case 'deleted': return 'text-red-600 bg-red-50';
+      default: return 'text-gray-600 bg-gray-50';
+    }
   };
 
-  const getCategoryColor = (category: string) => {
-    const colors = {
-      work: 'bg-blue-50 text-blue-700',
-      personal: 'bg-purple-50 text-purple-700',
-      health: 'bg-emerald-50 text-emerald-700',
-      learning: 'bg-orange-50 text-orange-700',
-      wellness: 'bg-pink-50 text-pink-700'
+  const getTypeIcon = (type: string) => {
+    return type === 'todo' ? <Target className="w-4 h-4" /> : <Flame className="w-4 h-4" />;
+  };
+
+  const formatTimestamp = (timestamp: string) => {
+    const date = new Date(timestamp);
+    return {
+      date: date.toLocaleDateString(),
+      time: date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     };
-    return colors[category as keyof typeof colors] || 'bg-gray-50 text-gray-700';
   };
 
-  const filteredTodos = completedTodos.filter(todo => {
-    const matchesSearch = todo.text.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesFilter = selectedFilter === 'all' || todo.category === selectedFilter;
-    return matchesSearch && matchesFilter;
-  });
-
-  const filteredHabits = completedHabits.filter(habit => {
-    const matchesSearch = habit.name.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesFilter = selectedFilter === 'all' || habit.category === selectedFilter;
-    return matchesSearch && matchesFilter;
-  });
+  const getDifficultyColor = (difficulty: string) => {
+    switch (difficulty) {
+      case 'easy': return 'bg-green-100 text-green-800';
+      case 'medium': return 'bg-yellow-100 text-yellow-800';
+      case 'hard': return 'bg-orange-100 text-orange-800';
+      case 'extreme': return 'bg-red-100 text-red-800';
+      default: return 'bg-gray-100 text-gray-800';
+    }
+  };
 
   return (
     <div className="space-y-6">
       {/* Header */}
       <div>
         <h1 className="text-3xl font-bold text-gray-900 mb-2">History</h1>
-        <p className="text-gray-600">Review your completed tasks and habits</p>
+        <p className="text-gray-600">Track your activity and see what you've accomplished</p>
       </div>
 
-      {/* Search and Filter */}
-      <div className="bg-white/70 backdrop-blur-sm rounded-xl p-6 border border-gray-200/50">
-        <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-          <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+      {/* Filters */}
+      <div className="bg-white rounded-lg shadow-sm p-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          {/* Search */}
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
             <input
               type="text"
-              placeholder="Search completed items..."
+              placeholder="Search history..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+              className="w-full pl-9 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
-          
-          <div className="flex items-center space-x-2">
-            <Filter className="w-5 h-5 text-gray-400" />
-            <select
-              value={selectedFilter}
-              onChange={(e) => setSelectedFilter(e.target.value)}
-              className="border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-            >
-              <option value="all">All Tags</option>
-              <option value="work">Work</option>
-              <option value="personal">Personal</option>
-              <option value="health">Health</option>
-              <option value="learning">Learning</option>
-              <option value="wellness">Wellness</option>
-            </select>
-          </div>
+
+          {/* Category Filter */}
+          <select
+            value={selectedCategory}
+            onChange={(e) => setSelectedCategory(e.target.value)}
+            className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            {categories.map(category => (
+              <option key={category} value={category}>{category}</option>
+            ))}
+          </select>
+
+          {/* Type Filter */}
+          <select
+            value={selectedType}
+            onChange={(e) => setSelectedType(e.target.value)}
+            className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            {types.map(type => (
+              <option key={type} value={type}>
+                {type === 'All Types' ? 'All Types' : type === 'todo' ? 'To Dos' : 'Habits'}
+              </option>
+            ))}
+          </select>
+
+          {/* Date Filter */}
+          <input
+            type="date"
+            value={selectedDate}
+            onChange={(e) => setSelectedDate(e.target.value)}
+            className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
         </div>
       </div>
 
-      {/* History Content - Two Segments */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {/* Completed Tasks */}
-        <div className="bg-white/70 backdrop-blur-sm rounded-xl border border-gray-200/50 overflow-hidden">
-          <div className="p-6 border-b border-gray-200/50">
-            <div className="flex items-center space-x-3">
-              <div className="p-2 bg-blue-50 text-blue-600 rounded-lg">
-                <CheckCircle className="w-5 h-5" />
-              </div>
-              <div>
-                <h2 className="text-xl font-semibold text-gray-900">Completed To Dos</h2>
-                <p className="text-sm text-gray-600">{filteredTodos.length} to dos completed</p>
-              </div>
-            </div>
-          </div>
-          
-          <div className="max-h-96 overflow-y-auto">
-            {filteredTodos.length > 0 ? (
-              filteredTodos.map((todo) => (
-                <div
-                  key={todo.id}
-                  className="p-4 border-b border-gray-100 last:border-b-0 hover:bg-gray-50 transition-colors duration-200"
-                >
-                  <div className="flex items-start justify-between">
-                    <div className="flex items-start space-x-3 flex-1">
-                      <CheckCircle className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" />
-                      <div className="flex-1 min-w-0">
-                        <p className="text-gray-900 font-medium">{todo.text}</p>
-                        <div className="flex items-center space-x-2 mt-1">
-                          <Clock className="w-3 h-3 text-gray-400" />
-                          <span className="text-xs text-gray-500">{formatDate(todo.completedAt)}</span>
-                        </div>
-                      </div>
-                    </div>
-                    <span className={`text-xs px-2 py-1 rounded-full ${getCategoryColor(todo.category)}`}>
-                      {todo.category}
-                    </span>
-                  </div>
-                </div>
-              ))
-            ) : (
-              <div className="p-8 text-center text-gray-500">
-                <CheckCircle className="w-8 h-8 mx-auto mb-2 text-gray-300" />
-                <p>No completed tasks found</p>
-              </div>
-            )}
-          </div>
+      {/* History List */}
+      <div className="bg-white rounded-lg shadow-sm">
+        <div className="p-4 border-b border-gray-200">
+          <h2 className="text-lg font-semibold text-gray-900 flex items-center">
+            <Clock className="w-5 h-5 text-blue-600 mr-2" />
+            Activity History ({filteredHistory.length})
+          </h2>
         </div>
-
-        {/* Completed Habits */}
-        <div className="bg-white/70 backdrop-blur-sm rounded-xl border border-gray-200/50 overflow-hidden">
-          <div className="p-6 border-b border-gray-200/50">
-            <div className="flex items-center space-x-3">
-              <div className="p-2 bg-emerald-50 text-emerald-600 rounded-lg">
-                <Target className="w-5 h-5" />
-              </div>
-              <div>
-                <h2 className="text-xl font-semibold text-gray-900">Completed Habits</h2>
-                <p className="text-sm text-gray-600">{filteredHabits.length} habits completed</p>
-              </div>
+        
+        <div className="divide-y divide-gray-200 max-h-96 overflow-y-auto">
+          {filteredHistory.length === 0 ? (
+            <div className="p-8 text-center text-gray-500">
+              <Clock className="w-12 h-12 mx-auto mb-3 text-gray-300" />
+              <p>No activity found</p>
+              <p className="text-sm">Try adjusting your filters or add some to dos and habits!</p>
             </div>
-          </div>
-          
-          <div className="max-h-96 overflow-y-auto">
-            {filteredHabits.length > 0 ? (
-              filteredHabits.map((habit) => (
-                <div
-                  key={habit.id}
-                  className="p-4 border-b border-gray-100 last:border-b-0 hover:bg-gray-50 transition-colors duration-200"
-                >
-                  <div className="flex items-start justify-between">
-                    <div className="flex items-start space-x-3 flex-1">
-                      <Target className="w-5 h-5 text-emerald-600 mt-0.5 flex-shrink-0" />
-                      <div className="flex-1 min-w-0">
-                        <p className="text-gray-900 font-medium">{habit.name}</p>
-                        <div className="flex items-center space-x-3 mt-1">
-                          <div className="flex items-center space-x-1">
-                            <Clock className="w-3 h-3 text-gray-400" />
-                            <span className="text-xs text-gray-500">{formatDate(habit.completedAt)}</span>
-                          </div>
-                          <div className="flex items-center space-x-1">
-                            <span className="text-xs text-orange-600">🔥 {habit.streak} streak</span>
-                          </div>
+          ) : (
+            filteredHistory.map(item => {
+              const { date, time } = formatTimestamp(item.timestamp);
+              return (
+                <div key={item.id} className="p-4 hover:bg-gray-50 transition-colors">
+                  <div className="flex items-start space-x-3">
+                    {/* Type Icon */}
+                    <div className={`p-2 rounded-lg ${item.type === 'todo' ? 'bg-blue-50 text-blue-600' : 'bg-orange-50 text-orange-600'}`}>
+                      {getTypeIcon(item.type)}
+                    </div>
+                    
+                    {/* Content */}
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center space-x-2 mb-1">
+                        <span className={`px-2 py-1 text-xs rounded-full font-medium ${getActionColor(item.action)}`}>
+                          {item.action}
+                        </span>
+                        <span className={`px-2 py-1 text-xs rounded-full ${getDifficultyColor(item.difficulty)}`}>
+                          {item.difficulty}
+                        </span>
+                        {item.tags.map(tag => (
+                          <span key={tag} className="px-2 py-1 text-xs bg-blue-100 text-blue-800 rounded-full">
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                      
+                      <h3 className="font-medium text-gray-900 mb-1">{item.title}</h3>
+                      
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center space-x-4 text-sm text-gray-500">
+                          <span className="flex items-center">
+                            <Calendar className="w-3 h-3 mr-1" />
+                            {date}
+                          </span>
+                          <span className="flex items-center">
+                            <Clock className="w-3 h-3 mr-1" />
+                            {time}
+                          </span>
                         </div>
+                        
+                        {(item.expGained !== undefined || item.healthChange !== undefined) && (
+                          <div className="flex items-center space-x-2 text-sm">
+                            {item.expGained !== undefined && item.expGained !== 0 && (
+                              <span className={`px-2 py-1 rounded-full ${item.expGained > 0 ? 'bg-yellow-100 text-yellow-800' : 'bg-red-100 text-red-800'}`}>
+                                {item.expGained > 0 ? '+' : ''}{item.expGained} EXP
+                              </span>
+                            )}
+                            {item.healthChange !== undefined && item.healthChange !== 0 && (
+                              <span className={`px-2 py-1 rounded-full ${item.healthChange > 0 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+                                {item.healthChange > 0 ? '+' : ''}{item.healthChange} HP
+                              </span>
+                            )}
+                          </div>
+                        )}
                       </div>
                     </div>
-                    <span className={`text-xs px-2 py-1 rounded-full ${getCategoryColor(habit.category)}`}>
-                      {habit.category}
-                    </span>
                   </div>
                 </div>
-              ))
-            ) : (
-              <div className="p-8 text-center text-gray-500">
-                <Target className="w-8 h-8 mx-auto mb-2 text-gray-300" />
-                <p>No completed habits found</p>
-              </div>
-            )}
-          </div>
+              );
+            })
+          )}
         </div>
       </div>
     </div>
