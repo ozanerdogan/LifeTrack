@@ -71,12 +71,7 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
     setOpenHabitMenuId(null);
   };
 
-  const handleAddNewTag = (tagName: string, callback?: () => void) => {
-    if (tagName.trim() && !availableTags.includes(tagName.trim())) {
-      addTag(tagName.trim());
-      if (callback) callback();
-    }
-  };
+
 
   function TodoModal() {
     const [formData, setFormData] = useState({
