@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Calendar, TrendingUp, Target, CheckCircle } from 'lucide-react';
+import { getState, subscribe } from '../utils/globalState';
 
 const ProgressSection: React.FC = () => {
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
