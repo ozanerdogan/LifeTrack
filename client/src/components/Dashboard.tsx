@@ -25,6 +25,7 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
   const [openMenuId, setOpenMenuId] = useState<string | null>(null);
   const [showTagInput, setShowTagInput] = useState(false);
   const [newTagName, setNewTagName] = useState('');
+  const [expandedTodo, setExpandedTodo] = useState<string | null>(null);
 
   // Filtered todos and habits
   const filteredTodos = todos.filter(todo => {
@@ -643,7 +644,10 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
                         <Circle className="w-5 h-5" />
                       )}
                     </button>
-                    <div className="flex-1 min-w-0">
+                    <div 
+                      className="flex-1 min-w-0 cursor-pointer"
+                      onClick={() => setExpandedTodo(expandedTodo === todo.id ? null : todo.id)}
+                    >
                       <h3 className={`font-medium ${
                         todo.completed ? 'line-through text-gray-500' : 'text-gray-900'
                       }`}>
@@ -673,6 +677,23 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
                           </span>
                         )}
                       </div>
+                      {expandedTodo === todo.id && todo.checklist.length > 0 && (
+                        <div className="mt-3 pl-4 border-l-2 border-gray-200">
+                          <h4 className="text-sm font-medium text-gray-700 mb-2">Checklist:</h4>
+                          <ul className="space-y-1">
+                            {todo.checklist.map(item => (
+                              <li key={item.id} className="flex items-center text-sm">
+                                <span className={`mr-2 ${item.completed ? 'text-green-600' : 'text-gray-400'}`}>
+                                  {item.completed ? '✓' : '○'}
+                                </span>
+                                <span className={item.completed ? 'line-through text-gray-500' : 'text-gray-700'}>
+                                  {item.text}
+                                </span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
                     </div>
                     <div className="relative">
                       <button
@@ -770,7 +791,7 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
                               : 'bg-red-600 text-white hover:bg-red-700'
                           }`}
                         >
-                          {habit.type === 'positive' ? 'Done' : 'Avoided'}
+                          {habit.type === 'positive' ? '+' : '-'}
                         </button>
                         <div className="relative">
                           <button
