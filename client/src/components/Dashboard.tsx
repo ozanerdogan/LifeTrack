@@ -73,11 +73,10 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
     setOpenHabitMenuId(null);
   };
 
-  const handleAddNewTag = () => {
-    if (newTagName.trim()) {
-      addTag(newTagName.trim());
-      setNewTagName('');
-      setShowTagInput(false);
+  const handleAddNewTag = (tagName: string, callback?: () => void) => {
+    if (tagName.trim() && !availableTags.includes(tagName.trim())) {
+      addTag(tagName.trim());
+      if (callback) callback();
     }
   };
 
@@ -558,47 +557,50 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
       <div className="max-w-6xl mx-auto p-6">
         {/* User stats */}
         <div className="bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 backdrop-blur-sm rounded-xl p-6 border border-gray-200/50 mb-6">
-          <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-xl">
+          <div className="flex items-center space-x-6">
+            {/* Avatar - bigger */}
+            <div className="w-24 h-24 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-2xl flex-shrink-0">
               {avatar || user.name.charAt(0).toUpperCase()}
             </div>
-            <div>
+            
+            {/* Name */}
+            <div className="flex-shrink-0">
               <h1 className="text-2xl font-bold text-gray-900">{user.name}</h1>
-              <p className="text-gray-600">Level {user.level} • {user.exp} EXP</p>
-            </div>
-          </div>
-          
-          <div className="flex items-center space-x-8">
-            <div className="min-w-[200px]">
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-base font-medium text-gray-700 flex items-center">
-                  <Heart className="w-5 h-5 text-red-500 mr-2" />
-                  Health
-                </span>
-                <span className="text-base text-gray-600 font-semibold">{user.health}/{user.maxHealth}</span>
-              </div>
-              <div className="w-full bg-gray-200 rounded-full h-6">
-                <div 
-                  className="bg-red-500 h-6 rounded-full transition-all duration-300" 
-                  style={{ width: `${(user.health / user.maxHealth) * 100}%` }}
-                ></div>
-              </div>
+              <p className="text-gray-600">Level {user.level}</p>
             </div>
             
-            <div className="min-w-[200px]">
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-base font-medium text-gray-700 flex items-center">
-                  <Star className="w-5 h-5 text-yellow-500 mr-2" />
-                  Level {user.level}
-                </span>
-                <span className="text-base text-gray-600 font-semibold">{user.exp % 10}/10</span>
+            {/* Health and EXP bars stacked vertically */}
+            <div className="flex-1 max-w-md space-y-4">
+              <div>
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-base font-medium text-gray-700 flex items-center">
+                    <Heart className="w-5 h-5 text-red-500 mr-2" />
+                    Health
+                  </span>
+                  <span className="text-base text-gray-600 font-semibold">{user.health}/{user.maxHealth}</span>
+                </div>
+                <div className="w-full bg-gray-200 rounded-full h-6">
+                  <div 
+                    className="bg-red-500 h-6 rounded-full transition-all duration-300" 
+                    style={{ width: `${(user.health / user.maxHealth) * 100}%` }}
+                  ></div>
+                </div>
               </div>
-              <div className="w-full bg-gray-200 rounded-full h-6">
-                <div 
-                  className="bg-yellow-500 h-6 rounded-full transition-all duration-300" 
-                  style={{ width: `${(user.exp % 10) * 10}%` }}
-                ></div>
+              
+              <div>
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-base font-medium text-gray-700 flex items-center">
+                    <Star className="w-5 h-5 text-yellow-500 mr-2" />
+                    Experience
+                  </span>
+                  <span className="text-base text-gray-600 font-semibold">{user.exp % 10}/10</span>
+                </div>
+                <div className="w-full bg-gray-200 rounded-full h-6">
+                  <div 
+                    className="bg-yellow-500 h-6 rounded-full transition-all duration-300" 
+                    style={{ width: `${(user.exp % 10) * 10}%` }}
+                  ></div>
+                </div>
               </div>
             </div>
           </div>
@@ -884,7 +886,6 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
 
       <TodoModal />
       <HabitModal />
-      </div>
     </div>
   );
 };
