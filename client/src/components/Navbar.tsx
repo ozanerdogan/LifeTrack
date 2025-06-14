@@ -1,5 +1,5 @@
 import React from 'react';
-import { User, Bell } from 'lucide-react';
+import { User, Bell, Menu } from 'lucide-react';
 
 interface NavbarProps {
   onMenuToggle: () => void;
@@ -11,8 +11,15 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuToggle, onProfileClick }) => {
     <nav className="bg-white/80 backdrop-blur-md border-b border-gray-200/50 sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          {/* Left - Empty space (hamburger hidden for PC) */}
-          <div className="w-10"></div>
+          {/* Left - Hamburger menu for mobile */}
+          <div className="flex items-center">
+            <button
+              onClick={onMenuToggle}
+              className="p-2 rounded-lg hover:bg-gray-100 transition-colors duration-200 md:hidden"
+            >
+              <Menu className="w-6 h-6 text-gray-600" />
+            </button>
+          </div>
 
           {/* Center - Logo */}
           <div className="flex items-center space-x-2">
