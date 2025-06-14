@@ -7,10 +7,12 @@ import HistorySection from './components/HistorySection';
 import SettingsSection from './components/SettingsSection';
 import HelpSection from './components/HelpSection';
 import ProfileSection from './components/ProfileSection';
+import LoginPage from './components/LoginPage';
 
 function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
-  const [sidebarOpen, setSidebarOpen] = useState(true); // Default open for PC
+  const [sidebarOpen, setSidebarOpen] = useState(window.innerWidth >= 768); // Default open for desktop, closed for mobile
   const [showProfile, setShowProfile] = useState(false);
 
   const renderContent = () => {
@@ -41,6 +43,15 @@ function App() {
     setShowProfile(false); // Hide profile when navigating to other sections
     setActiveSection(section);
   };
+
+  const handleLogin = () => {
+    setIsLoggedIn(true);
+  };
+
+  // Show login page if not logged in
+  if (!isLoggedIn) {
+    return <LoginPage onLogin={handleLogin} />;
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
