@@ -869,13 +869,13 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
                             <MoreVertical className="w-4 h-4" />
                           </button>
                           {openHabitMenuId === habit.id && (
-                            <div className="absolute right-0 top-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg z-10 min-w-[120px]">
+                            <div className="absolute right-0 top-full mt-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg shadow-lg z-10 min-w-[120px]">
                               <button
                                 onClick={(e) => {
                                   e.stopPropagation();
                                   handleEditHabit(habit);
                                 }}
-                                className="w-full px-3 py-2 text-left text-sm hover:bg-gray-50 flex items-center"
+                                className="w-full px-3 py-2 text-left text-sm hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-900 dark:text-white flex items-center"
                               >
                                 <Edit className="w-4 h-4 mr-2" />
                                 Edit
@@ -885,7 +885,7 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
                                   e.stopPropagation();
                                   handleDeleteHabit(habit.id);
                                 }}
-                                className="w-full px-3 py-2 text-left text-sm hover:bg-gray-50 flex items-center text-red-600"
+                                className="w-full px-3 py-2 text-left text-sm hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center text-red-600 dark:text-red-400"
                               >
                                 <Trash2 className="w-4 h-4 mr-2" />
                                 Delete
