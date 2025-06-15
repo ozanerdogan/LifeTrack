@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Plus, CheckCircle, Circle, Target, Flame, TrendingUp, Calendar, Heart, Star, Search, Filter, Minus, X, MoreVertical, Edit, Trash2, Undo } from 'lucide-react';
-import { getState, subscribe, addTodo, updateTodo, completeTodo, uncompleteTodo, deleteTodo, addHabit, updateHabit, completeHabit, uncompleteHabit, deleteHabit, addTag, formatDate, Todo, Habit } from '../utils/globalState';
+import { Plus, CheckCircle, Target, Heart, Star, Search, MoreVertical, Edit, Trash2, X } from 'lucide-react';
+import { getState, subscribe, addTodo, updateTodo, completeTodo, uncompleteTodo, deleteTodo, addHabit, updateHabit, completeHabit, uncompleteHabit, deleteHabit, Todo, Habit } from '../utils/globalState';
 
 interface DashboardProps {
   avatar: string;
@@ -82,7 +82,7 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
     const [formData, setFormData] = useState({
       title: editingTodo?.title || '',
       description: editingTodo?.description || '',
-      difficulty: editingTodo?.difficulty || 'easy',
+      difficulty: editingTodo?.difficulty || 'easy' as const,
       tags: editingTodo?.tags?.join(', ') || '',
       dueDate: editingTodo?.dueDate || '',
       checklist: editingTodo?.checklist || []
@@ -90,13 +90,35 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
 
     const [newChecklistItem, setNewChecklistItem] = useState('');
 
+    useEffect(() => {
+      if (editingTodo) {
+        setFormData({
+          title: editingTodo.title,
+          description: editingTodo.description,
+          difficulty: editingTodo.difficulty,
+          tags: editingTodo.tags.join(', '),
+          dueDate: editingTodo.dueDate || '',
+          checklist: editingTodo.checklist
+        });
+      } else {
+        setFormData({
+          title: '',
+          description: '',
+          difficulty: 'easy',
+          tags: '',
+          dueDate: '',
+          checklist: []
+        });
+      }
+    }, [editingTodo]);
+
     const handleSubmit = () => {
       if (!formData.title.trim()) return;
 
       const todoData = {
         title: formData.title,
         description: formData.description,
-        difficulty: formData.difficulty as 'easy' | 'medium' | 'hard' | 'extreme',
+        difficulty: formData.difficulty,
         tags: formData.tags.split(',').map(tag => tag.trim()).filter(tag => tag),
         dueDate: formData.dueDate,
         checklist: formData.checklist,
@@ -181,7 +203,7 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Difficulty</label>
               <select
                 value={formData.difficulty}
-                onChange={(e) => setFormData(prev => ({ ...prev, difficulty: e.target.value }))}
+                onChange={(e) => setFormData(prev => ({ ...prev, difficulty: e.target.value as 'easy' | 'medium' | 'hard' | 'extreme' }))}
                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 <option value="easy">Easy (±1 Health/EXP)</option>
@@ -287,10 +309,30 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
     const [formData, setFormData] = useState({
       title: editingHabit?.title || '',
       description: editingHabit?.description || '',
-      type: editingHabit?.type || 'positive',
-      difficulty: editingHabit?.difficulty || 'easy',
+      type: editingHabit?.type || 'positive' as const,
+      difficulty: editingHabit?.difficulty || 'easy' as const,
       tags: editingHabit?.tags?.join(', ') || ''
     });
+
+    useEffect(() => {
+      if (editingHabit) {
+        setFormData({
+          title: editingHabit.title,
+          description: editingHabit.description,
+          type: editingHabit.type,
+          difficulty: editingHabit.difficulty,
+          tags: editingHabit.tags.join(', ')
+        });
+      } else {
+        setFormData({
+          title: '',
+          description: '',
+          type: 'positive',
+          difficulty: 'easy',
+          tags: ''
+        });
+      }
+    }, [editingHabit]);
 
     const handleSubmit = () => {
       if (!formData.title.trim()) return;
@@ -298,8 +340,8 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
       const habitData = {
         title: formData.title,
         description: formData.description,
-        type: formData.type as 'positive' | 'negative',
-        difficulty: formData.difficulty as 'easy' | 'medium' | 'hard' | 'extreme',
+        type: formData.type,
+        difficulty: formData.difficulty,
         tags: formData.tags.split(',').map(tag => tag.trim()).filter(tag => tag)
       };
 
