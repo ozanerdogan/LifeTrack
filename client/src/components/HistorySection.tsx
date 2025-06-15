@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Calendar, CheckCircle, Target, Flame, Clock, Filter, Search } from 'lucide-react';
-import { getState, subscribe } from '../utils/globalState';
+import { Calendar, CheckCircle, Target, Flame, Clock, Filter, Search, Undo } from 'lucide-react';
+import { getState, subscribe, uncompleteTodo, uncompleteHabit } from '../utils/globalState';
 
 const HistorySection: React.FC = () => {
   const [state, setState] = useState(getState());
@@ -30,6 +30,7 @@ const HistorySection: React.FC = () => {
   const getActionColor = (action: string) => {
     switch (action) {
       case 'completed': return 'text-green-600 bg-green-50';
+      case 'uncompleted': return 'text-orange-600 bg-orange-50';
       case 'added': return 'text-blue-600 bg-blue-50';
       case 'edited': return 'text-yellow-600 bg-yellow-50';
       case 'deleted': return 'text-red-600 bg-red-50';
@@ -173,20 +174,43 @@ const HistorySection: React.FC = () => {
                           </span>
                         </div>
                         
-                        {(item.expGained !== undefined || item.healthChange !== undefined) && (
-                          <div className="flex items-center space-x-2 text-sm">
-                            {item.expGained !== undefined && item.expGained !== 0 && (
-                              <span className={`px-2 py-1 rounded-full ${item.expGained > 0 ? 'bg-yellow-100 text-yellow-800' : 'bg-red-100 text-red-800'}`}>
-                                {item.expGained > 0 ? '+' : ''}{item.expGained} EXP
-                              </span>
-                            )}
-                            {item.healthChange !== undefined && item.healthChange !== 0 && (
-                              <span className={`px-2 py-1 rounded-full ${item.healthChange > 0 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
-                                {item.healthChange > 0 ? '+' : ''}{item.healthChange} HP
-                              </span>
-                            )}
-                          </div>
-                        )}
+                        <div className="flex items-center space-x-2 text-sm">
+                          {(item.expGained !== undefined || item.healthChange !== undefined) && (
+                            <>
+                              {item.expGained !== undefined && item.expGained !== 0 && (
+                                <span className={`px-2 py-1 rounded-full ${item.expGained > 0 ? 'bg-yellow-100 text-yellow-800' : 'bg-red-100 text-red-800'}`}>
+                                  {item.expGained > 0 ? '+' : ''}{item.expGained} EXP
+                                </span>
+                              )}
+                              {item.healthChange !== undefined && item.healthChange !== 0 && (
+                                <span className={`px-2 py-1 rounded-full ${item.healthChange > 0 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+                                  {item.healthChange > 0 ? '+' : ''}{item.healthChange} HP
+                                </span>
+                              )}
+                            </>
+                          )}
+                          {item.action === 'completed' && (
+                            <button
+                              onClick={() => {
+                                const itemToFind = item.type === 'todo' 
+                                  ? state.todos.find(t => t.title === item.title)
+                                  : state.habits.find(h => h.title === item.title);
+                                
+                                if (itemToFind) {
+                                  if (item.type === 'todo') {
+                                    uncompleteTodo(itemToFind.id);
+                                  } else {
+                                    uncompleteHabit(itemToFind.id);
+                                  }
+                                }
+                              }}
+                              className="text-gray-400 hover:text-blue-600 transition-colors"
+                              title="Undo this completion"
+                            >
+                              <Undo className="w-4 h-4" />
+                            </button>
+                          )}
+                        </div>
                       </div>
                     </div>
                   </div>

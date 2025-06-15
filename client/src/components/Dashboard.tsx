@@ -667,18 +667,29 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
               ) : (
                 filteredTodos.map(todo => (
                   <div key={todo.id} className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg group">
-                    <button
-                      onClick={() => handleTodoComplete(todo.id)}
-                      className={`flex-shrink-0 ${
-                        todo.completed ? 'text-green-600' : 'text-gray-400 hover:text-green-600'
-                      }`}
-                    >
-                      {todo.completed ? (
-                        <CheckCircle className="w-5 h-5" />
-                      ) : (
-                        <Circle className="w-5 h-5" />
+                    <div className="flex items-center space-x-1">
+                      <button
+                        onClick={() => todo.completed ? handleTodoUncomplete(todo.id) : handleTodoComplete(todo.id)}
+                        className={`flex-shrink-0 ${
+                          todo.completed ? 'text-green-600' : 'text-gray-400 hover:text-green-600'
+                        }`}
+                      >
+                        {todo.completed ? (
+                          <CheckCircle className="w-5 h-5" />
+                        ) : (
+                          <Circle className="w-5 h-5" />
+                        )}
+                      </button>
+                      {todo.completed && (
+                        <button
+                          onClick={() => handleTodoUncomplete(todo.id)}
+                          className="text-gray-400 hover:text-blue-600 opacity-0 group-hover:opacity-100 transition-opacity"
+                          title="Undo completion"
+                        >
+                          <Undo className="w-4 h-4" />
+                        </button>
                       )}
-                    </button>
+                    </div>
                     <div 
                       className="flex-1 min-w-0 cursor-pointer"
                       onClick={() => setExpandedTodo(expandedTodo === todo.id ? null : todo.id)}
@@ -846,6 +857,15 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
                         >
                           {habit.type === 'positive' ? '+' : '-'}
                         </button>
+                        {habit.streak > 0 && (
+                          <button
+                            onClick={() => handleHabitUncomplete(habit.id)}
+                            className="text-gray-400 hover:text-blue-600 opacity-0 group-hover:opacity-100 transition-opacity"
+                            title="Undo last completion"
+                          >
+                            <Undo className="w-4 h-4" />
+                          </button>
+                        )}
                         <div className="relative">
                           <button
                             onClick={(e) => {
