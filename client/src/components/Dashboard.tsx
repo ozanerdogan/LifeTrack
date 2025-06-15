@@ -644,29 +644,29 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
         {/* Main content grid */}
         <div className="max-w-4xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* To Dos Section */}
-          <div className="bg-white rounded-lg shadow-sm">
-            <div className="p-4 border-b border-gray-200 flex items-center justify-between">
-              <h2 className="text-lg font-semibold text-gray-900 flex items-center">
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+            <div className="p-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
+              <h2 className="text-lg font-semibold text-gray-900 dark:text-white flex items-center">
                 <Target className="w-5 h-5 text-blue-600 mr-2" />
                 To Dos ({filteredTodos.filter(t => !t.completed).length})
               </h2>
               <button
                 onClick={() => setShowTodoModal(true)}
-                className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                className="p-2 text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/30 rounded-lg transition-colors"
               >
                 <Plus className="w-5 h-5" />
               </button>
             </div>
             <div className="p-4 space-y-3 max-h-96 overflow-y-auto">
               {filteredTodos.length === 0 ? (
-                <div className="text-center py-8 text-gray-500">
-                  <Target className="w-12 h-12 mx-auto mb-3 text-gray-300" />
+                <div className="text-center py-8 text-gray-500 dark:text-gray-400">
+                  <Target className="w-12 h-12 mx-auto mb-3 text-gray-300 dark:text-gray-600" />
                   <p>No to dos found</p>
                   <p className="text-sm">Add a new to do to get started!</p>
                 </div>
               ) : (
                 filteredTodos.map(todo => (
-                  <div key={todo.id} className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg group">
+                  <div key={todo.id} className="flex items-center space-x-3 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg group">
                     <div className="flex items-center space-x-1">
                       <button
                         onClick={() => todo.completed ? handleTodoUncomplete(todo.id) : handleTodoComplete(todo.id)}
@@ -687,37 +687,37 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
                       onClick={() => setExpandedTodo(expandedTodo === todo.id ? null : todo.id)}
                     >
                       <h3 className={`font-medium ${
-                        todo.completed ? 'line-through text-gray-500' : 'text-gray-900'
+                        todo.completed ? 'line-through text-gray-500 dark:text-gray-400' : 'text-gray-900 dark:text-white'
                       }`}>
                         {todo.title}
                       </h3>
                       {todo.description && (
-                        <p className="text-sm text-gray-600 mt-1">{todo.description}</p>
+                        <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">{todo.description}</p>
                       )}
                       <div className="flex items-center flex-wrap gap-2 mt-2">
                         <span className={`px-2 py-1 text-xs rounded-full ${
-                          todo.difficulty === 'easy' ? 'bg-green-100 text-green-800' :
-                          todo.difficulty === 'medium' ? 'bg-yellow-100 text-yellow-800' :
-                          todo.difficulty === 'hard' ? 'bg-orange-100 text-orange-800' :
-                          'bg-red-100 text-red-800'
+                          todo.difficulty === 'easy' ? 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-400' :
+                          todo.difficulty === 'medium' ? 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-400' :
+                          todo.difficulty === 'hard' ? 'bg-orange-100 dark:bg-orange-900/30 text-orange-800 dark:text-orange-400' :
+                          'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-400'
                         }`}>
                           {todo.difficulty}
                         </span>
                         {todo.tags.map(tag => (
-                          <span key={tag} className="px-2 py-1 text-xs bg-blue-100 text-blue-800 rounded-full">
+                          <span key={tag} className="px-2 py-1 text-xs bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-400 rounded-full">
                             {tag}
                           </span>
                         ))}
                         {todo.dueDate && (
-                          <span className="text-xs text-gray-500 flex items-center">
+                          <span className="text-xs text-gray-500 dark:text-gray-400 flex items-center">
                             <Calendar className="w-3 h-3 mr-1" />
                             {formatDate(todo.dueDate)}
                           </span>
                         )}
                       </div>
                       {expandedTodo === todo.id && todo.checklist.length > 0 && (
-                        <div className="mt-3 pl-4 border-l-2 border-gray-200">
-                          <h4 className="text-sm font-medium text-gray-700 mb-2">Checklist:</h4>
+                        <div className="mt-3 pl-4 border-l-2 border-gray-200 dark:border-gray-600">
+                          <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Checklist:</h4>
                           <ul className="space-y-1">
                             {todo.checklist.map(item => (
                               <li key={item.id} className="flex items-center text-sm">
@@ -733,7 +733,7 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
                                 >
                                   {item.completed ? '✓' : '○'}
                                 </button>
-                                <span className={item.completed ? 'line-through text-gray-500' : 'text-gray-700'}>
+                                <span className={item.completed ? 'line-through text-gray-500 dark:text-gray-400' : 'text-gray-700 dark:text-gray-300'}>
                                   {item.text}
                                 </span>
                               </li>
@@ -753,13 +753,13 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
                         <MoreVertical className="w-4 h-4" />
                       </button>
                       {openTodoMenuId === todo.id && (
-                        <div className="absolute right-0 top-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg z-10 min-w-[120px]">
+                        <div className="absolute right-0 top-full mt-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg shadow-lg z-10 min-w-[120px]">
                           <button
                             onClick={(e) => {
                               e.stopPropagation();
                               handleEditTodo(todo);
                             }}
-                            className="w-full px-3 py-2 text-left text-sm hover:bg-gray-50 flex items-center"
+                            className="w-full px-3 py-2 text-left text-sm hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-900 dark:text-white flex items-center"
                           >
                             <Edit className="w-4 h-4 mr-2" />
                             Edit
@@ -769,7 +769,7 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
                               e.stopPropagation();
                               handleDeleteTodo(todo.id);
                             }}
-                            className="w-full px-3 py-2 text-left text-sm hover:bg-gray-50 flex items-center text-red-600"
+                            className="w-full px-3 py-2 text-left text-sm hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center text-red-600 dark:text-red-400"
                           >
                             <Trash2 className="w-4 h-4 mr-2" />
                             Delete
@@ -784,55 +784,55 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
           </div>
 
           {/* Habits Section */}
-          <div className="bg-white rounded-lg shadow-sm">
-            <div className="p-4 border-b border-gray-200 flex items-center justify-between">
-              <h2 className="text-lg font-semibold text-gray-900 flex items-center">
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+            <div className="p-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
+              <h2 className="text-lg font-semibold text-gray-900 dark:text-white flex items-center">
                 <Flame className="w-5 h-5 text-orange-600 mr-2" />
                 Habits ({filteredHabits.length})
               </h2>
               <button
                 onClick={() => setShowHabitModal(true)}
-                className="p-2 text-orange-600 hover:bg-orange-50 rounded-lg transition-colors"
+                className="p-2 text-orange-600 dark:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-900/30 rounded-lg transition-colors"
               >
                 <Plus className="w-5 h-5" />
               </button>
             </div>
             <div className="p-4 space-y-3 max-h-96 overflow-y-auto">
               {filteredHabits.length === 0 ? (
-                <div className="text-center py-8 text-gray-500">
-                  <Flame className="w-12 h-12 mx-auto mb-3 text-gray-300" />
+                <div className="text-center py-8 text-gray-500 dark:text-gray-400">
+                  <Flame className="w-12 h-12 mx-auto mb-3 text-gray-300 dark:text-gray-600" />
                   <p>No habits found</p>
                   <p className="text-sm">Add a new habit to build consistency!</p>
                 </div>
               ) : (
                 filteredHabits.map(habit => (
-                  <div key={habit.id} className="p-3 bg-gray-50 rounded-lg group">
+                  <div key={habit.id} className="p-3 bg-gray-50 dark:bg-gray-700 rounded-lg group">
                     <div className="flex items-center justify-between">
                       <div className="flex-1">
-                        <h3 className="font-medium text-gray-900">{habit.title}</h3>
+                        <h3 className="font-medium text-gray-900 dark:text-white">{habit.title}</h3>
                         {habit.description && (
-                          <p className="text-sm text-gray-600 mt-1">{habit.description}</p>
+                          <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">{habit.description}</p>
                         )}
                         <div className="flex items-center flex-wrap gap-2 mt-2">
                           <span className={`px-2 py-1 text-xs rounded-full ${
-                            habit.type === 'positive' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+                            habit.type === 'positive' ? 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-400' : 'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-400'
                           }`}>
                             {habit.type}
                           </span>
                           <span className={`px-2 py-1 text-xs rounded-full ${
-                            habit.difficulty === 'easy' ? 'bg-green-100 text-green-800' :
-                            habit.difficulty === 'medium' ? 'bg-yellow-100 text-yellow-800' :
-                            habit.difficulty === 'hard' ? 'bg-orange-100 text-orange-800' :
-                            'bg-red-100 text-red-800'
+                            habit.difficulty === 'easy' ? 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-400' :
+                            habit.difficulty === 'medium' ? 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-400' :
+                            habit.difficulty === 'hard' ? 'bg-orange-100 dark:bg-orange-900/30 text-orange-800 dark:text-orange-400' :
+                            'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-400'
                           }`}>
                             {habit.difficulty}
                           </span>
                           {habit.tags.map(tag => (
-                            <span key={tag} className="px-2 py-1 text-xs bg-blue-100 text-blue-800 rounded-full">
+                            <span key={tag} className="px-2 py-1 text-xs bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-400 rounded-full">
                               {tag}
                             </span>
                           ))}
-                          <span className="text-xs text-gray-500 flex items-center">
+                          <span className="text-xs text-gray-500 dark:text-gray-400 flex items-center">
                             <TrendingUp className="w-3 h-3 mr-1" />
                             {habit.streak} day streak
                           </span>
@@ -852,7 +852,7 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
                         {habit.streak > 0 && (
                           <button
                             onClick={() => handleHabitUncomplete(habit.id)}
-                            className="text-gray-400 hover:text-blue-600 opacity-0 group-hover:opacity-100 transition-opacity"
+                            className="text-gray-400 dark:text-gray-500 hover:text-blue-600 dark:hover:text-blue-400 opacity-0 group-hover:opacity-100 transition-opacity"
                             title="Undo last completion"
                           >
                             <Undo className="w-4 h-4" />
@@ -864,7 +864,7 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
                               e.stopPropagation();
                               setOpenHabitMenuId(openHabitMenuId === habit.id ? null : habit.id);
                             }}
-                            className="p-1 text-gray-400 hover:text-gray-600 opacity-0 group-hover:opacity-100 transition-opacity"
+                            className="p-1 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 opacity-0 group-hover:opacity-100 transition-opacity"
                           >
                             <MoreVertical className="w-4 h-4" />
                           </button>
