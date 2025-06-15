@@ -100,6 +100,7 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
 
     const [newChecklistItem, setNewChecklistItem] = useState('');
     const [showTagDropdown, setShowTagDropdown] = useState(false);
+    const [newTagName, setNewTagName] = useState('');
 
     const handleSubmit = () => {
       if (!formData.title.trim()) return;
@@ -138,19 +139,27 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
       }
     };
 
-    const removeChecklistItem = (id: string) => {
-      setFormData(prev => ({
-        ...prev,
-        checklist: prev.checklist.filter(item => item.id !== id)
-      }));
-    };
-
     const toggleTag = (tag: string) => {
       setFormData(prev => ({
         ...prev,
         tags: prev.tags.includes(tag) 
           ? prev.tags.filter(t => t !== tag)
           : [...prev.tags, tag]
+      }));
+    };
+
+    const handleAddNewTag = (tagName: string) => {
+      if (tagName.trim() && !availableTags.includes(tagName.trim())) {
+        addTag(tagName.trim());
+        toggleTag(tagName.trim());
+        setNewTagName('');
+      }
+    };
+
+    const removeChecklistItem = (id: string) => {
+      setFormData(prev => ({
+        ...prev,
+        checklist: prev.checklist.filter(item => item.id !== id)
       }));
     };
 
