@@ -87,7 +87,7 @@ const ProfileSection: React.FC<ProfileSectionProps> = ({ avatar, setAvatar }) =>
         {/* Top Row: Profile Info and Recent Activity */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Profile Info */}
-          <div className="bg-white/70 backdrop-blur-sm rounded-xl p-6 border border-gray-200/50">
+          <div className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-xl p-6 border border-gray-200/50 dark:border-gray-700/50">
             {/* Avatar Section */}
             <div className="text-center mb-6">
               <div className="relative inline-block">
@@ -96,16 +96,16 @@ const ProfileSection: React.FC<ProfileSectionProps> = ({ avatar, setAvatar }) =>
                 </div>
                 <button 
                   onClick={() => setShowAvatarPicker(!showAvatarPicker)}
-                  className="absolute bottom-0 right-0 p-2 bg-white rounded-full shadow-lg border border-gray-200 hover:bg-gray-50 transition-colors duration-200"
+                  className="absolute bottom-0 right-0 p-2 bg-white dark:bg-gray-800 rounded-full shadow-lg border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200"
                 >
-                  <Camera className="w-4 h-4 text-gray-600" />
+                  <Camera className="w-4 h-4 text-gray-600 dark:text-gray-300" />
                 </button>
               </div>
               
               {/* Avatar Picker */}
               {showAvatarPicker && (
-                <div className="mt-4 p-4 bg-gray-50 rounded-lg border">
-                  <h4 className="text-sm font-medium text-gray-700 mb-3">Choose Avatar</h4>
+                <div className="mt-4 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600">
+                  <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Choose Avatar</h4>
                   <div className="grid grid-cols-6 gap-2">
                     {avatarOptions.map((option) => (
                       <button
@@ -114,7 +114,7 @@ const ProfileSection: React.FC<ProfileSectionProps> = ({ avatar, setAvatar }) =>
                           setAvatar(option);
                           setShowAvatarPicker(false);
                         }}
-                        className="w-10 h-10 text-lg hover:bg-gray-200 rounded-lg transition-colors duration-200"
+                        className="w-10 h-10 text-lg hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg transition-colors duration-200"
                       >
                         {option}
                       </button>

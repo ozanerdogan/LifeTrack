@@ -103,21 +103,21 @@ const SettingsSection: React.FC = () => {
         </div>
 
         {/* Site Settings */}
-        <div className="bg-white/70 backdrop-blur-sm rounded-xl p-6 border border-gray-200/50">
+        <div className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-xl p-6 border border-gray-200/50 dark:border-gray-700/50">
           <div className="flex items-center space-x-3 mb-6">
-            <div className="p-2 bg-green-50 text-green-600 rounded-lg">
+            <div className="p-2 bg-green-50 dark:bg-green-900/30 text-green-600 dark:text-green-400 rounded-lg">
               <Globe className="w-5 h-5" />
             </div>
-            <h2 className="text-xl font-semibold text-gray-900">Site</h2>
+            <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Site</h2>
           </div>
 
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Language</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Language</label>
               <select
                 value={siteForm.language}
                 onChange={(e) => setSiteForm({...siteForm, language: e.target.value})}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               >
                 <option value="English">English</option>
                 <option value="Spanish">Spanish</option>
@@ -128,11 +128,11 @@ const SettingsSection: React.FC = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Time Zone</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Time Zone</label>
               <select
                 value={siteForm.timezone}
                 onChange={(e) => setSiteForm({...siteForm, timezone: e.target.value})}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               >
                 <option value="America/New_York">Eastern Time (UTC-5)</option>
                 <option value="America/Chicago">Central Time (UTC-6)</option>
@@ -145,11 +145,11 @@ const SettingsSection: React.FC = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Date Format</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Date Format</label>
               <select
                 value={siteForm.dateFormat}
                 onChange={(e) => setSiteForm({...siteForm, dateFormat: e.target.value as 'MM/DD/YYYY' | 'DD/MM/YYYY' | 'YYYY-MM-DD'})}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               >
                 <option value="MM/DD/YYYY">MM/DD/YYYY (12/25/2024)</option>
                 <option value="DD/MM/YYYY">DD/MM/YYYY (25/12/2024)</option>
