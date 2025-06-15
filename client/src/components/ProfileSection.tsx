@@ -20,7 +20,6 @@ const ProfileSection: React.FC<ProfileSectionProps> = ({ avatar, setAvatar }) =>
   });
   
   const [showColorPicker, setShowColorPicker] = useState(false);
-  const [avatarBgColor, setAvatarBgColor] = useState('#3B82F6');
 
   const backgroundColors = [
     '#3B82F6', '#EF4444', '#10B981', '#F59E0B',
@@ -103,7 +102,9 @@ const ProfileSection: React.FC<ProfileSectionProps> = ({ avatar, setAvatar }) =>
               <div className="relative inline-block">
                 <div 
                   className="w-40 h-40 rounded-full flex items-center justify-center shadow-lg"
-                  style={{ backgroundColor: avatarBgColor }}
+                  style={{ 
+                    background: `linear-gradient(135deg, ${state.user.avatarBgColor}, ${state.user.avatarBgColor}dd)`
+                  }}
                 >
                   <span className="text-white font-bold text-4xl">{avatar || state.user.username.charAt(0).toUpperCase()}</span>
                 </div>
@@ -117,7 +118,7 @@ const ProfileSection: React.FC<ProfileSectionProps> = ({ avatar, setAvatar }) =>
                   onClick={() => setShowColorPicker(!showColorPicker)}
                   className="absolute bottom-2 left-2 p-2 bg-white dark:bg-gray-800 rounded-full shadow-lg border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200"
                 >
-                  <div className="w-4 h-4 rounded-full border border-gray-300" style={{ backgroundColor: avatarBgColor }}></div>
+                  <div className="w-4 h-4 rounded-full border border-gray-300" style={{ backgroundColor: state.user.avatarBgColor }}></div>
                 </button>
               </div>
               
@@ -151,7 +152,7 @@ const ProfileSection: React.FC<ProfileSectionProps> = ({ avatar, setAvatar }) =>
                       <button
                         key={color}
                         onClick={() => {
-                          setAvatarBgColor(color);
+                          updateUser({ avatarBgColor: color });
                           setShowColorPicker(false);
                         }}
                         className="w-8 h-8 rounded-full border-2 border-gray-300 dark:border-gray-600 hover:scale-110 transition-transform duration-200"

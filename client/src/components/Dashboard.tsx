@@ -610,8 +610,13 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
             {/* Desktop layout */}
             <div className="hidden md:flex items-center space-x-6">
               {/* Avatar */}
-              <div className="w-24 h-24 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-2xl flex-shrink-0">
-                {avatar || user.name.charAt(0).toUpperCase()}
+              <div 
+                className="w-28 h-28 rounded-full flex items-center justify-center text-white font-bold text-3xl flex-shrink-0"
+                style={{ 
+                  background: `linear-gradient(135deg, ${user.avatarBgColor}, ${user.avatarBgColor}dd)`
+                }}
+              >
+                <span className="text-3xl">{avatar || user.name.charAt(0).toUpperCase()}</span>
               </div>
               
               {/* Name and level */}

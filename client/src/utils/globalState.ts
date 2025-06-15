@@ -34,6 +34,7 @@ export interface User {
   birthday: string;
   joinDate: string;
   avatar: string;
+  avatarBgColor: string;
   health: number;
   maxHealth: number;
   exp: number;
@@ -100,6 +101,7 @@ const initialState: AppState = {
     birthday: "1990-05-15",
     joinDate: "2024-01-01",
     avatar: "JD",
+    avatarBgColor: "#3B82F6",
     health: 33,
     maxHealth: 50,
     exp: 12,
