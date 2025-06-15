@@ -29,12 +29,12 @@ const HistorySection: React.FC = () => {
 
   const getActionColor = (action: string) => {
     switch (action) {
-      case 'completed': return 'text-green-600 bg-green-50';
-      case 'uncompleted': return 'text-orange-600 bg-orange-50';
-      case 'added': return 'text-blue-600 bg-blue-50';
-      case 'edited': return 'text-yellow-600 bg-yellow-50';
-      case 'deleted': return 'text-red-600 bg-red-50';
-      default: return 'text-gray-600 bg-gray-50';
+      case 'completed': return 'text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/30';
+      case 'uncompleted': return 'text-orange-600 dark:text-orange-400 bg-orange-50 dark:bg-orange-900/30';
+      case 'added': return 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30';
+      case 'edited': return 'text-yellow-600 dark:text-yellow-400 bg-yellow-50 dark:bg-yellow-900/30';
+      case 'deleted': return 'text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/30';
+      default: return 'text-gray-600 dark:text-gray-400 bg-gray-50 dark:bg-gray-700';
     }
   };
 
@@ -52,11 +52,11 @@ const HistorySection: React.FC = () => {
 
   const getDifficultyColor = (difficulty: string) => {
     switch (difficulty) {
-      case 'easy': return 'bg-green-100 text-green-800';
-      case 'medium': return 'bg-yellow-100 text-yellow-800';
-      case 'hard': return 'bg-orange-100 text-orange-800';
-      case 'extreme': return 'bg-red-100 text-red-800';
-      default: return 'bg-gray-100 text-gray-800';
+      case 'easy': return 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-400';
+      case 'medium': return 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-400';
+      case 'hard': return 'bg-orange-100 dark:bg-orange-900/30 text-orange-800 dark:text-orange-400';
+      case 'extreme': return 'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-400';
+      default: return 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-300';
     }
   };
 
@@ -140,7 +140,7 @@ const HistorySection: React.FC = () => {
                 <div key={item.id} className="p-4 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
                   <div className="flex items-start space-x-3">
                     {/* Type Icon */}
-                    <div className={`p-2 rounded-lg ${item.type === 'todo' ? 'bg-blue-50 text-blue-600' : 'bg-orange-50 text-orange-600'}`}>
+                    <div className={`p-2 rounded-lg ${item.type === 'todo' ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400' : 'bg-orange-50 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400'}`}>
                       {getTypeIcon(item.type)}
                     </div>
                     
@@ -154,7 +154,7 @@ const HistorySection: React.FC = () => {
                           {item.difficulty}
                         </span>
                         {item.tags.map(tag => (
-                          <span key={tag} className="px-2 py-1 text-xs bg-blue-100 text-blue-800 rounded-full">
+                          <span key={tag} className="px-2 py-1 text-xs bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-400 rounded-full">
                             {tag}
                           </span>
                         ))}

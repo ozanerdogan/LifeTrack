@@ -59,18 +59,18 @@ const ProgressSection: React.FC = () => {
   // Get tag color based on index
   const getTagColor = (index: number) => {
     const colorSchemes = [
-      { bg: ['bg-blue-100', 'bg-blue-200', 'bg-blue-400', 'bg-blue-600'], accent: 'bg-blue-50', text: 'text-blue-600' },
-      { bg: ['bg-emerald-100', 'bg-emerald-200', 'bg-emerald-400', 'bg-emerald-600'], accent: 'bg-emerald-50', text: 'text-emerald-600' },
-      { bg: ['bg-purple-100', 'bg-purple-200', 'bg-purple-400', 'bg-purple-600'], accent: 'bg-purple-50', text: 'text-purple-600' },
-      { bg: ['bg-orange-100', 'bg-orange-200', 'bg-orange-400', 'bg-orange-600'], accent: 'bg-orange-50', text: 'text-orange-600' },
-      { bg: ['bg-pink-100', 'bg-pink-200', 'bg-pink-400', 'bg-pink-600'], accent: 'bg-pink-50', text: 'text-pink-600' },
-      { bg: ['bg-cyan-100', 'bg-cyan-200', 'bg-cyan-400', 'bg-cyan-600'], accent: 'bg-cyan-50', text: 'text-cyan-600' }
+      { bg: ['bg-blue-100', 'bg-blue-200', 'bg-blue-400', 'bg-blue-600'], accent: 'bg-blue-50 dark:bg-blue-900/30', text: 'text-blue-600 dark:text-blue-400' },
+      { bg: ['bg-emerald-100', 'bg-emerald-200', 'bg-emerald-400', 'bg-emerald-600'], accent: 'bg-emerald-50 dark:bg-emerald-900/30', text: 'text-emerald-600 dark:text-emerald-400' },
+      { bg: ['bg-purple-100', 'bg-purple-200', 'bg-purple-400', 'bg-purple-600'], accent: 'bg-purple-50 dark:bg-purple-900/30', text: 'text-purple-600 dark:text-purple-400' },
+      { bg: ['bg-orange-100', 'bg-orange-200', 'bg-orange-400', 'bg-orange-600'], accent: 'bg-orange-50 dark:bg-orange-900/30', text: 'text-orange-600 dark:text-orange-400' },
+      { bg: ['bg-pink-100', 'bg-pink-200', 'bg-pink-400', 'bg-pink-600'], accent: 'bg-pink-50 dark:bg-pink-900/30', text: 'text-pink-600 dark:text-pink-400' },
+      { bg: ['bg-cyan-100', 'bg-cyan-200', 'bg-cyan-400', 'bg-cyan-600'], accent: 'bg-cyan-50 dark:bg-cyan-900/30', text: 'text-cyan-600 dark:text-cyan-400' }
     ];
     return colorSchemes[index % colorSchemes.length];
   };
 
   const getIntensityColor = (intensity: number, colorScheme: any) => {
-    if (intensity === 0) return 'bg-gray-100';
+    if (intensity === 0) return 'bg-gray-100 dark:bg-gray-700';
     return colorScheme.bg[intensity - 1];
   };
 
@@ -213,19 +213,19 @@ const ProgressSection: React.FC = () => {
               </div>
 
               {/* Legend and Stats */}
-              <div className="flex items-center justify-between mt-4 pt-4 border-t border-gray-200">
+              <div className="flex items-center justify-between mt-4 pt-4 border-t border-gray-200 dark:border-gray-600">
                 <div className="flex items-center space-x-2">
-                  <span className="text-xs text-gray-600">Less</span>
+                  <span className="text-xs text-gray-600 dark:text-gray-400">Less</span>
                   <div className="flex space-x-1">
-                    <div className="w-3 h-3 bg-gray-100 rounded-sm"></div>
+                    <div className="w-3 h-3 bg-gray-100 dark:bg-gray-700 rounded-sm"></div>
                     {colorScheme.bg.map((color, i) => (
                       <div key={i} className={`w-3 h-3 ${color} rounded-sm`}></div>
                     ))}
                   </div>
-                  <span className="text-xs text-gray-600">More</span>
+                  <span className="text-xs text-gray-600 dark:text-gray-400">More</span>
                 </div>
                 
-                <div className="flex items-center space-x-2 text-sm text-gray-600">
+                <div className="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400">
                   <span>{stats.totalItems} items</span>
                 </div>
               </div>
@@ -235,10 +235,10 @@ const ProgressSection: React.FC = () => {
         
         {/* Show message if no tags exist */}
         {state.tags.length === 0 && (
-          <div className="col-span-full bg-white/70 backdrop-blur-sm rounded-xl p-12 border border-gray-200/50 text-center">
-            <Tag className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">No tags yet</h3>
-            <p className="text-gray-600">Start adding tags to your tasks and habits to see progress tracking here.</p>
+          <div className="col-span-full bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-xl p-12 border border-gray-200/50 dark:border-gray-700/50 text-center">
+            <Tag className="w-12 h-12 text-gray-300 dark:text-gray-600 mx-auto mb-4" />
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">No tags yet</h3>
+            <p className="text-gray-600 dark:text-gray-300">Start adding tags to your tasks and habits to see progress tracking here.</p>
           </div>
         )}
       </div>
