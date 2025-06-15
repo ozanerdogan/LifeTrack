@@ -69,17 +69,17 @@ const HistorySection: React.FC = () => {
       </div>
 
       {/* Filters */}
-      <div className="bg-white rounded-lg shadow-sm p-4">
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 border border-gray-200/50 dark:border-gray-700/50">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {/* Search */}
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 w-4 h-4" />
             <input
               type="text"
               placeholder="Search history..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-9 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full pl-9 pr-4 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
 
@@ -87,7 +87,7 @@ const HistorySection: React.FC = () => {
           <select
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
-            className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             {categories.map(category => (
               <option key={category} value={category}>{category}</option>
@@ -98,7 +98,7 @@ const HistorySection: React.FC = () => {
           <select
             value={selectedType}
             onChange={(e) => setSelectedType(e.target.value)}
-            className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             {types.map(type => (
               <option key={type} value={type}>
@@ -112,24 +112,24 @@ const HistorySection: React.FC = () => {
             type="date"
             value={selectedDate}
             onChange={(e) => setSelectedDate(e.target.value)}
-            className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
       </div>
 
       {/* History List */}
-      <div className="bg-white rounded-lg shadow-sm">
-        <div className="p-4 border-b border-gray-200">
-          <h2 className="text-lg font-semibold text-gray-900 flex items-center">
-            <Clock className="w-5 h-5 text-blue-600 mr-2" />
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200/50 dark:border-gray-700/50">
+        <div className="p-4 border-b border-gray-200 dark:border-gray-700">
+          <h2 className="text-lg font-semibold text-gray-900 dark:text-white flex items-center">
+            <Clock className="w-5 h-5 text-blue-600 dark:text-blue-400 mr-2" />
             Activity History ({filteredHistory.length})
           </h2>
         </div>
         
-        <div className="divide-y divide-gray-200 max-h-96 overflow-y-auto">
+        <div className="divide-y divide-gray-200 dark:divide-gray-700 max-h-96 overflow-y-auto">
           {filteredHistory.length === 0 ? (
-            <div className="p-8 text-center text-gray-500">
-              <Clock className="w-12 h-12 mx-auto mb-3 text-gray-300" />
+            <div className="p-8 text-center text-gray-500 dark:text-gray-400">
+              <Clock className="w-12 h-12 mx-auto mb-3 text-gray-300 dark:text-gray-600" />
               <p>No activity found</p>
               <p className="text-sm">Try adjusting your filters or add some to dos and habits!</p>
             </div>
@@ -137,7 +137,7 @@ const HistorySection: React.FC = () => {
             filteredHistory.map(item => {
               const { date, time } = formatTimestamp(item.timestamp);
               return (
-                <div key={item.id} className="p-4 hover:bg-gray-50 transition-colors">
+                <div key={item.id} className="p-4 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
                   <div className="flex items-start space-x-3">
                     {/* Type Icon */}
                     <div className={`p-2 rounded-lg ${item.type === 'todo' ? 'bg-blue-50 text-blue-600' : 'bg-orange-50 text-orange-600'}`}>
