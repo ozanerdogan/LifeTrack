@@ -123,11 +123,11 @@ const ProgressSection: React.FC = () => {
       </div>
 
       {/* Month/Year Selector */}
-      <div className="bg-white/70 backdrop-blur-sm rounded-xl p-6 border border-gray-200/50">
+      <div className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-xl p-6 border border-gray-200/50 dark:border-gray-700/50">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
-            <Calendar className="w-6 h-6 text-blue-600" />
-            <h2 className="text-xl font-semibold text-gray-900">
+            <Calendar className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+            <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
               {monthNames[selectedMonth]} {selectedYear}
             </h2>
           </div>
@@ -164,21 +164,21 @@ const ProgressSection: React.FC = () => {
           const stats = getTagStats(tag);
           
           return (
-            <div key={tag} className="bg-white/70 backdrop-blur-sm rounded-xl p-6 border border-gray-200/50">
+            <div key={tag} className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-xl p-6 border border-gray-200/50 dark:border-gray-700/50">
               <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center space-x-3">
                   <div className={`p-2 ${colorScheme.accent} ${colorScheme.text} rounded-lg`}>
                     <Tag className="w-5 h-5" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold text-gray-900">#{tag}</h3>
-                    <p className="text-sm text-gray-600">Activity in this category</p>
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">#{tag}</h3>
+                    <p className="text-sm text-gray-600 dark:text-gray-300">Activity in this category</p>
                   </div>
                 </div>
                 
                 <div className="text-right">
                   <p className={`text-2xl font-bold ${colorScheme.text}`}>{stats.completedItems}</p>
-                  <p className="text-sm text-gray-600">completions</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-300">completions</p>
                 </div>
               </div>
 
@@ -187,7 +187,7 @@ const ProgressSection: React.FC = () => {
                 {/* Day headers */}
                 <div className="grid grid-cols-7 gap-1 mb-2">
                   {dayNames.map(day => (
-                    <div key={day} className="text-xs text-gray-500 text-center py-1">
+                    <div key={day} className="text-xs text-gray-500 dark:text-gray-400 text-center py-1">
                       {day}
                     </div>
                   ))}
