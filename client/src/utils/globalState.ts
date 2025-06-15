@@ -395,7 +395,7 @@ export const completeHabit = (id: string) => {
         h.id === id
           ? {
               ...h,
-              streak: h.streak + 1,
+              streak: isPositive ? h.streak + 1 : 0,
               lastCompleted: new Date().toISOString().split("T")[0],
             }
           : h,
