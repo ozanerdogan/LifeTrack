@@ -48,8 +48,8 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, activeSection, onSectionChang
             </button>
           </div>
 
-          {/* Menu Items */}
-          <nav className="flex-1 px-4 pb-4">
+          {/* Menu Items - Scrollable */}
+          <nav className="flex-1 overflow-y-auto px-4">
             <ul className="space-y-2">
               {menuItems.map((item) => {
                 const Icon = item.icon;
@@ -80,8 +80,8 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, activeSection, onSectionChang
             </ul>
           </nav>
 
-          {/* Logout Button */}
-          <div className="p-4 border-t border-gray-200/50">
+          {/* Logout Button - Fixed at bottom */}
+          <div className="flex-shrink-0 p-4 border-t border-gray-200/50">
             <button
               onClick={() => setShowLogoutConfirm(true)}
               className="w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-red-600 hover:bg-red-50 transition-colors duration-200"
@@ -91,34 +91,35 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, activeSection, onSectionChang
             </button>
           </div>
 
-          {/* Logout Confirmation Modal */}
-          {showLogoutConfirm && (
-            <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-              <div className="bg-white rounded-lg p-6 max-w-sm mx-4">
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">Confirm Logout</h3>
-                <p className="text-gray-600 mb-6">Are you sure you want to logout?</p>
-                <div className="flex space-x-3">
-                  <button
-                    onClick={() => setShowLogoutConfirm(false)}
-                    className="flex-1 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    onClick={() => {
-                      setShowLogoutConfirm(false);
-                      onLogout();
-                    }}
-                    className="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
-                  >
-                    Logout
-                  </button>
-                </div>
-              </div>
-            </div>
-          )}
         </div>
       </aside>
+
+      {/* Logout Confirmation Modal - Centered on page */}
+      {showLogoutConfirm && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[60]">
+          <div className="bg-white rounded-lg p-6 max-w-sm mx-4 shadow-xl">
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">Confirm Logout</h3>
+            <p className="text-gray-600 mb-6">Are you sure you want to logout?</p>
+            <div className="flex space-x-3">
+              <button
+                onClick={() => setShowLogoutConfirm(false)}
+                className="flex-1 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => {
+                  setShowLogoutConfirm(false);
+                  onLogout();
+                }}
+                className="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+              >
+                Logout
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };
