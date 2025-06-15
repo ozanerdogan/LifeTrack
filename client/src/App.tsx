@@ -21,6 +21,15 @@ function App() {
     return subscribe(setGlobalState);
   }, []);
 
+  // Apply dark mode to document element
+  useEffect(() => {
+    if (globalState.user.darkMode) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [globalState.user.darkMode]);
+
   const renderContent = () => {
     if (showProfile) {
       return <ProfileSection avatar={globalState.user.avatar} setAvatar={(avatar) => updateUser({ avatar })} />;
@@ -71,10 +80,11 @@ function App() {
   }
 
   return (
-    <div className="h-screen bg-gradient-to-br from-slate-50 to-blue-50 flex flex-col">
+    <div className="h-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-gray-900 dark:to-gray-800 flex flex-col">
       <Navbar 
         onMenuToggle={() => setSidebarOpen(!sidebarOpen)} 
         onProfileClick={handleProfileClick}
+        onLogoClick={handleLogoClick}
       />
       
       <div className="flex flex-1 overflow-hidden">

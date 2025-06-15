@@ -4,12 +4,6 @@ import { getState, subscribe, updateUser } from '../utils/globalState';
 
 const SettingsSection: React.FC = () => {
   const [state, setState] = useState(getState());
-  const [notifications, setNotifications] = useState({
-    habits: true,
-    tasks: true,
-    weekly: false,
-    email: true
-  });
 
   const [profileForm, setProfileForm] = useState({
     name: state.user.name,
@@ -36,6 +30,15 @@ const SettingsSection: React.FC = () => {
 
   const handleSiteSave = () => {
     updateUser(siteForm);
+  };
+
+  const handleNotificationSave = (updates: Partial<typeof state.user.notifications>) => {
+    updateUser({ 
+      notifications: { 
+        ...state.user.notifications, 
+        ...updates 
+      } 
+    });
   };
 
   return (
@@ -197,18 +200,37 @@ const SettingsSection: React.FC = () => {
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="font-medium text-gray-900">Habit Reminders</p>
-                <p className="text-sm text-gray-600">Get reminded about your daily habits</p>
+                <p className="font-medium text-gray-900">Streak Records</p>
+                <p className="text-sm text-gray-600">Get notified when you break habit streak records</p>
               </div>
               <button
-                onClick={() => setNotifications({...notifications, habits: !notifications.habits})}
+                onClick={() => handleNotificationSave({streakRecords: !state.user.notifications.streakRecords})}
                 className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                  notifications.habits ? 'bg-blue-600' : 'bg-gray-200'
+                  state.user.notifications.streakRecords ? 'bg-blue-600' : 'bg-gray-200'
                 }`}
               >
                 <span
                   className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                    notifications.habits ? 'translate-x-6' : 'translate-x-1'
+                    state.user.notifications.streakRecords ? 'translate-x-6' : 'translate-x-1'
+                  }`}
+                />
+              </button>
+            </div>
+
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="font-medium text-gray-900">Habit Reminders</p>
+                <p className="text-sm text-gray-600">Get reminded about your daily habits</p>
+              </div>
+              <button
+                onClick={() => handleNotificationSave({habitReminders: !state.user.notifications.habitReminders})}
+                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+                  state.user.notifications.habitReminders ? 'bg-blue-600' : 'bg-gray-200'
+                }`}
+              >
+                <span
+                  className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                    state.user.notifications.habitReminders ? 'translate-x-6' : 'translate-x-1'
                   }`}
                 />
               </button>
@@ -220,14 +242,14 @@ const SettingsSection: React.FC = () => {
                 <p className="text-sm text-gray-600">Notifications for upcoming task deadlines</p>
               </div>
               <button
-                onClick={() => setNotifications({...notifications, tasks: !notifications.tasks})}
+                onClick={() => handleNotificationSave({taskDeadlines: !state.user.notifications.taskDeadlines})}
                 className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                  notifications.tasks ? 'bg-blue-600' : 'bg-gray-200'
+                  state.user.notifications.taskDeadlines ? 'bg-blue-600' : 'bg-gray-200'
                 }`}
               >
                 <span
                   className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                    notifications.tasks ? 'translate-x-6' : 'translate-x-1'
+                    state.user.notifications.taskDeadlines ? 'translate-x-6' : 'translate-x-1'
                   }`}
                 />
               </button>
@@ -239,33 +261,14 @@ const SettingsSection: React.FC = () => {
                 <p className="text-sm text-gray-600">Weekly progress reports</p>
               </div>
               <button
-                onClick={() => setNotifications({...notifications, weekly: !notifications.weekly})}
+                onClick={() => handleNotificationSave({weeklyProgress: !state.user.notifications.weeklyProgress})}
                 className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                  notifications.weekly ? 'bg-blue-600' : 'bg-gray-200'
+                  state.user.notifications.weeklyProgress ? 'bg-blue-600' : 'bg-gray-200'
                 }`}
               >
                 <span
                   className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                    notifications.weekly ? 'translate-x-6' : 'translate-x-1'
-                  }`}
-                />
-              </button>
-            </div>
-
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="font-medium text-gray-900">Email Notifications</p>
-                <p className="text-sm text-gray-600">Receive notifications via email</p>
-              </div>
-              <button
-                onClick={() => setNotifications({...notifications, email: !notifications.email})}
-                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                  notifications.email ? 'bg-blue-600' : 'bg-gray-200'
-                }`}
-              >
-                <span
-                  className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                    notifications.email ? 'translate-x-6' : 'translate-x-1'
+                    state.user.notifications.weeklyProgress ? 'translate-x-6' : 'translate-x-1'
                   }`}
                 />
               </button>
