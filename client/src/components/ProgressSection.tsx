@@ -202,7 +202,7 @@ const ProgressSection: React.FC = () => {
                         aspect-square rounded-sm flex items-center justify-center text-xs
                         ${item.day ? getIntensityColor(item.intensity, colorScheme) : ''}
                         ${item.day ? 'hover:ring-2 hover:ring-gray-300 cursor-pointer' : ''}
-                        ${item.intensity > 2 ? 'text-white' : 'text-gray-700'}
+                        ${item.intensity > 2 ? 'text-white' : 'text-gray-700 dark:text-gray-300'}
                       `}
                       title={item.day ? `${item.intensity} ${tag} completions on day ${item.day}` : ''}
                     >
