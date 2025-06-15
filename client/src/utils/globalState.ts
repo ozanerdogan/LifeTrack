@@ -427,16 +427,7 @@ export const completeHabit = (id: string) => {
     const newStreak = isPositive ? habit.streak + 1 : 0;
     const isNewRecord = isPositive && newStreak > habit.streak && newStreak > 1;
 
-    // Show streak record notification if enabled
-    if (isNewRecord && state.user.notifications.streakRecords) {
-      addNotification({
-        type: "streak_record",
-        title: "🔥 New Streak Record!",
-        message: `You've reached a ${newStreak}-day streak for "${habit.title}"!`,
-      });
-    }
-
-    return {
+    const newState = {
       ...state,
       habits: state.habits.map((h) =>
         h.id === id
@@ -468,6 +459,23 @@ export const completeHabit = (id: string) => {
         ...state.history,
       ],
     };
+
+    // Add streak record notification after state update
+    if (isNewRecord && state.user.notifications.streakRecords) {
+      newState.notifications = [
+        {
+          id: generateId(),
+          type: "streak_record" as const,
+          title: "🔥 New Streak Record!",
+          message: `You've reached a ${newStreak}-day streak for "${habit.title}"!`,
+          timestamp: new Date().toISOString(),
+          read: false,
+        },
+        ...newState.notifications,
+      ];
+    }
+
+    return newState;
   });
 };
 

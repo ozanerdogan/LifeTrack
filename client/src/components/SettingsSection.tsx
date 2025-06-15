@@ -44,9 +44,9 @@ const SettingsSection: React.FC = () => {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div>
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">Settings</h1>
-        <p className="text-gray-600">Customize your LifeTrack experience</p>
+      <div className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-xl p-6 border border-gray-200/50 dark:border-gray-700/50">
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Settings</h1>
+        <p className="text-gray-600 dark:text-gray-300">Customize your LifeTrack experience</p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">

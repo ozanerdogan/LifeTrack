@@ -8,7 +8,7 @@ import SettingsSection from './components/SettingsSection';
 import HelpSection from './components/HelpSection';
 import ProfileSection from './components/ProfileSection';
 import LoginPage from './components/LoginPage';
-import { getState, subscribe, updateUser } from './utils/globalState';
+import { getState, subscribe, updateUser, addNotification } from './utils/globalState';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -20,6 +20,17 @@ function App() {
   useEffect(() => {
     return subscribe(setGlobalState);
   }, []);
+
+  // Add welcome notification on app start
+  useEffect(() => {
+    if (isLoggedIn) {
+      addNotification({
+        type: "weekly_progress",
+        title: "Welcome to LifeTrack!",
+        message: "Ready to boost your productivity? Start by adding your first task or habit!"
+      });
+    }
+  }, [isLoggedIn]);
 
   // Apply dark mode to document element
   useEffect(() => {
