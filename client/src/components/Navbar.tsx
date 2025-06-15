@@ -109,7 +109,7 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuToggle, onProfileClick, onLogoCli
               className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200"
             >
               <div 
-                className="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-sm"
+                className="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-lg"
                 style={{ 
                   background: `linear-gradient(135deg, ${state.user.avatarBgColor}, ${state.user.avatarBgColor}dd)`
                 }}

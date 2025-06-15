@@ -106,7 +106,7 @@ const ProfileSection: React.FC<ProfileSectionProps> = ({ avatar, setAvatar }) =>
                     background: `linear-gradient(135deg, ${state.user.avatarBgColor}, ${state.user.avatarBgColor}dd)`
                   }}
                 >
-                  <span className="text-white font-bold text-4xl">{avatar || state.user.username.charAt(0).toUpperCase()}</span>
+                  <span className="text-white font-bold text-5xl">{avatar || state.user.username.charAt(0).toUpperCase()}</span>
                 </div>
                 <button 
                   onClick={() => setShowAvatarPicker(!showAvatarPicker)}
