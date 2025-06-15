@@ -119,7 +119,7 @@ const HelpSection: React.FC = () => {
                   <Bug className="w-4 h-4" />
                 </div>
                 <div>
-                  <p className="font-medium text-gray-900">🐞 Report a Bug</p>
+                  <p className="font-medium text-gray-900">Report a Bug</p>
                   <p className="text-sm text-gray-600">Submit a report</p>
                 </div>
               </div>
@@ -129,7 +129,7 @@ const HelpSection: React.FC = () => {
                   <Lightbulb className="w-4 h-4" />
                 </div>
                 <div>
-                  <p className="font-medium text-gray-900">💡 Suggest a Feature</p>
+                  <p className="font-medium text-gray-900">Suggest a Feature</p>
                   <p className="text-sm text-gray-600">Tell us what you'd love</p>
                 </div>
               </div>
