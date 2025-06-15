@@ -20,8 +20,8 @@ function LoginPage({ onLogin }: LoginPageProps) {
     setShowConfirmation(true);
     setTimeout(() => {
       setShowConfirmation(false);
-      setTimeout(() => onLogin(), 300);
-    }, 2000);
+      setTimeout(() => onLogin(), 580);
+    }, 600);
   };
 
   const handleSignup = (e: React.FormEvent) => {
@@ -30,8 +30,8 @@ function LoginPage({ onLogin }: LoginPageProps) {
     setShowConfirmation(true);
     setTimeout(() => {
       setShowConfirmation(false);
-      setTimeout(() => onLogin(), 300);
-    }, 2000);
+      setTimeout(() => onLogin(), 580);
+    }, 600);
   };
 
   const handleForgotPassword = (e: React.FormEvent) => {
@@ -43,8 +43,8 @@ function LoginPage({ onLogin }: LoginPageProps) {
       setTimeout(() => {
         setShowForgotPassword(false);
         setForgotEmail('');
-      }, 300);
-    }, 2000);
+      }, 580);
+    }, 600);
   };
 
   return (
@@ -237,22 +237,13 @@ function LoginPage({ onLogin }: LoginPageProps) {
             <div className="bg-white rounded-lg p-8 max-w-sm w-full mx-4 text-center">
               <div className="mb-6">
                 {confirmationType === 'login' && (
-                  <>
-                    <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <span className="text-2xl font-bold text-gray-600">LT</span>
-                    </div>
-                    <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <Check className="w-8 h-8 text-green-600" />
-                    </div>
-                    <div className="border-t border-gray-200 my-4"></div>
-                    <div className="border-t border-gray-200 my-2"></div>
-                    <div className="border-t border-gray-200 my-2"></div>
-                    <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto">
-                      <Home className="w-6 h-6 text-blue-600" />
-                    </div>
-                    <p className="text-gray-700 mt-4">Welcome back! Redirecting to dashboard...</p>
-                  </>
-                )}
+                    <>
+                      <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <Check className="w-8 h-8 text-green-600" />
+                      </div>
+                      <p className="text-gray-700">Login succesful! Welcome to LifeTrack!</p>
+                    </>
+                  )}
                 {confirmationType === 'signup' && (
                   <>
                     <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">

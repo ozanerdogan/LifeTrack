@@ -99,9 +99,9 @@ const HelpSection: React.FC = () => {
 
         {/* Contact & Social */}
         <div className="space-y-6">
-          {/* Contact Support */}
+          {/* Contact Us */}
           <div className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-xl p-6 border border-gray-200/50 dark:border-gray-700/50">
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Contact Support</h3>
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Contact Us</h3>
             
             <div className="space-y-3">
               <div className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200">
@@ -167,7 +167,7 @@ const HelpSection: React.FC = () => {
                 </div>
                 <div>
                   <p className="font-medium text-gray-900 dark:text-white">Discord</p>
-                  <p className="text-sm text-gray-600 dark:text-gray-300">Community chat</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-300">Join our Discord</p>
                 </div>
               </div>
 
@@ -192,7 +192,7 @@ const HelpSection: React.FC = () => {
                 </div>
                 <div>
                   <p className="font-medium text-gray-900 dark:text-white">GitHub</p>
-                  <p className="text-sm text-gray-600 dark:text-gray-300">Open source projects</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-300">Contribute to LifeTrack!</p>
                 </div>
               </a>
             </div>
