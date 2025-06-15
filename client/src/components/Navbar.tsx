@@ -4,9 +4,10 @@ import { User, Bell, Menu, X } from 'lucide-react';
 interface NavbarProps {
   onMenuToggle: () => void;
   onProfileClick: () => void;
+  onLogoClick: () => void;
 }
 
-const Navbar: React.FC<NavbarProps> = ({ onMenuToggle, onProfileClick }) => {
+const Navbar: React.FC<NavbarProps> = ({ onMenuToggle, onProfileClick, onLogoClick }) => {
   const [showNotifications, setShowNotifications] = useState(false);
   const [notifications, setNotifications] = useState([
     { id: 1, message: 'Welcome to LifeTrack! Start by adding your first task or habit.', read: false }
@@ -31,14 +32,17 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuToggle, onProfileClick }) => {
           </div>
 
           {/* Center - Logo */}
-          <div className="flex items-center space-x-2">
+          <button 
+            onClick={onLogoClick}
+            className="flex items-center space-x-2 hover:opacity-80 transition-opacity duration-200"
+          >
             <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
               <span className="text-white font-bold text-sm">LT</span>
             </div>
             <span className="text-xl font-semibold text-gray-800">
               LifeTrack
             </span>
-          </div>
+          </button>
 
           {/* Right - Profile and Notifications */}
           <div className="flex items-center space-x-3 relative">

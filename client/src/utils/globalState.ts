@@ -41,6 +41,12 @@ export interface User {
   timezone: string;
   dateFormat: 'MM/DD/YYYY' | 'DD/MM/YYYY' | 'YYYY-MM-DD';
   darkMode: boolean;
+  notifications: {
+    streakRecords: boolean;
+    habitReminders: boolean;
+    taskDeadlines: boolean;
+    weeklyProgress: boolean;
+  };
 }
 
 export interface AppState {
@@ -90,6 +96,12 @@ const initialState: AppState = {
     timezone: "America/New_York",
     dateFormat: "MM/DD/YYYY",
     darkMode: false,
+    notifications: {
+      streakRecords: true,
+      habitReminders: true,
+      taskDeadlines: true,
+      weeklyProgress: true,
+    },
   },
   todos: [
     {
@@ -401,13 +413,23 @@ export const completeHabit = (id: string) => {
     );
     const newLevel = Math.floor(newExp / 10) + 1;
 
+    const newStreak = isPositive ? habit.streak + 1 : 0;
+    const isNewRecord = isPositive && newStreak > habit.streak && newStreak > 1;
+
+    // Show streak record notification if enabled
+    if (isNewRecord && state.user.notifications.streakRecords) {
+      setTimeout(() => {
+        alert(`🔥 New streak record! You've reached a ${newStreak}-day streak for "${habit.title}"!`);
+      }, 100);
+    }
+
     return {
       ...state,
       habits: state.habits.map((h) =>
         h.id === id
           ? {
               ...h,
-              streak: isPositive ? h.streak + 1 : 0,
+              streak: newStreak,
               lastCompleted: new Date().toISOString().split("T")[0],
             }
           : h,

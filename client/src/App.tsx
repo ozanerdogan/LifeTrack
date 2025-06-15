@@ -50,6 +50,11 @@ function App() {
     setActiveSection(section);
   };
 
+  const handleLogoClick = () => {
+    setShowProfile(false);
+    setActiveSection('home');
+  };
+
   const handleLogin = () => {
     setIsLoggedIn(true);
   };
