@@ -605,61 +605,24 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
     <>
       {/* User stats */}
       <div className="relative bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-blue-900/20 dark:via-indigo-900/20 dark:to-purple-900/20 backdrop-blur-sm rounded-xl p-6 border border-gray-200/50 dark:border-gray-700/50 mb-6 overflow-hidden">
-        {/* Enhanced Forest background - desktop only */}
-        <div className="hidden md:block absolute inset-0 opacity-4 dark:opacity-2 overflow-hidden text-gray-400">
-          <svg viewBox="0 0 600 250" className="w-full h-full object-cover" preserveAspectRatio="xMaxYMax slice">
-            {/* Background hills */}
-            <path d="M0 250 Q150 180 300 190 Q450 200 600 170 L600 250 Z" fill="currentColor" opacity="0.1" />
+        {/* Simple Forest background - right side only */}
+        <div className="absolute right-0 top-0 bottom-0 w-1/3 opacity-6 dark:opacity-3 overflow-hidden">
+          <svg viewBox="0 0 300 150" className="w-full h-full">
+            {/* Simple tree silhouettes */}
+            <path d="M250 150 L250 90 L240 90 L255 50 L240 50 L255 20 L270 50 L255 50 L270 90 L260 90 L260 150 Z" fill="currentColor" />
+            <path d="M220 150 L220 100 L210 100 L225 60 L210 60 L225 30 L240 60 L225 60 L240 100 L230 100 L230 150 Z" fill="currentColor" />
+            <path d="M280 150 L280 95 L270 95 L285 55 L270 55 L285 25 L300 55 L285 55 L300 95 L290 95 L290 150 Z" fill="currentColor" />
+            <path d="M190 150 L190 110 L180 110 L195 70 L180 70 L195 40 L210 70 L195 70 L210 110 L200 110 L200 150 Z" fill="currentColor" />
+            <path d="M160 150 L160 120 L150 120 L165 80 L150 80 L165 50 L180 80 L165 80 L180 120 L170 120 L170 150 Z" fill="currentColor" />
             
-            {/* Large realistic trees */}
-            <g opacity="0.8">
-              {/* Tree 1 - Large Pine */}
-              <path d="M480 250 L480 120 Q475 115 470 120 Q465 125 470 130 Q475 135 480 130 Q485 125 490 130 Q495 135 490 140 Q485 145 490 150 Q495 155 490 160 Q485 165 490 170 Q495 175 490 180 Q485 185 490 190 Q495 195 490 200 Q485 205 490 210 Q495 215 490 220 Q485 225 490 230 Q495 235 490 240 Q485 245 490 250 Z" fill="currentColor" />
-              <rect x="476" y="220" width="8" height="30" fill="currentColor" opacity="0.6" />
-              
-              {/* Tree 2 - Medium Oak */}
-              <circle cx="420" cy="140" r="25" fill="currentColor" opacity="0.7" />
-              <circle cx="415" cy="135" r="20" fill="currentColor" opacity="0.6" />
-              <circle cx="425" cy="135" r="18" fill="currentColor" opacity="0.6" />
-              <circle cx="420" cy="150" r="22" fill="currentColor" opacity="0.5" />
-              <rect x="416" y="165" width="8" height="85" fill="currentColor" opacity="0.6" />
-              
-              {/* Tree 3 - Tall Pine */}
-              <path d="M360 250 L360 100 Q355 95 350 100 Q345 105 350 110 Q355 115 360 110 Q365 105 370 110 Q375 115 370 120 Q365 125 370 130 Q375 135 370 140 Q365 145 370 150 Q375 155 370 160 Q365 165 370 170 Q375 175 370 180 Q365 185 370 190 Q375 195 370 200 Q365 205 370 210 Q375 215 370 220 Q365 225 370 230 Q375 235 370 240 Q365 245 370 250 Z" fill="currentColor" />
-              <rect x="356" y="210" width="8" height="40" fill="currentColor" opacity="0.6" />
-            </g>
+            {/* Medium trees */}
+            <path d="M270 150 L270 125 L265 125 L275 105 L265 105 L275 95 L285 105 L275 105 L285 125 L280 125 L280 150 Z" fill="currentColor" opacity="0.7" />
+            <path d="M240 150 L240 130 L235 130 L245 110 L235 110 L245 100 L255 110 L245 110 L255 130 L250 130 L250 150 Z" fill="currentColor" opacity="0.7" />
+            <path d="M210 150 L210 135 L205 135 L215 115 L205 115 L215 105 L225 115 L215 115 L225 135 L220 135 L220 150 Z" fill="currentColor" opacity="0.7" />
             
-            {/* Medium trees layer */}
-            <g opacity="0.6">
-              {/* Tree 4 - Maple */}
-              <circle cx="300" cy="160" r="20" fill="currentColor" />
-              <circle cx="295" cy="155" r="15" fill="currentColor" opacity="0.8" />
-              <circle cx="305" cy="155" r="16" fill="currentColor" opacity="0.8" />
-              <rect x="296" y="180" width="8" height="70" fill="currentColor" opacity="0.7" />
-              
-              {/* Tree 5 - Small Pine */}
-              <path d="M240 250 L240 150 Q235 145 230 150 Q225 155 230 160 Q235 165 240 160 Q245 155 250 160 Q255 165 250 170 Q245 175 250 180 Q255 185 250 190 Q245 195 250 200 Q255 205 250 210 Q245 215 250 220 Q255 225 250 230 Q245 235 250 240 Q255 245 250 250 Z" fill="currentColor" />
-              <rect x="236" y="220" width="8" height="30" fill="currentColor" opacity="0.7" />
-              
-              {/* Tree 6 - Birch */}
-              <ellipse cx="180" cy="170" rx="12" ry="25" fill="currentColor" opacity="0.8" />
-              <ellipse cx="175" cy="165" rx="10" ry="20" fill="currentColor" opacity="0.7" />
-              <ellipse cx="185" cy="165" rx="10" ry="22" fill="currentColor" opacity="0.7" />
-              <rect x="176" y="195" width="8" height="55" fill="currentColor" opacity="0.8" />
-            </g>
-            
-            {/* Small trees and bushes */}
-            <g opacity="0.4">
-              {/* Small bushes */}
-              <circle cx="120" cy="220" r="12" fill="currentColor" />
-              <circle cx="60" cy="230" r="10" fill="currentColor" />
-              <circle cx="500" cy="210" r="8" fill="currentColor" />
-              <circle cx="540" cy="220" r="10" fill="currentColor" />
-              
-              {/* Tiny trees */}
-              <path d="M150 250 L150 200 Q145 195 140 200 Q135 205 140 210 Q145 215 150 210 Q155 205 160 210 Q165 215 160 220 Q155 225 160 230 Q165 235 160 240 Q155 245 160 250 Z" fill="currentColor" />
-              <rect x="146" y="235" width="8" height="15" fill="currentColor" opacity="0.8" />
-            </g>
+            {/* Small trees */}
+            <path d="M180 150 L180 140 L175 140 L185 125 L175 125 L185 115 L195 125 L185 125 L195 140 L190 140 L190 150 Z" fill="currentColor" opacity="0.5" />
+            <path d="M150 150 L150 142 L145 142 L155 127 L145 127 L155 117 L165 127 L155 127 L165 142 L160 142 L160 150 Z" fill="currentColor" opacity="0.5" />
           </svg>
         </div>
           {/* Responsive layout */}
