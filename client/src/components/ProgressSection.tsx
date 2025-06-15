@@ -1,11 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { Calendar, TrendingUp, Target, CheckCircle, Tag } from 'lucide-react';
+import { Calendar, TrendingUp, Target, CheckCircle, Tag, ChevronDown, ChevronRight } from 'lucide-react';
 import { getState, subscribe } from '../utils/globalState';
 
 const ProgressSection: React.FC = () => {
   const [state, setState] = useState(getState());
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
+  const [collapsedCalendars, setCollapsedCalendars] = useState<Set<string>>(new Set());
+
+  const toggleCalendar = (tag: string) => {
+    const newCollapsed = new Set(collapsedCalendars);
+    if (newCollapsed.has(tag)) {
+      newCollapsed.delete(tag);
+    } else {
+      newCollapsed.add(tag);
+    }
+    setCollapsedCalendars(newCollapsed);
+  };
   
   useEffect(() => {
     return subscribe(setState);
@@ -176,14 +187,28 @@ const ProgressSection: React.FC = () => {
                   </div>
                 </div>
                 
-                <div className="text-right">
-                  <p className={`text-2xl font-bold ${colorScheme.text}`}>{stats.completedItems}</p>
-                  <p className="text-sm text-gray-600 dark:text-gray-300">completions</p>
+                <div className="flex items-center space-x-3">
+                  <div className="text-right">
+                    <p className={`text-2xl font-bold ${colorScheme.text}`}>{stats.completedItems}</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-300">completions</p>
+                  </div>
+                  
+                  {/* Mobile-only collapse button */}
+                  <button
+                    onClick={() => toggleCalendar(tag)}
+                    className="md:hidden p-2 hover:bg-gray-100 dark:hover:bg-gray-600 rounded-lg transition-colors"
+                  >
+                    {collapsedCalendars.has(tag) ? (
+                      <ChevronRight className="w-5 h-5 text-gray-500 dark:text-gray-400" />
+                    ) : (
+                      <ChevronDown className="w-5 h-5 text-gray-500 dark:text-gray-400" />
+                    )}
+                  </button>
                 </div>
               </div>
 
-              {/* Calendar Grid */}
-              <div className="space-y-2">
+              {/* Calendar Grid - collapsible on mobile */}
+              <div className={`space-y-2 ${collapsedCalendars.has(tag) ? 'md:block hidden' : 'block'}`}>
                 {/* Day headers */}
                 <div className="grid grid-cols-7 gap-1 mb-2">
                   {dayNames.map(day => (
@@ -212,8 +237,8 @@ const ProgressSection: React.FC = () => {
                 </div>
               </div>
 
-              {/* Legend and Stats */}
-              <div className="flex items-center justify-between mt-4 pt-4 border-t border-gray-200 dark:border-gray-600">
+              {/* Legend and Stats - also collapsible on mobile */}
+              <div className={`flex items-center justify-between mt-4 pt-4 border-t border-gray-200 dark:border-gray-600 ${collapsedCalendars.has(tag) ? 'md:flex hidden' : 'flex'}`}>
                 <div className="flex items-center space-x-2">
                   <span className="text-xs text-gray-600 dark:text-gray-400">Less</span>
                   <div className="flex space-x-1">
