@@ -794,7 +794,7 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
                 </button>
               </div>
             </div>
-            <div className="p-4 space-y-3 max-h-96 overflow-y-auto">
+            <div className={`p-4 space-y-3 max-h-96 overflow-y-auto ${collapsedSections.has('todos') ? 'md:block hidden' : 'block'}`}>
               {filteredTodos.length === 0 ? (
                 <div className="text-center py-8 text-gray-500 dark:text-gray-400">
                   <Target className="w-12 h-12 mx-auto mb-3 text-gray-300 dark:text-gray-600" />

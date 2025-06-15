@@ -15,7 +15,8 @@ const ProfileSection: React.FC<ProfileSectionProps> = ({ avatar, setAvatar }) =>
     name: state.user.name,
     username: state.user.username,
     bio: state.user.bio,
-    location: state.user.location
+    location: state.user.location,
+    birthday: state.user.birthday
   });
 
   useEffect(() => {

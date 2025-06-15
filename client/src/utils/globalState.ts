@@ -31,6 +31,7 @@ export interface User {
   password: string;
   bio: string;
   location: string;
+  birthday: string;
   joinDate: string;
   avatar: string;
   health: number;
@@ -96,6 +97,7 @@ const initialState: AppState = {
     password: "password123",
     bio: "Productivity enthusiast focused on building better habits and achieving goals.",
     location: "New York, NY",
+    birthday: "1990-05-15",
     joinDate: "2024-01-01",
     avatar: "JD",
     health: 33,
@@ -197,7 +199,24 @@ const initialState: AppState = {
       healthChange: 2,
     },
   ],
-  notifications: [],
+  notifications: [
+    {
+      id: "welcome",
+      type: "weekly_progress",
+      title: "Welcome to LifeTrack!",
+      message: "Start building better habits and achieving your goals with our gamified productivity system.",
+      timestamp: new Date().toISOString(),
+      read: false,
+    },
+    {
+      id: "quick-tip",
+      type: "weekly_progress", 
+      title: "💡 Quick Tip",
+      message: "Treat your streak like a high score – don't break it! Find more tips on the help page.",
+      timestamp: new Date().toISOString(),
+      read: false,
+    },
+  ],
 };
 
 // State management
@@ -356,13 +375,13 @@ export const addHabit = (habit: Omit<Habit, "id" | "createdAt" | "streak">) => {
   setState((state) => ({
     ...state,
     habits: [
-      ...state.habits,
       {
         ...habit,
         id: generateId(),
         streak: 0,
         createdAt: new Date().toISOString(),
       },
+      ...state.habits,
     ],
     tags: Array.from(new Set([...state.tags, ...habit.tags])),
     history: [
