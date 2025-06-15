@@ -591,9 +591,9 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-6">
+    <>
       {/* User stats */}
-        <div className="bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-blue-900/20 dark:via-indigo-900/20 dark:to-purple-900/20 backdrop-blur-sm rounded-xl p-6 border border-gray-200/50 dark:border-gray-700/50 mb-6">
+      <div className="bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-blue-900/20 dark:via-indigo-900/20 dark:to-purple-900/20 backdrop-blur-sm rounded-xl p-6 border border-gray-200/50 dark:border-gray-700/50 mb-6">
           <div className="flex items-center space-x-6">
             {/* Avatar - bigger */}
             <div className="w-24 h-24 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-2xl flex-shrink-0">
@@ -930,11 +930,11 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
               )}
             </div>
           </div>
-        </div>
+      </div>
 
       <TodoModal />
       <HabitModal />
-    </div>
+    </>
   );
 };
 
