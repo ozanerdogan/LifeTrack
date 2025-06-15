@@ -486,6 +486,12 @@ export const completeHabit = (id: string) => {
       Math.min(state.user.maxHealth, state.user.health + healthChange),
     );
     const newLevel = Math.floor(newExp / 10) + 1;
+    const oldLevel = state.user.level;
+
+    // Check for unlocked avatars when leveling up
+    if (newLevel > oldLevel) {
+      setTimeout(() => checkForUnlockedAvatars(oldLevel, newLevel), 100);
+    }
 
     const newStreak = isPositive ? habit.streak + 1 : 0;
     const isNewRecord = isPositive && newStreak > habit.streak && newStreak > 1;
