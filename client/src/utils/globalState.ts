@@ -48,7 +48,7 @@ export interface AppState {
 export interface HistoryEntry {
   id: string;
   type: "todo" | "habit";
-  action: "completed" | "added" | "edited" | "deleted";
+  action: "completed" | "uncompleted" | "added" | "edited" | "deleted";
   title: string;
   tags: string[];
   difficulty: "easy" | "medium" | "hard" | "extreme";
@@ -279,6 +279,44 @@ export const completeTodo = (id: string) => {
   });
 };
 
+export const uncompleteTodo = (id: string) => {
+  setState((state) => {
+    const todo = state.todos.find((t) => t.id === id);
+    if (!todo || !todo.completed) return state;
+
+    const difficultyValue = DIFFICULTY_VALUES[todo.difficulty];
+    const newExp = Math.max(0, state.user.exp - difficultyValue.exp);
+    const newLevel = Math.floor(newExp / 10) + 1;
+
+    return {
+      ...state,
+      todos: state.todos.map((t) =>
+        t.id === id
+          ? { ...t, completed: false, completedAt: undefined }
+          : t,
+      ),
+      user: {
+        ...state.user,
+        exp: newExp,
+        level: newLevel,
+      },
+      history: [
+        {
+          id: generateId(),
+          type: "todo",
+          action: "uncompleted",
+          title: todo.title,
+          tags: todo.tags,
+          difficulty: todo.difficulty,
+          timestamp: new Date().toISOString(),
+          expGained: -difficultyValue.exp,
+        },
+        ...state.history,
+      ],
+    };
+  });
+};
+
 export const addHabit = (habit: Omit<Habit, "id" | "createdAt" | "streak">) => {
   setState((state) => ({
     ...state,
@@ -373,6 +411,60 @@ export const completeHabit = (id: string) => {
           id: generateId(),
           type: "habit",
           action: "completed",
+          title: habit.title,
+          tags: habit.tags,
+          difficulty: habit.difficulty,
+          timestamp: new Date().toISOString(),
+          expGained: expChange,
+          healthChange: healthChange,
+        },
+        ...state.history,
+      ],
+    };
+  });
+};
+
+export const uncompleteHabit = (id: string) => {
+  setState((state) => {
+    const habit = state.habits.find((h) => h.id === id);
+    if (!habit || habit.streak === 0) return state;
+
+    const difficultyValue = DIFFICULTY_VALUES[habit.difficulty];
+    const isPositive = habit.type === "positive";
+    const expChange = isPositive ? -difficultyValue.exp : difficultyValue.exp;
+    const healthChange = isPositive
+      ? -difficultyValue.health
+      : difficultyValue.health;
+
+    const newExp = Math.max(0, state.user.exp + expChange);
+    const newHealth = Math.max(
+      0,
+      Math.min(state.user.maxHealth, state.user.health + healthChange),
+    );
+    const newLevel = Math.floor(newExp / 10) + 1;
+
+    return {
+      ...state,
+      habits: state.habits.map((h) =>
+        h.id === id
+          ? {
+              ...h,
+              streak: Math.max(0, h.streak - 1),
+              lastCompleted: h.streak <= 1 ? undefined : h.lastCompleted,
+            }
+          : h,
+      ),
+      user: {
+        ...state.user,
+        exp: newExp,
+        health: newHealth,
+        level: newLevel,
+      },
+      history: [
+        {
+          id: generateId(),
+          type: "habit",
+          action: "uncompleted",
           title: habit.title,
           tags: habit.tags,
           difficulty: habit.difficulty,

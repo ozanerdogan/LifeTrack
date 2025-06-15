@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Plus, CheckCircle, Circle, Target, Flame, TrendingUp, Calendar, Heart, Star, Search, Filter, Minus, X, MoreVertical, Edit, Trash2 } from 'lucide-react';
-import { getState, subscribe, addTodo, updateTodo, completeTodo, deleteTodo, addHabit, updateHabit, completeHabit, deleteHabit, addTag, Todo, Habit } from '../utils/globalState';
+import { Plus, CheckCircle, Circle, Target, Flame, TrendingUp, Calendar, Heart, Star, Search, Filter, Minus, X, MoreVertical, Edit, Trash2, Undo } from 'lucide-react';
+import { getState, subscribe, addTodo, updateTodo, completeTodo, uncompleteTodo, deleteTodo, addHabit, updateHabit, completeHabit, uncompleteHabit, deleteHabit, addTag, Todo, Habit } from '../utils/globalState';
 
 interface DashboardProps {
   avatar: string;
@@ -47,8 +47,16 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
     completeTodo(id);
   };
 
+  const handleTodoUncomplete = (id: string) => {
+    uncompleteTodo(id);
+  };
+
   const handleHabitComplete = (id: string) => {
     completeHabit(id);
+  };
+
+  const handleHabitUncomplete = (id: string) => {
+    uncompleteHabit(id);
   };
 
   const handleEditTodo = (todo: Todo) => {
