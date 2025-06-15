@@ -184,7 +184,7 @@ const SettingsSection: React.FC = () => {
                   updateUser({ darkMode: newValue });
                 }}
                 className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                  siteForm.darkMode ? 'bg-blue-600' : 'bg-gray-200'
+                  siteForm.darkMode ? 'bg-blue-600' : 'bg-gray-300'
                 }`}
               >
                 <span
@@ -217,7 +217,7 @@ const SettingsSection: React.FC = () => {
               <button
                 onClick={() => handleNotificationSave({streakRecords: !state.user.notifications.streakRecords})}
                 className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors flex-shrink-0 ${
-                  state.user.notifications.streakRecords ? 'bg-blue-600' : 'bg-gray-200'
+                  state.user.notifications.streakRecords ? 'bg-blue-600' : 'bg-gray-300'
                 }`}
               >
                 <span
@@ -236,7 +236,7 @@ const SettingsSection: React.FC = () => {
               <button
                 onClick={() => handleNotificationSave({habitReminders: !state.user.notifications.habitReminders})}
                 className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors flex-shrink-0 ${
-                  state.user.notifications.habitReminders ? 'bg-blue-600' : 'bg-gray-200'
+                  state.user.notifications.habitReminders ? 'bg-blue-600' : 'bg-gray-300'
                 }`}
               >
                 <span
@@ -255,7 +255,7 @@ const SettingsSection: React.FC = () => {
               <button
                 onClick={() => handleNotificationSave({taskDeadlines: !state.user.notifications.taskDeadlines})}
                 className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors flex-shrink-0 ${
-                  state.user.notifications.taskDeadlines ? 'bg-blue-600' : 'bg-gray-200'
+                  state.user.notifications.taskDeadlines ? 'bg-blue-600' : 'bg-gray-300'
                 }`}
               >
                 <span
@@ -274,7 +274,7 @@ const SettingsSection: React.FC = () => {
               <button
                 onClick={() => handleNotificationSave({weeklyProgress: !state.user.notifications.weeklyProgress})}
                 className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors flex-shrink-0 ${
-                  state.user.notifications.weeklyProgress ? 'bg-blue-600' : 'bg-gray-200'
+                  state.user.notifications.weeklyProgress ? 'bg-blue-600' : 'bg-gray-300'
                 }`}
               >
                 <span
