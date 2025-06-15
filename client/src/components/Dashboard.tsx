@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { Plus, CheckCircle, Circle, Target, Flame, TrendingUp, Calendar, Heart, Star, Search, Filter, Minus, X, MoreVertical, Edit, Trash2, Undo } from 'lucide-react';
 import { getState, subscribe, addTodo, updateTodo, completeTodo, uncompleteTodo, deleteTodo, addHabit, updateHabit, completeHabit, uncompleteHabit, deleteHabit, addTag, formatDate, Todo, Habit } from '../utils/globalState';
 
@@ -88,15 +88,15 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
     }
   };
 
-  function TodoModal() {
-    const [formData, setFormData] = useState({
+  const TodoModal = useMemo(() => function TodoModal() {
+    const [formData, setFormData] = useState(() => ({
       title: editingTodo?.title || '',
       description: editingTodo?.description || '',
       difficulty: editingTodo?.difficulty || 'easy',
       tags: editingTodo?.tags || [],
       dueDate: editingTodo?.dueDate || '',
       checklist: editingTodo?.checklist || []
-    });
+    }));
 
     const [newChecklistItem, setNewChecklistItem] = useState('');
     const [showTagDropdown, setShowTagDropdown] = useState(false);
@@ -322,7 +322,7 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
                         />
                         <button
                           type="button"
-                          onMouseDown={(e) => {
+                          onClick={(e) => {
                             e.preventDefault();
                             e.stopPropagation();
                             handleAddNewTag(newTagName);
@@ -364,15 +364,15 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
     );
   }
 
-  function HabitModal() {
-    const [formData, setFormData] = useState({
+  const HabitModal = useMemo(() => function HabitModal() {
+    const [formData, setFormData] = useState(() => ({
       title: editingHabit?.title || '',
       description: editingHabit?.description || '',
       type: editingHabit?.type || 'positive',
       difficulty: editingHabit?.difficulty || 'easy',
       tags: editingHabit?.tags || [],
       resetPeriod: 'daily'
-    });
+    }));
 
     const [showTagDropdown, setShowTagDropdown] = useState(false);
     const [newTagName, setNewTagName] = useState('');
@@ -542,7 +542,7 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
                         />
                         <button
                           type="button"
-                          onMouseDown={(e) => {
+                          onClick={(e) => {
                             e.preventDefault();
                             e.stopPropagation();
                             handleAddNewTag(newTagName);
