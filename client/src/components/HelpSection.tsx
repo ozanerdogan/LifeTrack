@@ -100,84 +100,84 @@ const HelpSection: React.FC = () => {
         {/* Contact & Social */}
         <div className="space-y-6">
           {/* Contact Support */}
-          <div className="bg-white/70 backdrop-blur-sm rounded-xl p-6 border border-gray-200/50">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Contact Support</h3>
+          <div className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-xl p-6 border border-gray-200/50 dark:border-gray-700/50">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Contact Support</h3>
             
             <div className="space-y-3">
-              <div className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors duration-200">
-                <div className="p-2 bg-blue-50 text-blue-600 rounded-lg">
+              <div className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200">
+                <div className="p-2 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-lg">
                   <Mail className="w-4 h-4" />
                 </div>
                 <div>
-                  <p className="font-medium text-gray-900">Email Support</p>
-                  <p className="text-sm text-gray-600">support@lifetrack.com</p>
+                  <p className="font-medium text-gray-900 dark:text-white">Email Support</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-300">support@lifetrack.com</p>
                 </div>
               </div>
 
-              <div className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors duration-200">
-                <div className="p-2 bg-red-50 text-red-600 rounded-lg">
+              <div className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200">
+                <div className="p-2 bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded-lg">
                   <Bug className="w-4 h-4" />
                 </div>
                 <div>
-                  <p className="font-medium text-gray-900">Report a Bug</p>
-                  <p className="text-sm text-gray-600">Submit a report</p>
+                  <p className="font-medium text-gray-900 dark:text-white">Report a Bug</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-300">Submit a report</p>
                 </div>
               </div>
 
-              <div className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors duration-200">
-                <div className="p-2 bg-yellow-50 text-yellow-600 rounded-lg">
+              <div className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200">
+                <div className="p-2 bg-yellow-50 dark:bg-yellow-900/30 text-yellow-600 dark:text-yellow-400 rounded-lg">
                   <Lightbulb className="w-4 h-4" />
                 </div>
                 <div>
-                  <p className="font-medium text-gray-900">Suggest a Feature</p>
-                  <p className="text-sm text-gray-600">Tell us what you'd love</p>
+                  <p className="font-medium text-gray-900 dark:text-white">Suggest a Feature</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-300">Tell us what you'd love</p>
                 </div>
               </div>
             </div>
           </div>
 
           {/* Social Media */}
-          <div className="bg-white/70 backdrop-blur-sm rounded-xl p-6 border border-gray-200/50">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Follow Us</h3>
+          <div className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-xl p-6 border border-gray-200/50 dark:border-gray-700/50">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Follow Us</h3>
             
             <div className="space-y-3">
-              <div className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors duration-200">
-                <div className="p-2 bg-blue-50 text-blue-600 rounded-lg">
+              <div className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200">
+                <div className="p-2 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-lg">
                   <Twitter className="w-4 h-4" />
                 </div>
                 <div>
-                  <p className="font-medium text-gray-900">Twitter</p>
-                  <p className="text-sm text-gray-600">@lifetrack</p>
+                  <p className="font-medium text-gray-900 dark:text-white">Twitter</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-300">@lifetrack</p>
                 </div>
               </div>
 
-              <div className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors duration-200">
-                <div className="p-2 bg-red-50 text-red-600 rounded-lg">
+              <div className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200">
+                <div className="p-2 bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded-lg">
                   <Youtube className="w-4 h-4" />
                 </div>
                 <div>
-                  <p className="font-medium text-gray-900">YouTube</p>
-                  <p className="text-sm text-gray-600">Tutorials & updates</p>
+                  <p className="font-medium text-gray-900 dark:text-white">YouTube</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-300">Tutorials & updates</p>
                 </div>
               </div>
 
-              <div className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors duration-200">
-                <div className="p-2 bg-indigo-50 text-indigo-600 rounded-lg">
+              <div className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200">
+                <div className="p-2 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 rounded-lg">
                   <FaDiscord className="w-4 h-4" />
                 </div>
                 <div>
-                  <p className="font-medium text-gray-900">Discord</p>
-                  <p className="text-sm text-gray-600">Community chat</p>
+                  <p className="font-medium text-gray-900 dark:text-white">Discord</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-300">Community chat</p>
                 </div>
               </div>
 
-              <div className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors duration-200">
-                <div className="p-2 bg-orange-50 text-orange-600 rounded-lg">
+              <div className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200">
+                <div className="p-2 bg-orange-50 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 rounded-lg">
                   <FaReddit className="w-4 h-4" />
                 </div>
                 <div>
-                  <p className="font-medium text-gray-900">Reddit</p>
-                  <p className="text-sm text-gray-600">r/LifeTrack</p>
+                  <p className="font-medium text-gray-900 dark:text-white">Reddit</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-300">r/LifeTrack</p>
                 </div>
               </div>
 
@@ -185,23 +185,23 @@ const HelpSection: React.FC = () => {
                 href="https://github.com/ozanerdogan/LifeTrack"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors duration-200"
+                className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200"
               >
-                <div className="p-2 bg-gray-50 text-gray-600 rounded-lg">
+                <div className="p-2 bg-gray-50 dark:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-lg">
                   <Github className="w-4 h-4" />
                 </div>
                 <div>
-                  <p className="font-medium text-gray-900">GitHub</p>
-                  <p className="text-sm text-gray-600">Open source projects</p>
+                  <p className="font-medium text-gray-900 dark:text-white">GitHub</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-300">Open source projects</p>
                 </div>
               </a>
             </div>
           </div>
 
           {/* Quick Tips */}
-          <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-xl p-6 border border-blue-200/50">
-            <h3 className="text-lg font-semibold text-gray-900 mb-3">💡 Quick Tips</h3>
-            <ul className="space-y-2 text-sm text-gray-700">
+          <div className="bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-xl p-6 border border-blue-200/50 dark:border-blue-700/50">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">💡 Quick Tips</h3>
+            <ul className="space-y-2 text-sm text-gray-700 dark:text-gray-300">
               <li>🕹️ Treat your streak like a high score – don't break it!</li>
               <li>🎯 Set "easy wins" to build habit momentum.</li>
               <li>🧩 Mix tasks with fun – name tasks like game quests.</li>
