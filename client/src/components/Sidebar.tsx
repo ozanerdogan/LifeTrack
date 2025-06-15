@@ -31,11 +31,11 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, activeSection, onSectionChang
       
       {/* Sidebar */}
       <aside className={`
-        fixed md:static inset-y-0 left-0 z-50
+        fixed md:static left-0 z-50
         w-64 bg-white/90 backdrop-blur-md border-r border-gray-200/50
         transform transition-transform duration-300 ease-in-out
         ${isOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
-        mt-16 md:mt-0
+        top-16 md:top-0 bottom-0 md:inset-y-0
       `}>
         <div className="flex flex-col h-full">
           {/* Close button for mobile */}
