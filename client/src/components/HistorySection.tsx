@@ -146,7 +146,7 @@ const HistorySection: React.FC = () => {
                     
                     {/* Content */}
                     <div className="flex-1 min-w-0">
-                      <div className="flex items-center space-x-2 mb-1">
+                      <div className="flex items-center flex-wrap gap-2 mb-1">
                         <span className={`px-2 py-1 text-xs rounded-full font-medium ${getActionColor(item.action)}`}>
                           {item.action}
                         </span>

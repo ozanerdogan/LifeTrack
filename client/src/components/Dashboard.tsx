@@ -680,15 +680,7 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
                           <Circle className="w-5 h-5" />
                         )}
                       </button>
-                      {todo.completed && (
-                        <button
-                          onClick={() => handleTodoUncomplete(todo.id)}
-                          className="text-gray-400 hover:text-blue-600 opacity-0 group-hover:opacity-100 transition-opacity"
-                          title="Undo completion"
-                        >
-                          <Undo className="w-4 h-4" />
-                        </button>
-                      )}
+
                     </div>
                     <div 
                       className="flex-1 min-w-0 cursor-pointer"
@@ -702,7 +694,7 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
                       {todo.description && (
                         <p className="text-sm text-gray-600 mt-1">{todo.description}</p>
                       )}
-                      <div className="flex items-center space-x-2 mt-2">
+                      <div className="flex items-center flex-wrap gap-2 mt-2">
                         <span className={`px-2 py-1 text-xs rounded-full ${
                           todo.difficulty === 'easy' ? 'bg-green-100 text-green-800' :
                           todo.difficulty === 'medium' ? 'bg-yellow-100 text-yellow-800' :
@@ -821,7 +813,7 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
                         {habit.description && (
                           <p className="text-sm text-gray-600 mt-1">{habit.description}</p>
                         )}
-                        <div className="flex items-center space-x-2 mt-2">
+                        <div className="flex items-center flex-wrap gap-2 mt-2">
                           <span className={`px-2 py-1 text-xs rounded-full ${
                             habit.type === 'positive' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
                           }`}>
