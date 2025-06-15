@@ -560,10 +560,10 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <div className="max-w-6xl mx-auto p-6">
         {/* User stats */}
-        <div className="bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 backdrop-blur-sm rounded-xl p-6 border border-gray-200/50 mb-6">
+        <div className="bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-blue-900/20 dark:via-indigo-900/20 dark:to-purple-900/20 backdrop-blur-sm rounded-xl p-6 border border-gray-200/50 dark:border-gray-700/50 mb-6">
           <div className="flex items-center space-x-6">
             {/* Avatar - bigger */}
             <div className="w-24 h-24 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-2xl flex-shrink-0">
@@ -580,13 +580,13 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
             <div className="flex-1 max-w-md space-y-4">
               <div>
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-base font-medium text-gray-700 flex items-center">
+                  <span className="text-base font-medium text-gray-700 dark:text-gray-300 flex items-center">
                     <Heart className="w-5 h-5 text-red-500 mr-2" />
                     Health
                   </span>
-                  <span className="text-base text-gray-600 font-semibold">{user.health}/{user.maxHealth}</span>
+                  <span className="text-base text-gray-600 dark:text-gray-400 font-semibold">{user.health}/{user.maxHealth}</span>
                 </div>
-                <div className="w-full bg-gray-200 rounded-full h-6">
+                <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-6">
                   <div 
                     className="bg-red-500 h-6 rounded-full transition-all duration-300" 
                     style={{ width: `${(user.health / user.maxHealth) * 100}%` }}
