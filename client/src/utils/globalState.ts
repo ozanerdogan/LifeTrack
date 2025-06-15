@@ -26,7 +26,9 @@ export interface Habit {
 
 export interface User {
   name: string;
+  username: string;
   email: string;
+  password: string;
   bio: string;
   location: string;
   joinDate: string;
@@ -35,6 +37,10 @@ export interface User {
   maxHealth: number;
   exp: number;
   level: number;
+  language: string;
+  timezone: string;
+  dateFormat: 'MM/DD/YYYY' | 'DD/MM/YYYY' | 'YYYY-MM-DD';
+  darkMode: boolean;
 }
 
 export interface AppState {
@@ -69,7 +75,9 @@ export const DIFFICULTY_VALUES = {
 const initialState: AppState = {
   user: {
     name: "John Doe",
+    username: "johndoe",
     email: "john@example.com",
+    password: "password123",
     bio: "Productivity enthusiast focused on building better habits and achieving goals.",
     location: "New York, NY",
     joinDate: "2024-01-01",
@@ -78,6 +86,10 @@ const initialState: AppState = {
     maxHealth: 50,
     exp: 12,
     level: 1,
+    language: "English",
+    timezone: "America/New_York",
+    dateFormat: "MM/DD/YYYY",
+    darkMode: false,
   },
   todos: [
     {
@@ -538,4 +550,24 @@ export const addTag = (tag: string) => {
     ...state,
     tags: Array.from(new Set([...state.tags, tag])),
   }));
+};
+
+// Date formatting utility
+export const formatDate = (dateString: string, format?: 'MM/DD/YYYY' | 'DD/MM/YYYY' | 'YYYY-MM-DD') => {
+  const date = new Date(dateString);
+  const userFormat = format || getState().user.dateFormat;
+  
+  const day = date.getDate().toString().padStart(2, '0');
+  const month = (date.getMonth() + 1).toString().padStart(2, '0');
+  const year = date.getFullYear();
+  
+  switch (userFormat) {
+    case 'DD/MM/YYYY':
+      return `${day}/${month}/${year}`;
+    case 'YYYY-MM-DD':
+      return `${year}-${month}-${day}`;
+    case 'MM/DD/YYYY':
+    default:
+      return `${month}/${day}/${year}`;
+  }
 };
