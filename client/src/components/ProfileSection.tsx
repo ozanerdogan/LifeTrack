@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import { User, Edit, Camera, Award, Calendar, Target, TrendingUp, Settings } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { User, Edit, Camera, Award, Calendar, Target, TrendingUp, Settings, MapPin } from 'lucide-react';
+import { getState, subscribe, updateUser, formatDate } from '../utils/globalState';
 
 interface ProfileSectionProps {
   avatar: string;
@@ -7,15 +8,20 @@ interface ProfileSectionProps {
 }
 
 const ProfileSection: React.FC<ProfileSectionProps> = ({ avatar, setAvatar }) => {
+  const [state, setState] = useState(getState());
   const [isEditing, setIsEditing] = useState(false);
   const [showAvatarPicker, setShowAvatarPicker] = useState(false);
-  const [profile, setProfile] = useState({
-    name: 'John Doe',
-    email: 'john@example.com',
-    bio: 'Productivity enthusiast focused on building better habits and achieving goals.',
-    joinDate: '2024-01-01',
-    location: 'New York, NY'
+  const [profileForm, setProfileForm] = useState({
+    name: state.user.name,
+    username: state.user.username,
+    bio: state.user.bio,
+    location: state.user.location
   });
+
+  useEffect(() => {
+    const unsubscribe = subscribe(setState);
+    return unsubscribe;
+  }, []);
 
   const avatarOptions = [
     '🐱', '🐶', '🐻', '🦊', '🐰', '🐼',
@@ -49,8 +55,8 @@ const ProfileSection: React.FC<ProfileSectionProps> = ({ avatar, setAvatar }) =>
   ];
 
   const handleSave = () => {
+    updateUser(profileForm);
     setIsEditing(false);
-    // In a real app, this would save to backend
   };
 
   const getActivityIcon = (type: string) => {
@@ -76,15 +82,39 @@ const ProfileSection: React.FC<ProfileSectionProps> = ({ avatar, setAvatar }) =>
         <div className="lg:col-span-1">
           <div className="bg-white/70 backdrop-blur-sm rounded-xl p-6 border border-gray-200/50">
             {/* Avatar Section */}
-            <div className="text-center mb-6">
+            <div className="text-center mb-8">
               <div className="relative inline-block">
-                <div className="w-24 h-24 bg-gradient-to-br from-emerald-400 to-blue-500 rounded-full flex items-center justify-center shadow-lg">
-                  <span className="text-white font-bold text-2xl">JD</span>
+                <div className="w-32 h-32 bg-gradient-to-br from-emerald-400 to-blue-500 rounded-full flex items-center justify-center shadow-lg">
+                  <span className="text-white font-bold text-3xl">{avatar || state.user.username.charAt(0).toUpperCase()}</span>
                 </div>
-                <button className="absolute bottom-0 right-0 p-2 bg-white rounded-full shadow-lg border border-gray-200 hover:bg-gray-50 transition-colors duration-200">
+                <button 
+                  onClick={() => setShowAvatarPicker(!showAvatarPicker)}
+                  className="absolute bottom-0 right-0 p-2 bg-white rounded-full shadow-lg border border-gray-200 hover:bg-gray-50 transition-colors duration-200"
+                >
                   <Camera className="w-4 h-4 text-gray-600" />
                 </button>
               </div>
+              
+              {/* Avatar Picker */}
+              {showAvatarPicker && (
+                <div className="mt-4 p-4 bg-gray-50 rounded-lg border">
+                  <h4 className="text-sm font-medium text-gray-700 mb-3">Choose Avatar</h4>
+                  <div className="grid grid-cols-6 gap-2">
+                    {avatarOptions.map((option) => (
+                      <button
+                        key={option}
+                        onClick={() => {
+                          setAvatar(option);
+                          setShowAvatarPicker(false);
+                        }}
+                        className="w-10 h-10 text-lg hover:bg-gray-200 rounded-lg transition-colors duration-200"
+                      >
+                        {option}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Profile Details */}
@@ -92,28 +122,28 @@ const ProfileSection: React.FC<ProfileSectionProps> = ({ avatar, setAvatar }) =>
               {isEditing ? (
                 <>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Name</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Real Name</label>
                     <input
                       type="text"
-                      value={profile.name}
-                      onChange={(e) => setProfile({...profile, name: e.target.value})}
+                      value={profileForm.name}
+                      onChange={(e) => setProfileForm({...profileForm, name: e.target.value})}
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Username</label>
                     <input
-                      type="email"
-                      value={profile.email}
-                      onChange={(e) => setProfile({...profile, email: e.target.value})}
+                      type="text"
+                      value={profileForm.username}
+                      onChange={(e) => setProfileForm({...profileForm, username: e.target.value})}
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     />
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Bio</label>
                     <textarea
-                      value={profile.bio}
-                      onChange={(e) => setProfile({...profile, bio: e.target.value})}
+                      value={profileForm.bio}
+                      onChange={(e) => setProfileForm({...profileForm, bio: e.target.value})}
                       rows={3}
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     />
@@ -122,8 +152,8 @@ const ProfileSection: React.FC<ProfileSectionProps> = ({ avatar, setAvatar }) =>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Location</label>
                     <input
                       type="text"
-                      value={profile.location}
-                      onChange={(e) => setProfile({...profile, location: e.target.value})}
+                      value={profileForm.location}
+                      onChange={(e) => setProfileForm({...profileForm, location: e.target.value})}
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     />
                   </div>
@@ -145,20 +175,20 @@ const ProfileSection: React.FC<ProfileSectionProps> = ({ avatar, setAvatar }) =>
               ) : (
                 <>
                   <div className="text-center">
-                    <h2 className="text-xl font-semibold text-gray-900">{profile.name}</h2>
-                    <p className="text-gray-600">{profile.email}</p>
+                    <h2 className="text-xl font-semibold text-gray-900">@{state.user.username}</h2>
+                    <p className="text-gray-600 text-lg">{state.user.name}</p>
                   </div>
                   
                   <div className="pt-4 border-t border-gray-200">
-                    <p className="text-sm text-gray-700 mb-3">{profile.bio}</p>
+                    <p className="text-sm text-gray-700 mb-3">{state.user.bio}</p>
                     <div className="space-y-2 text-sm text-gray-600">
                       <div className="flex items-center space-x-2">
                         <Calendar className="w-4 h-4" />
-                        <span>Joined {new Date(profile.joinDate).toLocaleDateString()}</span>
+                        <span>Joined {formatDate(state.user.joinDate)}</span>
                       </div>
                       <div className="flex items-center space-x-2">
-                        <User className="w-4 h-4" />
-                        <span>{profile.location}</span>
+                        <MapPin className="w-4 h-4" />
+                        <span>{state.user.location}</span>
                       </div>
                     </div>
                   </div>
@@ -250,7 +280,7 @@ const ProfileSection: React.FC<ProfileSectionProps> = ({ avatar, setAvatar }) =>
                   {getActivityIcon(activity.type)}
                   <div className="flex-1 min-w-0">
                     <p className="text-sm text-gray-900">{activity.action}</p>
-                    <p className="text-xs text-gray-500">{new Date(activity.date).toLocaleDateString()}</p>
+                    <p className="text-xs text-gray-500">{formatDate(activity.date)}</p>
                   </div>
                 </div>
               ))}
