@@ -7,44 +7,84 @@ const HelpSection: React.FC = () => {
 
   const faqs = [
     {
-      question: "What is gamification in LifeTrack?",
-      answer: "LifeTrack uses gamification elements to make productivity fun and engaging. You earn XP (experience points) by completing tasks and maintaining habits, which helps you level up. You can unlock badges for achievements like maintaining streaks or completing milestones. The system includes visual progress tracking with streaks, levels, and rewards to keep you motivated on your productivity journey."
+      question: "How can I customize my profile?",
+      answer: "Click the avatar icon at the top-right corner to access your profile. From there, you can update your name, visible username, bio, birthday, and location. You can also customize your avatar by changing its background and icon, and view your recent activity, stats, and unlocked achievements."
     },
     {
-      question: "How do I earn XP and level up?",
-      answer: "You earn XP by completing todos and maintaining habit streaks. Easy tasks give you small XP rewards, while harder tasks provide more XP. Positive habits give XP when completed, and maintaining streaks provides bonus XP. As you accumulate XP, you'll level up and unlock new achievements and badges."
+      question: "What’s the difference between a to-do and a habit?",
+      answer: "To-dos are one-time tasks that you complete and check off, like 'Finish a report' or 'Buy groceries'. Habits, on the other hand, are recurring actions meant to be tracked over time, such as 'Drink water' or 'Avoid junk food'. Habits are ideal for long-term progress and building consistency."
     },
     {
-      question: "What rewards can I unlock with progress?",
-      answer: "As you progress, you can unlock various achievements and badges like 'First Week', 'Habit Master', 'Task Crusher', and 'Consistency King'. Higher levels unlock new customization options, advanced features, and special recognition for your dedication to personal growth."
+      question: "How do I create a new to-do or habit?",
+      answer: "On the homepage, click the plus (+) buttons in either the To-Dos or Habits sections. To create a to-do, only a title is required. For habits, you’ll also choose a type: positive (something you want to do) or negative (something you want to avoid)."
     },
     {
-      question: "How do I turn on notifications/reminders?",
-      answer: "Go to Settings > Notifications to enable habit reminders and task notifications. You can choose to receive notifications for daily habits, task deadlines, streak reminders, and weekly progress summaries to stay on track with your goals."
+      question: "Can I edit to-dos and habits?",
+      answer: "Yes, you can edit or delete any to-do or habit by clicking the three-dot menu next to it."
     },
     {
-      question: "Is my data secure or private?",
-      answer: "Yes, your data privacy is important to us. All your personal information, tasks, and habits are stored securely. We don't share your personal data with third parties, and you have full control over your information through the Settings page where you can export or manage your data."
+      question: "Can I set due dates or reminders for my to-do?",
+      answer: "Yes, when adding or editing a to-do, you can set a due date and enable reminders so you won’t forget."
     },
     {
-      question: "How do I create a new habit?",
-      answer: "To create a new habit, go to the Habits section and click the 'New Habit' button. Fill in the habit name, description, and set your target frequency. You can also choose a category and color for better organization."
+      question: "How do I mark a to-do as complete?",
+      answer: "Click the checkmark icon to the left of the to-do. If the to-do includes a checklist, you can also mark individual checklist items as complete."
     },
     {
-      question: "Can I edit or delete completed tasks?",
-      answer: "Yes, you can view all your completed tasks in the History section. While you cannot edit completed tasks, you can view their details and completion times. If you need to make changes, you can create a new task with the correct information."
+      question: "What are some sample to-dos?",
+      answer: "Examples include: 'Study for exam', 'Pay electricity bill', 'Call mom', 'Read a book chapter', or 'Go for a run'. You can use sub checklists to use them as shopping lists or study planners."
+    },
+    {
+      question: "What are some sample habits?",
+      answer: "Positive habits: 'Drink 2L of water', 'Read 10 pages', 'Practice coding', 'Meditate for 10 minutes'.\nNegative habits: 'Skip breakfast', 'Smoke', 'Procrastinate work', 'Eat fast food'.\nNegative habits gain streaks for every day you avoid them, and the streak resets if you do them. Positive habits gain a streak for each day you complete them."
     },
     {
       question: "How are habit streaks calculated?",
       answer: "Habit streaks are calculated based on consecutive days of completion. If you complete a habit today and yesterday, your streak is 2 days. Missing a day will reset your streak to 0, but you can start building it again immediately."
     },
     {
+      question: "What is difficulty used for?",
+      answer: "In to-dos, difficulty determines how much experience (EXP) you earn upon completion. In habits, difficulty affects EXP gains and also impacts your health—positive habits increase health when maintained, while negative ones reduce it when broken."
+    },
+    {
+      question: "How can I see my progress?",
+      answer: "You can view your progress through detailed heatmaps on the Progress page, categorized by tags. The History page also provides a full searchable record of your to do and habit activity."
+    },
+    {
       question: "What do the colors in the progress heatmap mean?",
       answer: "The heatmap uses color intensity to show your daily completion rates. Lighter colors indicate fewer completions, while darker colors show higher completion rates. Gray squares represent days with no activity."
     },
     {
-      question: "How can I backup my data?",
-      answer: "You can export all your data from the Settings page under 'Data & Privacy'. This will download a JSON file containing all your tasks, habits, and progress data that you can save as a backup."
+      question: "How can I see history?",
+      answer: "Go to the History page to access detailed filters and search options that help you track past to-dos, habit streaks, and completions."
+    },
+    {
+      question: "How do I earn EXP and level up?",
+      answer: "You earn XP by completing todos and maintaining habit streaks. Easy tasks give you small EXP rewards, while harder tasks provide more EXP. Positive habits give EXP when completed, and doing negative habits decrease EXP. As you accumulate XP, you'll level up and unlock new achievements and profile icons."
+    },
+    {
+      question: "Can I customize my avatar or badges?",
+      answer: "Yes, you can customize your avatar appearance and view unlocked badges from your profile page."
+    },
+    {
+      question: "What are achievements?",
+      answer: "Achievements are special milestones earned by using the app effectively, such as reaching streak goals or completing a certain number of tasks. You can view them on your profile page."
+    },
+    {
+      question: "How do I turn on notifications/reminders?",
+      answer: "Go to Settings > Notifications to enable habit reminders and task notifications. You can choose to receive notifications for daily habits, task deadlines, streak reminders, and weekly progress summaries to stay on track with your goals."
+    },
+    {
+      question: "Can I change the theme or appearance of the app?",
+      answer: "Yes, we currently support Dark Mode. You can toggle it on or off under Settings > Site Settings."
+    },
+    {
+      question: "Can I reorder or group my tasks? How do I create categories or tags?",
+      answer: "You can assign a tag to each to-do and habit. Tags can be created or selected from the tag dropdown in the add/edit page of a task or habit, helping you group and filter tasks easily."
+    },
+    {
+      question: "Is my data secure or private?",
+      answer: "Yes, your data is safe. Currently we store no personal data, literally."
     }
   ];
 
@@ -224,7 +264,7 @@ const HelpSection: React.FC = () => {
             <ul className="space-y-2 text-sm text-gray-700 dark:text-gray-300">
               <li>🕹️ Treat your streak like a high score – don't break it!</li>
               <li>🎯 Set "easy wins" to build habit momentum.</li>
-              <li>🧩 Mix tasks with fun – name tasks like game quests.</li>
+              <li>🧩 Mix tasks with fun – name them like game quests.</li>
               <li>🧘 Don't overload your day – 3–5 core tasks is enough.</li>
               <li>🏷️ Use tags to find tasks faster.</li>
               <li>📆 Review your goals every Sunday.</li>
