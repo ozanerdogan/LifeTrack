@@ -125,7 +125,7 @@ const initialState: AppState = {
       type: "negative",
       difficulty: "easy",
       tags: ["digital-wellness", "productivity"],
-      streak: 0,
+      streak: 4,
       createdAt: "2024-01-05T12:00:00Z",
     },
   ],
