@@ -116,7 +116,11 @@ const SettingsSection: React.FC = () => {
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Language</label>
               <select
                 value={siteForm.language}
-                onChange={(e) => setSiteForm({...siteForm, language: e.target.value})}
+                onChange={(e) => {
+                  const newValue = e.target.value;
+                  setSiteForm({...siteForm, language: newValue});
+                  updateUser({ language: newValue });
+                }}
                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               >
                 <option value="English">English</option>
@@ -131,7 +135,11 @@ const SettingsSection: React.FC = () => {
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Time Zone</label>
               <select
                 value={siteForm.timezone}
-                onChange={(e) => setSiteForm({...siteForm, timezone: e.target.value})}
+                onChange={(e) => {
+                  const newValue = e.target.value;
+                  setSiteForm({...siteForm, timezone: newValue});
+                  updateUser({ timezone: newValue });
+                }}
                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               >
                 <option value="America/New_York">Eastern Time (UTC-5)</option>
@@ -148,7 +156,11 @@ const SettingsSection: React.FC = () => {
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Date Format</label>
               <select
                 value={siteForm.dateFormat}
-                onChange={(e) => setSiteForm({...siteForm, dateFormat: e.target.value as 'MM/DD/YYYY' | 'DD/MM/YYYY' | 'YYYY-MM-DD'})}
+                onChange={(e) => {
+                  const newValue = e.target.value as 'MM/DD/YYYY' | 'DD/MM/YYYY' | 'YYYY-MM-DD';
+                  setSiteForm({...siteForm, dateFormat: newValue});
+                  updateUser({ dateFormat: newValue });
+                }}
                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               >
                 <option value="MM/DD/YYYY">MM/DD/YYYY (12/25/2024)</option>
