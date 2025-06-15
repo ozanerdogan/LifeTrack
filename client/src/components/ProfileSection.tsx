@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { User, Edit, Camera, Award, Calendar, Target, TrendingUp, Settings, MapPin } from 'lucide-react';
-import { getState, subscribe, updateUser, formatDate } from '../utils/globalState';
+import { getState, subscribe, updateUser, formatDate, AVATAR_OPTIONS } from '../utils/globalState';
 
 interface ProfileSectionProps {
   avatar: string;
@@ -32,11 +32,7 @@ const ProfileSection: React.FC<ProfileSectionProps> = ({ avatar, setAvatar }) =>
     return unsubscribe;
   }, []);
 
-  const avatarOptions = [
-    '🐱', '🐶', '🐻', '🦊', '🐰', '🐼',
-    '👨', '👩', '👦', '👧', '🧑', '👴',
-    '🤖', '👽', '🎭', '🎨', '⭐', '🌟'
-  ];
+
 
   // Calculate real stats from state
   const completedTodos = state.todos.filter(todo => todo.completed).length;
@@ -127,18 +123,33 @@ const ProfileSection: React.FC<ProfileSectionProps> = ({ avatar, setAvatar }) =>
                 <div className="mt-4 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600">
                   <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Choose Avatar</h4>
                   <div className="grid grid-cols-6 gap-2">
-                    {avatarOptions.map((option) => (
-                      <button
-                        key={option}
-                        onClick={() => {
-                          setAvatar(option);
-                          setShowAvatarPicker(false);
-                        }}
-                        className="w-12 h-12 text-xl hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg transition-colors duration-200"
-                      >
-                        {option}
-                      </button>
-                    ))}
+                    {AVATAR_OPTIONS.map((option) => {
+                      const isUnlocked = state.user.level >= option.level;
+                      return (
+                        <button
+                          key={option.emoji}
+                          onClick={() => {
+                            if (isUnlocked) {
+                              setAvatar(option.emoji);
+                              setShowAvatarPicker(false);
+                            }
+                          }}
+                          disabled={!isUnlocked}
+                          className={`relative w-12 h-12 text-xl rounded-lg transition-colors duration-200 ${
+                            isUnlocked 
+                              ? "hover:bg-gray-200 dark:hover:bg-gray-600" 
+                              : "opacity-50 cursor-not-allowed bg-gray-100 dark:bg-gray-700"
+                          }`}
+                        >
+                          <span className={isUnlocked ? "" : "filter grayscale"}>{option.emoji}</span>
+                          {!isUnlocked && (
+                            <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-lg">
+                              <span className="text-xs text-white font-bold">L{option.level}</span>
+                            </div>
+                          )}
+                        </button>
+                      );
+                    })}
                   </div>
                 </div>
               )}

@@ -297,6 +297,42 @@ export const updateTodo = (id: string, updates: Partial<Todo>) => {
   }));
 };
 
+// Avatar unlock levels
+export const AVATAR_OPTIONS = [
+  { emoji: '🐱', level: 1 },
+  { emoji: '🐶', level: 1 },
+  { emoji: '🐻', level: 2 },
+  { emoji: '🦊', level: 3 },
+  { emoji: '🐰', level: 2 },
+  { emoji: '🐼', level: 4 },
+  { emoji: '👨', level: 1 },
+  { emoji: '👩', level: 1 },
+  { emoji: '👦', level: 2 },
+  { emoji: '👧', level: 2 },
+  { emoji: '🧑', level: 3 },
+  { emoji: '👴', level: 5 },
+  { emoji: '🤖', level: 6 },
+  { emoji: '👽', level: 7 },
+  { emoji: '🎭', level: 4 },
+  { emoji: '🎨', level: 5 },
+  { emoji: '⭐', level: 8 },
+  { emoji: '🌟', level: 10 }
+];
+
+const checkForUnlockedAvatars = (oldLevel: number, newLevel: number) => {
+  const newlyUnlocked = AVATAR_OPTIONS.filter(
+    avatar => avatar.level > oldLevel && avatar.level <= newLevel
+  );
+  
+  newlyUnlocked.forEach(avatar => {
+    addNotification({
+      type: "streak_record",
+      title: "Level Up!",
+      message: `You've unlocked ${avatar.emoji} at level ${avatar.level}!`
+    });
+  });
+};
+
 export const completeTodo = (id: string) => {
   setState((state) => {
     const todo = state.todos.find((t) => t.id === id);
@@ -305,6 +341,12 @@ export const completeTodo = (id: string) => {
     const difficultyValue = DIFFICULTY_VALUES[todo.difficulty];
     const newExp = state.user.exp + difficultyValue.exp;
     const newLevel = Math.floor(newExp / 10) + 1;
+    const oldLevel = state.user.level;
+
+    // Check for unlocked avatars when leveling up
+    if (newLevel > oldLevel) {
+      setTimeout(() => checkForUnlockedAvatars(oldLevel, newLevel), 100);
+    }
 
     return {
       ...state,
