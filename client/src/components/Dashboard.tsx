@@ -594,9 +594,9 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
     <>
       {/* User stats */}
       <div className="relative bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-blue-900/20 dark:via-indigo-900/20 dark:to-purple-900/20 backdrop-blur-sm rounded-xl p-6 border border-gray-200/50 dark:border-gray-700/50 mb-6 overflow-hidden">
-        {/* Enhanced Forest background */}
-        <div className="absolute right-0 top-0 bottom-0 w-2/5 opacity-12 dark:opacity-8">
-          <svg viewBox="0 0 500 200" className="w-full h-full">
+        {/* Enhanced Forest background - weaker and responsive */}
+        <div className="absolute inset-0 opacity-6 dark:opacity-3 overflow-hidden">
+          <svg viewBox="0 0 500 200" className="w-full h-full object-cover" preserveAspectRatio="xMaxYMax slice">
             {/* Main forest layer */}
             <path d="M450 200 L450 110 L440 110 L455 70 L440 70 L455 40 L470 70 L455 70 L470 110 L460 110 L460 200 Z" fill="currentColor" />
             <path d="M420 200 L420 130 L410 130 L425 90 L410 90 L425 60 L440 90 L425 90 L440 130 L430 130 L430 200 Z" fill="currentColor" />
@@ -606,63 +606,117 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
             <path d="M330 200 L330 165 L320 165 L335 125 L320 125 L335 95 L350 125 L335 125 L350 165 L340 165 L340 200 Z" fill="currentColor" />
             
             {/* Medium trees layer */}
-            <path d="M470 200 L470 160 L465 160 L475 140 L465 140 L475 125 L485 140 L475 140 L485 160 L480 160 L480 200 Z" fill="currentColor" opacity="0.8" />
-            <path d="M440 200 L440 170 L435 170 L445 150 L435 150 L445 135 L455 150 L445 150 L455 170 L450 170 L450 200 Z" fill="currentColor" opacity="0.8" />
-            <path d="M410 200 L410 175 L405 175 L415 155 L405 155 L415 140 L425 155 L415 155 L425 175 L420 175 L420 200 Z" fill="currentColor" opacity="0.8" />
-            <path d="M380 200 L380 180 L375 180 L385 160 L375 160 L385 145 L395 160 L385 160 L395 180 L390 180 L390 200 Z" fill="currentColor" opacity="0.8" />
+            <path d="M470 200 L470 160 L465 160 L475 140 L465 140 L475 125 L485 140 L475 140 L485 160 L480 160 L480 200 Z" fill="currentColor" opacity="0.5" />
+            <path d="M440 200 L440 170 L435 170 L445 150 L435 150 L445 135 L455 150 L445 150 L455 170 L450 170 L450 200 Z" fill="currentColor" opacity="0.5" />
+            <path d="M410 200 L410 175 L405 175 L415 155 L405 155 L415 140 L425 155 L415 155 L425 175 L420 175 L420 200 Z" fill="currentColor" opacity="0.5" />
+            <path d="M380 200 L380 180 L375 180 L385 160 L375 160 L385 145 L395 160 L385 160 L395 180 L390 180 L390 200 Z" fill="currentColor" opacity="0.5" />
             
             {/* Small trees and bushes */}
-            <path d="M350 200 L350 185 L345 185 L355 170 L345 170 L355 160 L365 170 L355 170 L365 185 L360 185 L360 200 Z" fill="currentColor" opacity="0.6" />
-            <path d="M320 200 L320 190 L315 190 L325 175 L315 175 L325 165 L335 175 L325 175 L335 190 L330 190 L330 200 Z" fill="currentColor" opacity="0.6" />
-            <path d="M290 200 L290 188 L285 188 L295 173 L285 173 L295 163 L305 173 L295 173 L305 188 L300 188 L300 200 Z" fill="currentColor" opacity="0.6" />
+            <path d="M350 200 L350 185 L345 185 L355 170 L345 170 L355 160 L365 170 L355 170 L365 185 L360 185 L360 200 Z" fill="currentColor" opacity="0.3" />
+            <path d="M320 200 L320 190 L315 190 L325 175 L315 175 L325 165 L335 175 L325 175 L335 190 L330 190 L330 200 Z" fill="currentColor" opacity="0.3" />
+            <path d="M290 200 L290 188 L285 188 L295 173 L285 173 L295 163 L305 173 L295 173 L305 188 L300 188 L300 200 Z" fill="currentColor" opacity="0.3" />
             
             {/* Background hills and distant trees */}
-            <path d="M250 200 L250 170 L280 160 L310 165 L340 155 L370 160 L400 150 L430 155 L460 145 L490 150 L500 145 L500 200 Z" fill="currentColor" opacity="0.3" />
+            <path d="M250 200 L250 170 L280 160 L310 165 L340 155 L370 160 L400 150 L430 155 L460 145 L490 150 L500 145 L500 200 Z" fill="currentColor" opacity="0.2" />
           </svg>
         </div>
-          <div className="flex items-center space-x-6">
-            {/* Avatar - bigger */}
-            <div className="w-24 h-24 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-2xl flex-shrink-0">
-              {avatar || user.name.charAt(0).toUpperCase()}
-            </div>
-            
-            {/* Name */}
-            <div className="flex-shrink-0">
-              <h1 className="text-2xl font-bold text-gray-900 dark:text-white">{user.username}</h1>
-              <p className="text-gray-600 dark:text-gray-300">Level {user.level}</p>
-            </div>
-            
-            {/* Health and EXP bars stacked vertically */}
-            <div className="flex-1 max-w-md space-y-4">
-              <div>
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-base font-medium text-gray-700 dark:text-gray-300 flex items-center">
-                    <Heart className="w-5 h-5 text-red-500 mr-2" />
-                    Health
-                  </span>
-                  <span className="text-base text-gray-600 dark:text-gray-400 font-semibold">{user.health}/{user.maxHealth}</span>
-                </div>
-                <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-6">
-                  <div 
-                    className="bg-red-500 h-6 rounded-full transition-all duration-300" 
-                    style={{ width: `${(user.health / user.maxHealth) * 100}%` }}
-                  ></div>
-                </div>
+          {/* Responsive layout */}
+          <div className="relative z-10">
+            {/* Desktop layout */}
+            <div className="hidden md:flex items-center space-x-6">
+              {/* Avatar */}
+              <div className="w-24 h-24 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-2xl flex-shrink-0">
+                {avatar || user.name.charAt(0).toUpperCase()}
               </div>
               
-              <div>
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-base font-medium text-gray-700 dark:text-gray-300 flex items-center">
-                    <Star className="w-5 h-5 text-yellow-500 mr-2" />
-                    Experience
-                  </span>
-                  <span className="text-base text-gray-600 dark:text-gray-400 font-semibold">{user.exp % 10}/10</span>
+              {/* Name and level */}
+              <div className="flex-shrink-0">
+                <h1 className="text-2xl font-bold text-gray-900 dark:text-white">{user.username}</h1>
+                <p className="text-gray-600 dark:text-gray-300">Level {user.level}</p>
+              </div>
+              
+              {/* Progress bars */}
+              <div className="flex-1 max-w-md space-y-4">
+                <div>
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-base font-medium text-gray-700 dark:text-gray-300 flex items-center">
+                      <Heart className="w-5 h-5 text-red-500 mr-2" />
+                      Health
+                    </span>
+                    <span className="text-base text-gray-600 dark:text-gray-400 font-semibold">{user.health}/{user.maxHealth}</span>
+                  </div>
+                  <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-6">
+                    <div 
+                      className="bg-red-500 h-6 rounded-full transition-all duration-300" 
+                      style={{ width: `${(user.health / user.maxHealth) * 100}%` }}
+                    ></div>
+                  </div>
                 </div>
-                <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-6">
-                  <div 
-                    className="bg-yellow-500 h-6 rounded-full transition-all duration-300" 
-                    style={{ width: `${(user.exp % 10) * 10}%` }}
-                  ></div>
+                
+                <div>
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-base font-medium text-gray-700 dark:text-gray-300 flex items-center">
+                      <Star className="w-5 h-5 text-yellow-500 mr-2" />
+                      Experience
+                    </span>
+                    <span className="text-base text-gray-600 dark:text-gray-400 font-semibold">{user.exp % 10}/10</span>
+                  </div>
+                  <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-6">
+                    <div 
+                      className="bg-yellow-500 h-6 rounded-full transition-all duration-300" 
+                      style={{ width: `${(user.exp % 10) * 10}%` }}
+                    ></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Mobile layout */}
+            <div className="md:hidden">
+              <div className="flex items-start space-x-4">
+                {/* Avatar on left */}
+                <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-lg flex-shrink-0">
+                  {avatar || user.name.charAt(0).toUpperCase()}
+                </div>
+                
+                {/* Name, level and progress bars on right */}
+                <div className="flex-1 space-y-3">
+                  {/* Name and level above bars */}
+                  <div>
+                    <h1 className="text-lg font-bold text-gray-900 dark:text-white">{user.username}</h1>
+                    <p className="text-sm text-gray-600 dark:text-gray-300">Level {user.level}</p>
+                  </div>
+                  
+                  {/* Progress bars */}
+                  <div className="space-y-2">
+                    {/* Health bar */}
+                    <div>
+                      <div className="flex items-center justify-between mb-1">
+                        <Heart className="w-4 h-4 text-red-500 flex-shrink-0" />
+                        <span className="text-sm text-gray-600 dark:text-gray-400 font-semibold">{user.health}/{user.maxHealth}</span>
+                      </div>
+                      <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3">
+                        <div 
+                          className="bg-red-500 h-3 rounded-full transition-all duration-300" 
+                          style={{ width: `${(user.health / user.maxHealth) * 100}%` }}
+                        ></div>
+                      </div>
+                    </div>
+                    
+                    {/* Experience bar */}
+                    <div>
+                      <div className="flex items-center justify-between mb-1">
+                        <Star className="w-4 h-4 text-yellow-500 flex-shrink-0" />
+                        <span className="text-sm text-gray-600 dark:text-gray-400 font-semibold">{user.exp % 10}/10</span>
+                      </div>
+                      <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3">
+                        <div 
+                          className="bg-yellow-500 h-3 rounded-full transition-all duration-300" 
+                          style={{ width: `${(user.exp % 10) * 10}%` }}
+                        ></div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
