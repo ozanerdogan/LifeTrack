@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { User, Bell, Menu, X } from 'lucide-react';
+import { getState, subscribe, markNotificationAsRead, removeNotification } from '../utils/globalState';
 
 interface NavbarProps {
   onMenuToggle: () => void;

@@ -49,12 +49,22 @@ export interface User {
   };
 }
 
+export interface Notification {
+  id: string;
+  type: "streak_record" | "habit_reminder" | "task_deadline" | "weekly_progress";
+  title: string;
+  message: string;
+  timestamp: string;
+  read: boolean;
+}
+
 export interface AppState {
   user: User;
   todos: Todo[];
   habits: Habit[];
   tags: string[];
   history: HistoryEntry[];
+  notifications: Notification[];
 }
 
 export interface HistoryEntry {
@@ -187,6 +197,7 @@ const initialState: AppState = {
       healthChange: 2,
     },
   ],
+  notifications: [],
 };
 
 // State management
@@ -418,9 +429,11 @@ export const completeHabit = (id: string) => {
 
     // Show streak record notification if enabled
     if (isNewRecord && state.user.notifications.streakRecords) {
-      setTimeout(() => {
-        alert(`🔥 New streak record! You've reached a ${newStreak}-day streak for "${habit.title}"!`);
-      }, 100);
+      addNotification({
+        type: "streak_record",
+        title: "🔥 New Streak Record!",
+        message: `You've reached a ${newStreak}-day streak for "${habit.title}"!`,
+      });
     }
 
     return {
@@ -575,6 +588,37 @@ export const addTag = (tag: string) => {
 };
 
 // Date formatting utility
+export const addNotification = (notification: Omit<Notification, "id" | "timestamp" | "read">) => {
+  setState((state) => ({
+    ...state,
+    notifications: [
+      {
+        ...notification,
+        id: generateId(),
+        timestamp: new Date().toISOString(),
+        read: false,
+      },
+      ...state.notifications,
+    ],
+  }));
+};
+
+export const markNotificationAsRead = (id: string) => {
+  setState((state) => ({
+    ...state,
+    notifications: state.notifications.map((notif) =>
+      notif.id === id ? { ...notif, read: true } : notif
+    ),
+  }));
+};
+
+export const removeNotification = (id: string) => {
+  setState((state) => ({
+    ...state,
+    notifications: state.notifications.filter((notif) => notif.id !== id),
+  }));
+};
+
 export const formatDate = (dateString: string, format?: 'MM/DD/YYYY' | 'DD/MM/YYYY' | 'YYYY-MM-DD') => {
   const date = new Date(dateString);
   const userFormat = format || getState().user.dateFormat;

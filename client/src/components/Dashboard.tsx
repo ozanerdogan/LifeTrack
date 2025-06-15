@@ -572,8 +572,8 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
             
             {/* Name */}
             <div className="flex-shrink-0">
-              <h1 className="text-2xl font-bold text-gray-900">{user.username}</h1>
-              <p className="text-gray-600">Level {user.level}</p>
+              <h1 className="text-2xl font-bold text-gray-900 dark:text-white">{user.username}</h1>
+              <p className="text-gray-600 dark:text-gray-300">Level {user.level}</p>
             </div>
             
             {/* Health and EXP bars stacked vertically */}
