@@ -31,11 +31,11 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, activeSection, onSectionChang
       
       {/* Sidebar */}
       <aside className={`
-        fixed md:static left-0 z-50
+        fixed left-0 top-16 bottom-0 z-50
         w-64 bg-white/90 backdrop-blur-md border-r border-gray-200/50
         transform transition-transform duration-300 ease-in-out
-        ${isOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
-        top-16 md:top-0 bottom-0 md:inset-y-0
+        ${isOpen ? 'translate-x-0' : '-translate-x-full'}
+        md:translate-x-0 md:static md:top-0 md:h-screen
       `}>
         <div className="flex flex-col h-full">
           {/* Close button for mobile */}
@@ -48,8 +48,8 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, activeSection, onSectionChang
             </button>
           </div>
 
-          {/* Menu Items - Scrollable */}
-          <nav className="flex-1 overflow-y-auto px-4">
+          {/* Menu Items - Scrollable if needed */}
+          <nav className="flex-1 overflow-y-auto px-4 py-4">
             <ul className="space-y-2">
               {menuItems.map((item) => {
                 const Icon = item.icon;

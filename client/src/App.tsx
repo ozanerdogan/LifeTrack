@@ -66,13 +66,13 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
+    <div className="h-screen bg-gradient-to-br from-slate-50 to-blue-50 flex flex-col">
       <Navbar 
         onMenuToggle={() => setSidebarOpen(!sidebarOpen)} 
         onProfileClick={handleProfileClick}
       />
       
-      <div className="flex">
+      <div className="flex flex-1 overflow-hidden">
         <Sidebar 
           isOpen={sidebarOpen} 
           activeSection={showProfile ? '' : activeSection}
@@ -81,7 +81,7 @@ function App() {
           onLogout={handleLogout}
         />
         
-        <main className={`flex-1 transition-all duration-300 ease-in-out ${sidebarOpen ? 'ml-0' : ''}`}>
+        <main className={`flex-1 overflow-y-auto transition-all duration-300 ease-in-out ${sidebarOpen && window.innerWidth < 768 ? 'ml-0' : ''}`}>
           <div className="container mx-auto px-4 py-8 max-w-7xl">
             {renderContent()}
           </div>
