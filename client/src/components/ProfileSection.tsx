@@ -18,6 +18,15 @@ const ProfileSection: React.FC<ProfileSectionProps> = ({ avatar, setAvatar }) =>
     location: state.user.location,
     birthday: state.user.birthday
   });
+  
+  const [showColorPicker, setShowColorPicker] = useState(false);
+  const [avatarBgColor, setAvatarBgColor] = useState('#3B82F6');
+
+  const backgroundColors = [
+    '#3B82F6', '#EF4444', '#10B981', '#F59E0B',
+    '#8B5CF6', '#EC4899', '#06B6D4', '#84CC16',
+    '#F97316', '#6366F1', '#14B8A6', '#F43F5E'
+  ];
 
   useEffect(() => {
     const unsubscribe = subscribe(setState);
@@ -92,14 +101,23 @@ const ProfileSection: React.FC<ProfileSectionProps> = ({ avatar, setAvatar }) =>
             {/* Avatar Section */}
             <div className="text-center mb-6">
               <div className="relative inline-block">
-                <div className="w-32 h-32 bg-gradient-to-br from-emerald-400 to-blue-500 rounded-full flex items-center justify-center shadow-lg">
-                  <span className="text-white font-bold text-3xl">{avatar || state.user.username.charAt(0).toUpperCase()}</span>
+                <div 
+                  className="w-40 h-40 rounded-full flex items-center justify-center shadow-lg"
+                  style={{ backgroundColor: avatarBgColor }}
+                >
+                  <span className="text-white font-bold text-4xl">{avatar || state.user.username.charAt(0).toUpperCase()}</span>
                 </div>
                 <button 
                   onClick={() => setShowAvatarPicker(!showAvatarPicker)}
-                  className="absolute bottom-0 right-0 p-2 bg-white dark:bg-gray-800 rounded-full shadow-lg border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200"
+                  className="absolute bottom-2 right-2 p-2 bg-white dark:bg-gray-800 rounded-full shadow-lg border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200"
                 >
                   <Camera className="w-4 h-4 text-gray-600 dark:text-gray-300" />
+                </button>
+                <button 
+                  onClick={() => setShowColorPicker(!showColorPicker)}
+                  className="absolute bottom-2 left-2 p-2 bg-white dark:bg-gray-800 rounded-full shadow-lg border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200"
+                >
+                  <div className="w-4 h-4 rounded-full border border-gray-300" style={{ backgroundColor: avatarBgColor }}></div>
                 </button>
               </div>
               
@@ -115,10 +133,30 @@ const ProfileSection: React.FC<ProfileSectionProps> = ({ avatar, setAvatar }) =>
                           setAvatar(option);
                           setShowAvatarPicker(false);
                         }}
-                        className="w-10 h-10 text-lg hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg transition-colors duration-200"
+                        className="w-12 h-12 text-xl hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg transition-colors duration-200"
                       >
                         {option}
                       </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Color Picker */}
+              {showColorPicker && (
+                <div className="mt-4 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600">
+                  <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Choose Background Color</h4>
+                  <div className="grid grid-cols-6 gap-2">
+                    {backgroundColors.map((color) => (
+                      <button
+                        key={color}
+                        onClick={() => {
+                          setAvatarBgColor(color);
+                          setShowColorPicker(false);
+                        }}
+                        className="w-8 h-8 rounded-full border-2 border-gray-300 dark:border-gray-600 hover:scale-110 transition-transform duration-200"
+                        style={{ backgroundColor: color }}
+                      />
                     ))}
                   </div>
                 </div>

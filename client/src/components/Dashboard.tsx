@@ -605,26 +605,6 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
     <>
       {/* User stats */}
       <div className="relative bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-blue-900/20 dark:via-indigo-900/20 dark:to-purple-900/20 backdrop-blur-sm rounded-xl p-6 border border-gray-200/50 dark:border-gray-700/50 mb-6 overflow-hidden">
-        {/* Simple Forest background - right side only */}
-        <div className="absolute right-0 top-0 bottom-0 w-1/3 opacity-6 dark:opacity-3 overflow-hidden">
-          <svg viewBox="0 0 300 150" className="w-full h-full">
-            {/* Simple tree silhouettes */}
-            <path d="M250 150 L250 90 L240 90 L255 50 L240 50 L255 20 L270 50 L255 50 L270 90 L260 90 L260 150 Z" fill="currentColor" />
-            <path d="M220 150 L220 100 L210 100 L225 60 L210 60 L225 30 L240 60 L225 60 L240 100 L230 100 L230 150 Z" fill="currentColor" />
-            <path d="M280 150 L280 95 L270 95 L285 55 L270 55 L285 25 L300 55 L285 55 L300 95 L290 95 L290 150 Z" fill="currentColor" />
-            <path d="M190 150 L190 110 L180 110 L195 70 L180 70 L195 40 L210 70 L195 70 L210 110 L200 110 L200 150 Z" fill="currentColor" />
-            <path d="M160 150 L160 120 L150 120 L165 80 L150 80 L165 50 L180 80 L165 80 L180 120 L170 120 L170 150 Z" fill="currentColor" />
-            
-            {/* Medium trees */}
-            <path d="M270 150 L270 125 L265 125 L275 105 L265 105 L275 95 L285 105 L275 105 L285 125 L280 125 L280 150 Z" fill="currentColor" opacity="0.7" />
-            <path d="M240 150 L240 130 L235 130 L245 110 L235 110 L245 100 L255 110 L245 110 L255 130 L250 130 L250 150 Z" fill="currentColor" opacity="0.7" />
-            <path d="M210 150 L210 135 L205 135 L215 115 L205 115 L215 105 L225 115 L215 115 L225 135 L220 135 L220 150 Z" fill="currentColor" opacity="0.7" />
-            
-            {/* Small trees */}
-            <path d="M180 150 L180 140 L175 140 L185 125 L175 125 L185 115 L195 125 L185 125 L195 140 L190 140 L190 150 Z" fill="currentColor" opacity="0.5" />
-            <path d="M150 150 L150 142 L145 142 L155 127 L145 127 L155 117 L165 127 L155 127 L165 142 L160 142 L160 150 Z" fill="currentColor" opacity="0.5" />
-          </svg>
-        </div>
           {/* Responsive layout */}
           <div className="relative z-10">
             {/* Desktop layout */}
