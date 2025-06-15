@@ -29,30 +29,36 @@ const ProfileSection: React.FC<ProfileSectionProps> = ({ avatar, setAvatar }) =>
     '🤖', '👽', '🎭', '🎨', '⭐', '🌟'
   ];
 
+  // Calculate real stats from state
+  const completedTodos = state.todos.filter(todo => todo.completed).length;
+  const totalTodos = state.todos.length;
+  const activeHabits = state.habits.length;
+  const longestStreak = Math.max(...state.habits.map(h => h.streak), 0);
+  const joinedDays = Math.floor((new Date().getTime() - new Date(state.user.joinDate).getTime()) / (1000 * 60 * 60 * 24));
+
   const stats = {
-    totalTasks: 156,
-    completedTasks: 142,
-    totalHabits: 12,
-    longestStreak: 28,
-    joinedDays: 45
+    totalTasks: totalTodos,
+    completedTasks: completedTodos,
+    totalHabits: activeHabits,
+    longestStreak: longestStreak,
+    joinedDays: joinedDays
   };
 
   const achievements = [
-    { id: 1, name: 'First Week', description: 'Completed your first week', icon: '🎯', earned: true },
-    { id: 2, name: 'Habit Master', description: 'Maintained a 7-day streak', icon: '🔥', earned: true },
-    { id: 3, name: 'Task Crusher', description: 'Completed 100 tasks', icon: '💪', earned: true },
-    { id: 4, name: 'Consistency King', description: 'Maintained a 30-day streak', icon: '👑', earned: false },
-    { id: 5, name: 'Goal Getter', description: 'Achieved 5 major goals', icon: '🏆', earned: false },
-    { id: 6, name: 'Productivity Pro', description: 'Used the app for 100 days', icon: '⭐', earned: false }
+    { id: 1, name: 'First Week', description: 'Completed your first week', icon: '🎯', earned: joinedDays >= 7 },
+    { id: 2, name: 'Habit Master', description: 'Maintained a 7-day streak', icon: '🔥', earned: longestStreak >= 7 },
+    { id: 3, name: 'Task Crusher', description: 'Completed 100 tasks', icon: '💪', earned: completedTodos >= 100 },
+    { id: 4, name: 'Consistency King', description: 'Maintained a 30-day streak', icon: '👑', earned: longestStreak >= 30 },
+    { id: 5, name: 'Goal Getter', description: 'Achieved 5 major goals', icon: '🏆', earned: completedTodos >= 50 },
+    { id: 6, name: 'Productivity Pro', description: 'Used the app for 100 days', icon: '⭐', earned: joinedDays >= 100 }
   ];
 
-  const recentActivity = [
-    { date: '2024-01-15', action: 'Completed Morning Exercise habit', type: 'habit' },
-    { date: '2024-01-15', action: 'Finished "Review project proposal" task', type: 'task' },
-    { date: '2024-01-14', action: 'Started a new 5-day streak', type: 'streak' },
-    { date: '2024-01-14', action: 'Completed "Update portfolio website" task', type: 'task' },
-    { date: '2024-01-13', action: 'Earned "Task Crusher" achievement', type: 'achievement' }
-  ];
+  // Get real recent activity from history
+  const recentActivity = state.history.slice(0, 5).map(item => ({
+    date: item.timestamp,
+    action: `${item.action === 'completed' ? 'Completed' : item.action === 'added' ? 'Added' : item.action === 'edited' ? 'Edited' : 'Deleted'} "${item.title}" ${item.type}`,
+    type: item.type === 'todo' ? 'task' : 'habit'
+  }));
 
   const handleSave = () => {
     updateUser(profileForm);
@@ -77,12 +83,13 @@ const ProfileSection: React.FC<ProfileSectionProps> = ({ avatar, setAvatar }) =>
         <p className="text-gray-600">Manage your profile and view your achievements</p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Profile Info */}
-        <div className="lg:col-span-1">
+      <div className="space-y-8">
+        {/* Top Row: Profile Info and Recent Activity */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {/* Profile Info */}
           <div className="bg-white/70 backdrop-blur-sm rounded-xl p-6 border border-gray-200/50">
             {/* Avatar Section */}
-            <div className="text-center mb-8">
+            <div className="text-center mb-6">
               <div className="relative inline-block">
                 <div className="w-32 h-32 bg-gradient-to-br from-emerald-400 to-blue-500 rounded-full flex items-center justify-center shadow-lg">
                   <span className="text-white font-bold text-3xl">{avatar || state.user.username.charAt(0).toUpperCase()}</span>
@@ -204,15 +211,40 @@ const ProfileSection: React.FC<ProfileSectionProps> = ({ avatar, setAvatar }) =>
               )}
             </div>
           </div>
+
+          {/* Recent Activity */}
+          <div className="bg-white/70 backdrop-blur-sm rounded-xl p-6 border border-gray-200/50">
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">Recent Activity</h3>
+            
+            {recentActivity.length === 0 ? (
+              <div className="text-center py-8 text-gray-500">
+                <Target className="w-12 h-12 mx-auto mb-3 text-gray-300" />
+                <p>No recent activity</p>
+                <p className="text-sm">Start completing todos and habits to see your activity!</p>
+              </div>
+            ) : (
+              <div className="space-y-3">
+                {recentActivity.map((activity, index) => (
+                  <div key={index} className="flex items-start space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors duration-200">
+                    {getActivityIcon(activity.type)}
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm text-gray-900">{activity.action}</p>
+                      <p className="text-xs text-gray-500">{formatDate(activity.date)}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
 
-        {/* Stats and Achievements */}
-        <div className="lg:col-span-2 space-y-8">
+        {/* Bottom Row: Stats and Achievements */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Stats */}
           <div className="bg-white/70 backdrop-blur-sm rounded-xl p-6 border border-gray-200/50">
             <h3 className="text-lg font-semibold text-gray-900 mb-4">Your Stats</h3>
             
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-2 gap-4">
               <div className="text-center p-4 bg-blue-50 rounded-lg">
                 <p className="text-2xl font-bold text-blue-600">{stats.completedTasks}</p>
                 <p className="text-sm text-gray-600">Tasks Completed</p>
@@ -230,7 +262,7 @@ const ProfileSection: React.FC<ProfileSectionProps> = ({ avatar, setAvatar }) =>
                 <p className="text-sm text-gray-600">Days Active</p>
               </div>
               <div className="text-center p-4 bg-pink-50 rounded-lg">
-                <p className="text-2xl font-bold text-pink-600">{Math.round((stats.completedTasks / stats.totalTasks) * 100)}%</p>
+                <p className="text-2xl font-bold text-pink-600">{stats.totalTasks > 0 ? Math.round((stats.completedTasks / stats.totalTasks) * 100) : 0}%</p>
                 <p className="text-sm text-gray-600">Completion Rate</p>
               </div>
               <div className="text-center p-4 bg-cyan-50 rounded-lg">
@@ -264,23 +296,6 @@ const ProfileSection: React.FC<ProfileSectionProps> = ({ avatar, setAvatar }) =>
                         {achievement.description}
                       </p>
                     </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Recent Activity */}
-          <div className="bg-white/70 backdrop-blur-sm rounded-xl p-6 border border-gray-200/50">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Recent Activity</h3>
-            
-            <div className="space-y-3">
-              {recentActivity.map((activity, index) => (
-                <div key={index} className="flex items-start space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors duration-200">
-                  {getActivityIcon(activity.type)}
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm text-gray-900">{activity.action}</p>
-                    <p className="text-xs text-gray-500">{formatDate(activity.date)}</p>
                   </div>
                 </div>
               ))}
