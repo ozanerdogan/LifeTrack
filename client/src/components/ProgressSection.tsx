@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Calendar, TrendingUp, Target, CheckCircle } from 'lucide-react';
+import { Calendar, TrendingUp, Target, CheckCircle, Tag } from 'lucide-react';
 import { getState, subscribe } from '../utils/globalState';
 
 const ProgressSection: React.FC = () => {
@@ -11,8 +11,8 @@ const ProgressSection: React.FC = () => {
     return subscribe(setState);
   }, []);
 
-  // Generate calendar data for heatmap
-  const generateCalendarData = (type: 'todos' | 'habits') => {
+  // Generate calendar data for each tag based on actual completion history
+  const generateTagCalendarData = (tag: string) => {
     const daysInMonth = new Date(selectedYear, selectedMonth + 1, 0).getDate();
     const firstDay = new Date(selectedYear, selectedMonth, 1).getDay();
     const data = [];
@@ -22,40 +22,42 @@ const ProgressSection: React.FC = () => {
       data.push({ day: null, intensity: 0 });
     }
 
-    // Add days of the month with random completion data
+    // Calculate actual completions for each day
     for (let day = 1; day <= daysInMonth; day++) {
-      const intensity = Math.random();
-      data.push({ 
-        day, 
-        intensity: intensity > 0.3 ? Math.floor(intensity * 4) + 1 : 0 
-      });
+      const dateStr = `${selectedYear}-${String(selectedMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+      
+      // Count completions for this tag on this day from history
+      const completions = state.history.filter(entry => {
+        const entryDate = entry.timestamp.split('T')[0];
+        return entryDate === dateStr && 
+               entry.action === 'completed' && 
+               entry.tags.includes(tag);
+      }).length;
+
+      // Convert to intensity (0-4 scale)
+      const intensity = Math.min(4, completions);
+      data.push({ day, intensity });
     }
 
     return data;
   };
 
-  const todoData = generateCalendarData('todos');
-  const habitData = generateCalendarData('habits');
+  // Get tag color based on index
+  const getTagColor = (index: number) => {
+    const colorSchemes = [
+      { bg: ['bg-blue-100', 'bg-blue-200', 'bg-blue-400', 'bg-blue-600'], accent: 'bg-blue-50', text: 'text-blue-600' },
+      { bg: ['bg-emerald-100', 'bg-emerald-200', 'bg-emerald-400', 'bg-emerald-600'], accent: 'bg-emerald-50', text: 'text-emerald-600' },
+      { bg: ['bg-purple-100', 'bg-purple-200', 'bg-purple-400', 'bg-purple-600'], accent: 'bg-purple-50', text: 'text-purple-600' },
+      { bg: ['bg-orange-100', 'bg-orange-200', 'bg-orange-400', 'bg-orange-600'], accent: 'bg-orange-50', text: 'text-orange-600' },
+      { bg: ['bg-pink-100', 'bg-pink-200', 'bg-pink-400', 'bg-pink-600'], accent: 'bg-pink-50', text: 'text-pink-600' },
+      { bg: ['bg-cyan-100', 'bg-cyan-200', 'bg-cyan-400', 'bg-cyan-600'], accent: 'bg-cyan-50', text: 'text-cyan-600' }
+    ];
+    return colorSchemes[index % colorSchemes.length];
+  };
 
-  const getIntensityColor = (intensity: number, type: 'todos' | 'habits') => {
+  const getIntensityColor = (intensity: number, colorScheme: any) => {
     if (intensity === 0) return 'bg-gray-100';
-    
-    const colors = {
-      todos: [
-        'bg-blue-100',
-        'bg-blue-200', 
-        'bg-blue-400',
-        'bg-blue-600'
-      ],
-      habits: [
-        'bg-emerald-100',
-        'bg-emerald-200',
-        'bg-emerald-400', 
-        'bg-emerald-600'
-      ]
-    };
-    
-    return colors[type][intensity - 1];
+    return colorScheme.bg[intensity - 1];
   };
 
   const monthNames = [
@@ -65,20 +67,28 @@ const ProgressSection: React.FC = () => {
 
   const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
-  const stats = {
-    totalTasks: state.todos.length,
-    completedTasks: state.todos.filter(t => t.completed).length,
-    totalHabits: state.habits.length,
-    streak: Math.max(...state.habits.map(h => h.streak), 0),
-    weekProgress: state.todos.length > 0 ? state.todos.filter(t => t.completed).length / state.todos.length : 0
+  // Get statistics for each tag
+  const getTagStats = (tag: string) => {
+    const todoItems = state.todos.filter(t => t.tags.includes(tag));
+    const habitItems = state.habits.filter(h => h.tags.includes(tag));
+    const completedTodos = todoItems.filter(t => t.completed).length;
+    const completions = state.history.filter(entry => 
+      entry.action === 'completed' && entry.tags.includes(tag)
+    ).length;
+    
+    return {
+      totalItems: todoItems.length + habitItems.length,
+      completedItems: completions,
+      completionRate: todoItems.length > 0 ? (completedTodos / todoItems.length) * 100 : 0
+    };
   };
 
   return (
     <div className="space-y-8">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">Progress</h1>
-        <p className="text-gray-600">Track your monthly progress with visual heatmaps</p>
+        <h1 className="text-3xl font-bold text-gray-900 mb-2">Progress by Tags</h1>
+        <p className="text-gray-600">Track your monthly progress across different categories</p>
       </div>
 
       {/* Month/Year Selector */}
@@ -115,147 +125,91 @@ const ProgressSection: React.FC = () => {
         </div>
       </div>
 
-      {/* Heatmap Calendars */}
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
-        {/* Todos Heatmap */}
-        <div className="bg-white/70 backdrop-blur-sm rounded-xl p-6 border border-gray-200/50">
-          <div className="flex items-center justify-between mb-6">
-            <div className="flex items-center space-x-3">
-              <div className="p-2 bg-blue-50 text-blue-600 rounded-lg">
-                <CheckCircle className="w-5 h-5" />
-              </div>
-              <div>
-                <h3 className="text-lg font-semibold text-gray-900">Tasks Completed</h3>
-                <p className="text-sm text-gray-600">Daily task completion heatmap</p>
-              </div>
-            </div>
-            
-            <div className="text-right">
-              <p className="text-2xl font-bold text-gray-900">{stats.completedTasks}</p>
-              <p className="text-sm text-gray-600">of {stats.totalTasks} tasks</p>
-            </div>
-          </div>
-
-          {/* Calendar Grid */}
-          <div className="space-y-2">
-            {/* Day headers */}
-            <div className="grid grid-cols-7 gap-1 mb-2">
-              {dayNames.map(day => (
-                <div key={day} className="text-xs text-gray-500 text-center py-1">
-                  {day}
+      {/* Tag Heatmaps */}
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+        {state.tags.map((tag, index) => {
+          const tagData = generateTagCalendarData(tag);
+          const colorScheme = getTagColor(index);
+          const stats = getTagStats(tag);
+          
+          return (
+            <div key={tag} className="bg-white/70 backdrop-blur-sm rounded-xl p-6 border border-gray-200/50">
+              <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center space-x-3">
+                  <div className={`p-2 ${colorScheme.accent} ${colorScheme.text} rounded-lg`}>
+                    <Tag className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-semibold text-gray-900">#{tag}</h3>
+                    <p className="text-sm text-gray-600">Activity in this category</p>
+                  </div>
                 </div>
-              ))}
-            </div>
-            
-            {/* Calendar days */}
-            <div className="grid grid-cols-7 gap-1">
-              {todoData.map((item, index) => (
-                <div
-                  key={index}
-                  className={`
-                    aspect-square rounded-sm flex items-center justify-center text-xs
-                    ${item.day ? getIntensityColor(item.intensity, 'todos') : ''}
-                    ${item.day ? 'hover:ring-2 hover:ring-blue-300 cursor-pointer' : ''}
-                    ${item.intensity > 2 ? 'text-white' : 'text-gray-700'}
-                  `}
-                  title={item.day ? `${item.day} tasks completed` : ''}
-                >
-                  {item.day}
+                
+                <div className="text-right">
+                  <p className={`text-2xl font-bold ${colorScheme.text}`}>{stats.completedItems}</p>
+                  <p className="text-sm text-gray-600">completions</p>
                 </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Legend */}
-          <div className="flex items-center justify-between mt-4 pt-4 border-t border-gray-200">
-            <div className="flex items-center space-x-2">
-              <span className="text-xs text-gray-600">Less</span>
-              <div className="flex space-x-1">
-                <div className="w-3 h-3 bg-gray-100 rounded-sm"></div>
-                <div className="w-3 h-3 bg-blue-100 rounded-sm"></div>
-                <div className="w-3 h-3 bg-blue-200 rounded-sm"></div>
-                <div className="w-3 h-3 bg-blue-400 rounded-sm"></div>
-                <div className="w-3 h-3 bg-blue-600 rounded-sm"></div>
               </div>
-              <span className="text-xs text-gray-600">More</span>
-            </div>
-            
-            <div className="flex items-center space-x-2 text-sm text-gray-600">
-              <TrendingUp className="w-4 h-4" />
-              <span>{stats.streak} day streak</span>
-            </div>
-          </div>
-        </div>
 
-        {/* Habits Heatmap */}
-        <div className="bg-white/70 backdrop-blur-sm rounded-xl p-6 border border-gray-200/50">
-          <div className="flex items-center justify-between mb-6">
-            <div className="flex items-center space-x-3">
-              <div className="p-2 bg-emerald-50 text-emerald-600 rounded-lg">
-                <Target className="w-5 h-5" />
-              </div>
-              <div>
-                <h3 className="text-lg font-semibold text-gray-900">Habits Completed</h3>
-                <p className="text-sm text-gray-600">Daily habit completion heatmap</p>
-              </div>
-            </div>
-            
-            <div className="text-right">
-              <p className="text-2xl font-bold text-gray-900">{stats.totalHabits}</p>
-              <p className="text-sm text-gray-600">total habits</p>
-            </div>
-          </div>
-
-          {/* Calendar Grid */}
-          <div className="space-y-2">
-            {/* Day headers */}
-            <div className="grid grid-cols-7 gap-1 mb-2">
-              {dayNames.map(day => (
-                <div key={day} className="text-xs text-gray-500 text-center py-1">
-                  {day}
+              {/* Calendar Grid */}
+              <div className="space-y-2">
+                {/* Day headers */}
+                <div className="grid grid-cols-7 gap-1 mb-2">
+                  {dayNames.map(day => (
+                    <div key={day} className="text-xs text-gray-500 text-center py-1">
+                      {day}
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
-            
-            {/* Calendar days */}
-            <div className="grid grid-cols-7 gap-1">
-              {habitData.map((item, index) => (
-                <div
-                  key={index}
-                  className={`
-                    aspect-square rounded-sm flex items-center justify-center text-xs
-                    ${item.day ? getIntensityColor(item.intensity, 'habits') : ''}
-                    ${item.day ? 'hover:ring-2 hover:ring-emerald-300 cursor-pointer' : ''}
-                    ${item.intensity > 2 ? 'text-white' : 'text-gray-700'}
-                  `}
-                  title={item.day ? `${item.day} habits completed` : ''}
-                >
-                  {item.day}
+                
+                {/* Calendar days */}
+                <div className="grid grid-cols-7 gap-1">
+                  {tagData.map((item, dayIndex) => (
+                    <div
+                      key={dayIndex}
+                      className={`
+                        aspect-square rounded-sm flex items-center justify-center text-xs
+                        ${item.day ? getIntensityColor(item.intensity, colorScheme) : ''}
+                        ${item.day ? 'hover:ring-2 hover:ring-gray-300 cursor-pointer' : ''}
+                        ${item.intensity > 2 ? 'text-white' : 'text-gray-700'}
+                      `}
+                      title={item.day ? `${item.intensity} ${tag} completions on day ${item.day}` : ''}
+                    >
+                      {item.day}
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Legend */}
-          <div className="flex items-center justify-between mt-4 pt-4 border-t border-gray-200">
-            <div className="flex items-center space-x-2">
-              <span className="text-xs text-gray-600">Less</span>
-              <div className="flex space-x-1">
-                <div className="w-3 h-3 bg-gray-100 rounded-sm"></div>
-                <div className="w-3 h-3 bg-emerald-100 rounded-sm"></div>
-                <div className="w-3 h-3 bg-emerald-200 rounded-sm"></div>
-                <div className="w-3 h-3 bg-emerald-400 rounded-sm"></div>
-                <div className="w-3 h-3 bg-emerald-600 rounded-sm"></div>
               </div>
-              <span className="text-xs text-gray-600">More</span>
+
+              {/* Legend and Stats */}
+              <div className="flex items-center justify-between mt-4 pt-4 border-t border-gray-200">
+                <div className="flex items-center space-x-2">
+                  <span className="text-xs text-gray-600">Less</span>
+                  <div className="flex space-x-1">
+                    <div className="w-3 h-3 bg-gray-100 rounded-sm"></div>
+                    {colorScheme.bg.map((color, i) => (
+                      <div key={i} className={`w-3 h-3 ${color} rounded-sm`}></div>
+                    ))}
+                  </div>
+                  <span className="text-xs text-gray-600">More</span>
+                </div>
+                
+                <div className="flex items-center space-x-2 text-sm text-gray-600">
+                  <span>{stats.totalItems} items</span>
+                </div>
+              </div>
             </div>
-            
-            <div className="flex items-center space-x-2 text-sm text-gray-600">
-              <TrendingUp className="w-4 h-4" />
-              <span>{stats.streak} day streak</span>
-            </div>
+          );
+        })}
+        
+        {/* Show message if no tags exist */}
+        {state.tags.length === 0 && (
+          <div className="col-span-full bg-white/70 backdrop-blur-sm rounded-xl p-12 border border-gray-200/50 text-center">
+            <Tag className="w-12 h-12 text-gray-300 mx-auto mb-4" />
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">No tags yet</h3>
+            <p className="text-gray-600">Start adding tags to your tasks and habits to see progress tracking here.</p>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );
