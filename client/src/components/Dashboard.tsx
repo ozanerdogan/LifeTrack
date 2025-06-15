@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Plus, CheckCircle, Circle, Target, Flame, TrendingUp, Calendar, Heart, Star, Search, Filter, Minus, X, MoreVertical, Edit, Trash2, Undo } from 'lucide-react';
-import { getState, subscribe, addTodo, updateTodo, completeTodo, uncompleteTodo, deleteTodo, addHabit, updateHabit, completeHabit, uncompleteHabit, deleteHabit, addTag, Todo, Habit } from '../utils/globalState';
+import { getState, subscribe, addTodo, updateTodo, completeTodo, uncompleteTodo, deleteTodo, addHabit, updateHabit, completeHabit, uncompleteHabit, deleteHabit, addTag, formatDate, Todo, Habit } from '../utils/globalState';
 
 interface DashboardProps {
   avatar: string;
@@ -572,7 +572,7 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
             
             {/* Name */}
             <div className="flex-shrink-0">
-              <h1 className="text-2xl font-bold text-gray-900">{user.name}</h1>
+              <h1 className="text-2xl font-bold text-gray-900">{user.username}</h1>
               <p className="text-gray-600">Level {user.level}</p>
             </div>
             
@@ -711,7 +711,7 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
                         {todo.dueDate && (
                           <span className="text-xs text-gray-500 flex items-center">
                             <Calendar className="w-3 h-3 mr-1" />
-                            {todo.dueDate}
+                            {formatDate(todo.dueDate)}
                           </span>
                         )}
                       </div>

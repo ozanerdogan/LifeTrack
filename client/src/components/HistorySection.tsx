@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Calendar, CheckCircle, Target, Flame, Clock, Filter, Search, Undo } from 'lucide-react';
-import { getState, subscribe, uncompleteTodo, uncompleteHabit } from '../utils/globalState';
+import { getState, subscribe, uncompleteTodo, uncompleteHabit, formatDate } from '../utils/globalState';
 
 const HistorySection: React.FC = () => {
   const [state, setState] = useState(getState());
@@ -45,7 +45,7 @@ const HistorySection: React.FC = () => {
   const formatTimestamp = (timestamp: string) => {
     const date = new Date(timestamp);
     return {
-      date: date.toLocaleDateString(),
+      date: formatDate(timestamp),
       time: date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     };
   };
