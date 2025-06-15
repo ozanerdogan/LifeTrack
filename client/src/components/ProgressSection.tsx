@@ -27,11 +27,25 @@ const ProgressSection: React.FC = () => {
       const dateStr = `${selectedYear}-${String(selectedMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
       
       // Count completions for this tag on this day from history
+      // Only count positive progress (todos and positive habits)
       const completions = state.history.filter(entry => {
         const entryDate = entry.timestamp.split('T')[0];
-        return entryDate === dateStr && 
-               entry.action === 'completed' && 
-               entry.tags.includes(tag);
+        if (entryDate !== dateStr || entry.action !== 'completed' || !entry.tags.includes(tag)) {
+          return false;
+        }
+        
+        // Include all todo completions
+        if (entry.type === 'todo') {
+          return true;
+        }
+        
+        // For habits, only include positive habits
+        if (entry.type === 'habit') {
+          const habit = state.habits.find(h => h.title === entry.title);
+          return habit && habit.type === 'positive';
+        }
+        
+        return false;
       }).length;
 
       // Convert to intensity (0-4 scale)
@@ -70,14 +84,31 @@ const ProgressSection: React.FC = () => {
   // Get statistics for each tag
   const getTagStats = (tag: string) => {
     const todoItems = state.todos.filter(t => t.tags.includes(tag));
-    const habitItems = state.habits.filter(h => h.tags.includes(tag));
+    const positiveHabitItems = state.habits.filter(h => h.tags.includes(tag) && h.type === 'positive');
     const completedTodos = todoItems.filter(t => t.completed).length;
-    const completions = state.history.filter(entry => 
-      entry.action === 'completed' && entry.tags.includes(tag)
-    ).length;
+    
+    // Only count completions from todos and positive habits
+    const completions = state.history.filter(entry => {
+      if (entry.action !== 'completed' || !entry.tags.includes(tag)) {
+        return false;
+      }
+      
+      // Include all todo completions
+      if (entry.type === 'todo') {
+        return true;
+      }
+      
+      // For habits, only include positive habits
+      if (entry.type === 'habit') {
+        const habit = state.habits.find(h => h.title === entry.title);
+        return habit && habit.type === 'positive';
+      }
+      
+      return false;
+    }).length;
     
     return {
-      totalItems: todoItems.length + habitItems.length,
+      totalItems: todoItems.length + positiveHabitItems.length,
       completedItems: completions,
       completionRate: todoItems.length > 0 ? (completedTodos / todoItems.length) * 100 : 0
     };
