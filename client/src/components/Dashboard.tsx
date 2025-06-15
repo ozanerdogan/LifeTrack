@@ -407,6 +407,14 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
       }));
     };
 
+    const handleAddNewTag = (tagName: string) => {
+      if (tagName.trim() && !availableTags.includes(tagName.trim())) {
+        addTag(tagName.trim());
+        toggleTag(tagName.trim());
+        setNewTagName('');
+      }
+    };
+
     if (!showHabitModal) return null;
 
     return (
@@ -533,7 +541,10 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
                           }}
                         />
                         <button
-                          onMouseDown={() => {
+                          type="button"
+                          onMouseDown={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
                             handleAddNewTag(newTagName);
                           }}
                           className="px-2 py-1 text-sm bg-blue-600 dark:bg-blue-500 text-white rounded hover:bg-blue-700 dark:hover:bg-blue-600"
