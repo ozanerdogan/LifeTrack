@@ -616,7 +616,7 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
                   background: `linear-gradient(135deg, ${user.avatarBgColor}, ${user.avatarBgColor}dd)`
                 }}
               >
-                <span className="text-4xl">{avatar || user.name.charAt(0).toUpperCase()}</span>
+                <span className="text-7xl">{avatar || user.name.charAt(0).toUpperCase()}</span>
               </div>
               
               {/* Name and level */}
@@ -671,7 +671,7 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
                     background: `linear-gradient(135deg, ${user.avatarBgColor}, ${user.avatarBgColor}dd)`
                   }}
                 >
-                  <span className="text-2xl">{avatar || user.name.charAt(0).toUpperCase()}</span>
+                  <span className="text-5xl">{avatar || user.name.charAt(0).toUpperCase()}</span>
                 </div>
                 
                 {/* Name, level and progress bars on right */}

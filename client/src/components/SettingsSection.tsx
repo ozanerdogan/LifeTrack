@@ -198,14 +198,14 @@ const SettingsSection: React.FC = () => {
           </div>
 
           <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <div>
+            <div className="flex items-start gap-4">
+              <div className="flex-1 min-w-0">
                 <p className="font-medium text-gray-900 dark:text-white">Streak Records</p>
                 <p className="text-sm text-gray-600 dark:text-gray-300">Get notified when you break habit streak records</p>
               </div>
               <button
                 onClick={() => handleNotificationSave({streakRecords: !state.user.notifications.streakRecords})}
-                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors flex-shrink-0 ${
                   state.user.notifications.streakRecords ? 'bg-blue-600' : 'bg-gray-200'
                 }`}
               >
@@ -217,14 +217,14 @@ const SettingsSection: React.FC = () => {
               </button>
             </div>
 
-            <div className="flex items-center justify-between">
-              <div>
+            <div className="flex items-start gap-4">
+              <div className="flex-1 min-w-0">
                 <p className="font-medium text-gray-900 dark:text-white">Habit Reminders</p>
                 <p className="text-sm text-gray-600 dark:text-gray-300">Get reminded about your daily habits</p>
               </div>
               <button
                 onClick={() => handleNotificationSave({habitReminders: !state.user.notifications.habitReminders})}
-                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors flex-shrink-0 ${
                   state.user.notifications.habitReminders ? 'bg-blue-600' : 'bg-gray-200'
                 }`}
               >
@@ -236,14 +236,14 @@ const SettingsSection: React.FC = () => {
               </button>
             </div>
 
-            <div className="flex items-center justify-between">
-              <div>
+            <div className="flex items-start gap-4">
+              <div className="flex-1 min-w-0">
                 <p className="font-medium text-gray-900 dark:text-white">Task Deadlines</p>
                 <p className="text-sm text-gray-600 dark:text-gray-300">Notifications for upcoming task deadlines</p>
               </div>
               <button
                 onClick={() => handleNotificationSave({taskDeadlines: !state.user.notifications.taskDeadlines})}
-                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors flex-shrink-0 ${
                   state.user.notifications.taskDeadlines ? 'bg-blue-600' : 'bg-gray-200'
                 }`}
               >
@@ -255,14 +255,14 @@ const SettingsSection: React.FC = () => {
               </button>
             </div>
 
-            <div className="flex items-center justify-between">
-              <div>
+            <div className="flex items-start gap-4">
+              <div className="flex-1 min-w-0">
                 <p className="font-medium text-gray-900 dark:text-white">Weekly Summary</p>
                 <p className="text-sm text-gray-600 dark:text-gray-300">Weekly progress reports</p>
               </div>
               <button
                 onClick={() => handleNotificationSave({weeklyProgress: !state.user.notifications.weeklyProgress})}
-                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors flex-shrink-0 ${
                   state.user.notifications.weeklyProgress ? 'bg-blue-600' : 'bg-gray-200'
                 }`}
               >
