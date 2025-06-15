@@ -1,10 +1,31 @@
 import React, { useState } from 'react';
-import { HelpCircle, ChevronDown, ChevronRight, Mail, MessageCircle, Twitter, Github } from 'lucide-react';
+import { HelpCircle, ChevronDown, ChevronRight, Mail, Bug, Lightbulb, Youtube, Twitter, Github } from 'lucide-react';
+import { FaDiscord, FaReddit } from 'react-icons/fa';
 
 const HelpSection: React.FC = () => {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   const faqs = [
+    {
+      question: "What is gamification in LifeTrack?",
+      answer: "LifeTrack uses gamification elements to make productivity fun and engaging. You earn XP (experience points) by completing tasks and maintaining habits, which helps you level up. You can unlock badges for achievements like maintaining streaks or completing milestones. The system includes visual progress tracking with streaks, levels, and rewards to keep you motivated on your productivity journey."
+    },
+    {
+      question: "How do I earn XP and level up?",
+      answer: "You earn XP by completing todos and maintaining habit streaks. Easy tasks give you small XP rewards, while harder tasks provide more XP. Positive habits give XP when completed, and maintaining streaks provides bonus XP. As you accumulate XP, you'll level up and unlock new achievements and badges."
+    },
+    {
+      question: "What rewards can I unlock with progress?",
+      answer: "As you progress, you can unlock various achievements and badges like 'First Week', 'Habit Master', 'Task Crusher', and 'Consistency King'. Higher levels unlock new customization options, advanced features, and special recognition for your dedication to personal growth."
+    },
+    {
+      question: "How do I turn on notifications/reminders?",
+      answer: "Go to Settings > Notifications to enable habit reminders and task notifications. You can choose to receive notifications for daily habits, task deadlines, streak reminders, and weekly progress summaries to stay on track with your goals."
+    },
+    {
+      question: "Is my data secure or private?",
+      answer: "Yes, your data privacy is important to us. All your personal information, tasks, and habits are stored securely. We don't share your personal data with third parties, and you have full control over your information through the Settings page where you can export or manage your data."
+    },
     {
       question: "How do I create a new habit?",
       answer: "To create a new habit, go to the Habits section and click the 'New Habit' button. Fill in the habit name, description, and set your target frequency. You can also choose a category and color for better organization."
@@ -24,10 +45,6 @@ const HelpSection: React.FC = () => {
     {
       question: "How can I backup my data?",
       answer: "You can export all your data from the Settings page under 'Data & Privacy'. This will download a JSON file containing all your tasks, habits, and progress data that you can save as a backup."
-    },
-    {
-      question: "Can I set reminders for my habits?",
-      answer: "Yes! Go to Settings > Notifications to enable habit reminders. You can choose to receive notifications for daily habits, task deadlines, and weekly progress summaries."
     }
   ];
 
@@ -87,10 +104,7 @@ const HelpSection: React.FC = () => {
             <h3 className="text-lg font-semibold text-gray-900 mb-4">Contact Support</h3>
             
             <div className="space-y-3">
-              <a
-                href="mailto:support@lifetrack.com"
-                className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors duration-200"
-              >
+              <div className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors duration-200">
                 <div className="p-2 bg-blue-50 text-blue-600 rounded-lg">
                   <Mail className="w-4 h-4" />
                 </div>
@@ -98,20 +112,27 @@ const HelpSection: React.FC = () => {
                   <p className="font-medium text-gray-900">Email Support</p>
                   <p className="text-sm text-gray-600">support@lifetrack.com</p>
                 </div>
-              </a>
+              </div>
 
-              <a
-                href="#"
-                className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors duration-200"
-              >
-                <div className="p-2 bg-emerald-50 text-emerald-600 rounded-lg">
-                  <MessageCircle className="w-4 h-4" />
+              <div className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors duration-200">
+                <div className="p-2 bg-red-50 text-red-600 rounded-lg">
+                  <Bug className="w-4 h-4" />
                 </div>
                 <div>
-                  <p className="font-medium text-gray-900">Live Chat</p>
-                  <p className="text-sm text-gray-600">Available 9 AM - 5 PM EST</p>
+                  <p className="font-medium text-gray-900">🐞 Report a Bug</p>
+                  <p className="text-sm text-gray-600">Submit a report</p>
                 </div>
-              </a>
+              </div>
+
+              <div className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors duration-200">
+                <div className="p-2 bg-yellow-50 text-yellow-600 rounded-lg">
+                  <Lightbulb className="w-4 h-4" />
+                </div>
+                <div>
+                  <p className="font-medium text-gray-900">💡 Suggest a Feature</p>
+                  <p className="text-sm text-gray-600">Tell us what you'd love</p>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -120,12 +141,7 @@ const HelpSection: React.FC = () => {
             <h3 className="text-lg font-semibold text-gray-900 mb-4">Follow Us</h3>
             
             <div className="space-y-3">
-              <a
-                href="https://twitter.com/lifetrack"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors duration-200"
-              >
+              <div className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors duration-200">
                 <div className="p-2 bg-blue-50 text-blue-600 rounded-lg">
                   <Twitter className="w-4 h-4" />
                 </div>
@@ -133,10 +149,40 @@ const HelpSection: React.FC = () => {
                   <p className="font-medium text-gray-900">Twitter</p>
                   <p className="text-sm text-gray-600">@lifetrack</p>
                 </div>
-              </a>
+              </div>
+
+              <div className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors duration-200">
+                <div className="p-2 bg-red-50 text-red-600 rounded-lg">
+                  <Youtube className="w-4 h-4" />
+                </div>
+                <div>
+                  <p className="font-medium text-gray-900">YouTube</p>
+                  <p className="text-sm text-gray-600">Tutorials & updates</p>
+                </div>
+              </div>
+
+              <div className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors duration-200">
+                <div className="p-2 bg-indigo-50 text-indigo-600 rounded-lg">
+                  <FaDiscord className="w-4 h-4" />
+                </div>
+                <div>
+                  <p className="font-medium text-gray-900">Discord</p>
+                  <p className="text-sm text-gray-600">Community chat</p>
+                </div>
+              </div>
+
+              <div className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors duration-200">
+                <div className="p-2 bg-orange-50 text-orange-600 rounded-lg">
+                  <FaReddit className="w-4 h-4" />
+                </div>
+                <div>
+                  <p className="font-medium text-gray-900">Reddit</p>
+                  <p className="text-sm text-gray-600">r/LifeTrack</p>
+                </div>
+              </div>
 
               <a
-                href="https://github.com/lifetrack"
+                href="https://github.com/ozanerdogan/LifeTrack"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors duration-200"
@@ -156,10 +202,12 @@ const HelpSection: React.FC = () => {
           <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-xl p-6 border border-blue-200/50">
             <h3 className="text-lg font-semibold text-gray-900 mb-3">💡 Quick Tips</h3>
             <ul className="space-y-2 text-sm text-gray-700">
-              <li>• Use keyboard shortcuts: Ctrl+N for new task</li>
-              <li>• Set realistic habit goals to maintain streaks</li>
-              <li>• Check your progress weekly for motivation</li>
-              <li>• Use categories to organize your tasks better</li>
+              <li>🕹️ Treat your streak like a high score – don't break it!</li>
+              <li>🎯 Set "easy wins" to build habit momentum.</li>
+              <li>🧩 Mix tasks with fun – name tasks like game quests.</li>
+              <li>🧘 Don't overload your day – 3–5 core tasks is enough.</li>
+              <li>🏷️ Use tags to find tasks faster.</li>
+              <li>📆 Review your goals every Sunday.</li>
             </ul>
           </div>
         </div>
