@@ -152,8 +152,11 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
 
     const handleAddNewTag = (tagName: string) => {
       if (tagName.trim() && !availableTags.includes(tagName.trim())) {
-        addTag(tagName.trim());
-        toggleTag(tagName.trim());
+        const trimmedTag = tagName.trim();
+        // Update form tags first to preserve form state
+        toggleTag(trimmedTag);
+        // Then add to global state
+        addTag(trimmedTag);
         setNewTagName('');
       }
     };
@@ -411,8 +414,11 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
 
     const handleAddNewTag = (tagName: string) => {
       if (tagName.trim() && !availableTags.includes(tagName.trim())) {
-        addTag(tagName.trim());
-        toggleTag(tagName.trim());
+        const trimmedTag = tagName.trim();
+        // Update form tags first to preserve form state
+        toggleTag(trimmedTag);
+        // Then add to global state
+        addTag(trimmedTag);
         setNewTagName('');
       }
     };
