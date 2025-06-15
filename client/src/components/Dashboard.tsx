@@ -594,8 +594,8 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
     <>
       {/* User stats */}
       <div className="relative bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-blue-900/20 dark:via-indigo-900/20 dark:to-purple-900/20 backdrop-blur-sm rounded-xl p-6 border border-gray-200/50 dark:border-gray-700/50 mb-6 overflow-hidden">
-        {/* Enhanced Forest background - weaker and responsive */}
-        <div className="absolute inset-0 opacity-6 dark:opacity-3 overflow-hidden">
+        {/* Enhanced Forest background - very weak grey */}
+        <div className="absolute inset-0 opacity-3 dark:opacity-2 overflow-hidden text-gray-400">
           <svg viewBox="0 0 500 200" className="w-full h-full object-cover" preserveAspectRatio="xMaxYMax slice">
             {/* Main forest layer */}
             <path d="M450 200 L450 110 L440 110 L455 70 L440 70 L455 40 L470 70 L455 70 L470 110 L460 110 L460 200 Z" fill="currentColor" />
@@ -606,18 +606,18 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
             <path d="M330 200 L330 165 L320 165 L335 125 L320 125 L335 95 L350 125 L335 125 L350 165 L340 165 L340 200 Z" fill="currentColor" />
             
             {/* Medium trees layer */}
-            <path d="M470 200 L470 160 L465 160 L475 140 L465 140 L475 125 L485 140 L475 140 L485 160 L480 160 L480 200 Z" fill="currentColor" opacity="0.5" />
-            <path d="M440 200 L440 170 L435 170 L445 150 L435 150 L445 135 L455 150 L445 150 L455 170 L450 170 L450 200 Z" fill="currentColor" opacity="0.5" />
-            <path d="M410 200 L410 175 L405 175 L415 155 L405 155 L415 140 L425 155 L415 155 L425 175 L420 175 L420 200 Z" fill="currentColor" opacity="0.5" />
-            <path d="M380 200 L380 180 L375 180 L385 160 L375 160 L385 145 L395 160 L385 160 L395 180 L390 180 L390 200 Z" fill="currentColor" opacity="0.5" />
+            <path d="M470 200 L470 160 L465 160 L475 140 L465 140 L475 125 L485 140 L475 140 L485 160 L480 160 L480 200 Z" fill="currentColor" opacity="0.4" />
+            <path d="M440 200 L440 170 L435 170 L445 150 L435 150 L445 135 L455 150 L445 150 L455 170 L450 170 L450 200 Z" fill="currentColor" opacity="0.4" />
+            <path d="M410 200 L410 175 L405 175 L415 155 L405 155 L415 140 L425 155 L415 155 L425 175 L420 175 L420 200 Z" fill="currentColor" opacity="0.4" />
+            <path d="M380 200 L380 180 L375 180 L385 160 L375 160 L385 145 L395 160 L385 160 L395 180 L390 180 L390 200 Z" fill="currentColor" opacity="0.4" />
             
             {/* Small trees and bushes */}
-            <path d="M350 200 L350 185 L345 185 L355 170 L345 170 L355 160 L365 170 L355 170 L365 185 L360 185 L360 200 Z" fill="currentColor" opacity="0.3" />
-            <path d="M320 200 L320 190 L315 190 L325 175 L315 175 L325 165 L335 175 L325 175 L335 190 L330 190 L330 200 Z" fill="currentColor" opacity="0.3" />
-            <path d="M290 200 L290 188 L285 188 L295 173 L285 173 L295 163 L305 173 L295 173 L305 188 L300 188 L300 200 Z" fill="currentColor" opacity="0.3" />
+            <path d="M350 200 L350 185 L345 185 L355 170 L345 170 L355 160 L365 170 L355 170 L365 185 L360 185 L360 200 Z" fill="currentColor" opacity="0.25" />
+            <path d="M320 200 L320 190 L315 190 L325 175 L315 175 L325 165 L335 175 L325 175 L335 190 L330 190 L330 200 Z" fill="currentColor" opacity="0.25" />
+            <path d="M290 200 L290 188 L285 188 L295 173 L285 173 L295 163 L305 173 L295 173 L305 188 L300 188 L300 200 Z" fill="currentColor" opacity="0.25" />
             
             {/* Background hills and distant trees */}
-            <path d="M250 200 L250 170 L280 160 L310 165 L340 155 L370 160 L400 150 L430 155 L460 145 L490 150 L500 145 L500 200 Z" fill="currentColor" opacity="0.2" />
+            <path d="M250 200 L250 170 L280 160 L310 165 L340 155 L370 160 L400 150 L430 155 L460 145 L490 150 L500 145 L500 200 Z" fill="currentColor" opacity="0.15" />
           </svg>
         </div>
           {/* Responsive layout */}
@@ -681,40 +681,42 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
                 
                 {/* Name, level and progress bars on right */}
                 <div className="flex-1 space-y-3">
-                  {/* Name and level above bars */}
-                  <div>
+                  {/* Name and level side by side */}
+                  <div className="flex items-center space-x-3">
                     <h1 className="text-lg font-bold text-gray-900 dark:text-white">{user.username}</h1>
-                    <p className="text-sm text-gray-600 dark:text-gray-300">Level {user.level}</p>
+                    <span className="px-2 py-1 bg-blue-100 dark:bg-blue-900/50 text-blue-800 dark:text-blue-200 text-xs font-medium rounded-full">
+                      Level {user.level}
+                    </span>
                   </div>
                   
-                  {/* Progress bars */}
+                  {/* Progress bars with icons on left */}
                   <div className="space-y-2">
                     {/* Health bar */}
-                    <div>
-                      <div className="flex items-center justify-between mb-1">
-                        <Heart className="w-4 h-4 text-red-500 flex-shrink-0" />
-                        <span className="text-sm text-gray-600 dark:text-gray-400 font-semibold">{user.health}/{user.maxHealth}</span>
+                    <div className="flex items-center space-x-2">
+                      <Heart className="w-4 h-4 text-red-500 flex-shrink-0" />
+                      <div className="flex-1">
+                        <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3">
+                          <div 
+                            className="bg-red-500 h-3 rounded-full transition-all duration-300" 
+                            style={{ width: `${(user.health / user.maxHealth) * 100}%` }}
+                          ></div>
+                        </div>
                       </div>
-                      <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3">
-                        <div 
-                          className="bg-red-500 h-3 rounded-full transition-all duration-300" 
-                          style={{ width: `${(user.health / user.maxHealth) * 100}%` }}
-                        ></div>
-                      </div>
+                      <span className="text-sm text-gray-600 dark:text-gray-400 font-semibold">{user.health}/{user.maxHealth}</span>
                     </div>
                     
                     {/* Experience bar */}
-                    <div>
-                      <div className="flex items-center justify-between mb-1">
-                        <Star className="w-4 h-4 text-yellow-500 flex-shrink-0" />
-                        <span className="text-sm text-gray-600 dark:text-gray-400 font-semibold">{user.exp % 10}/10</span>
+                    <div className="flex items-center space-x-2">
+                      <Star className="w-4 h-4 text-yellow-500 flex-shrink-0" />
+                      <div className="flex-1">
+                        <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3">
+                          <div 
+                            className="bg-yellow-500 h-3 rounded-full transition-all duration-300" 
+                            style={{ width: `${(user.exp % 10) * 10}%` }}
+                          ></div>
+                        </div>
                       </div>
-                      <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3">
-                        <div 
-                          className="bg-yellow-500 h-3 rounded-full transition-all duration-300" 
-                          style={{ width: `${(user.exp % 10) * 10}%` }}
-                        ></div>
-                      </div>
+                      <span className="text-sm text-gray-600 dark:text-gray-400 font-semibold">{user.exp % 10}/10</span>
                     </div>
                   </div>
                 </div>
