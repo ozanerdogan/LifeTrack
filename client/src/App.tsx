@@ -21,17 +21,6 @@ function App() {
     return subscribe(setGlobalState);
   }, []);
 
-  // Add welcome notification on app start
-  useEffect(() => {
-    if (isLoggedIn) {
-      addNotification({
-        type: "weekly_progress",
-        title: "Welcome to LifeTrack!",
-        message: "Ready to boost your productivity? Start by adding your first task or habit!"
-      });
-    }
-  }, [isLoggedIn]);
-
   // Apply dark mode to document element
   useEffect(() => {
     if (globalState.user.darkMode) {

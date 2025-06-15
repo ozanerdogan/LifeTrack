@@ -53,7 +53,7 @@ export interface User {
 
 export interface Notification {
   id: string;
-  type: "streak_record" | "habit_reminder" | "task_deadline" | "weekly_progress";
+  type: "streak_record" | "habit_reminder" | "task_deadline" | "weekly_progress" | "tips";
   title: string;
   message: string;
   timestamp: string;
@@ -212,9 +212,9 @@ const initialState: AppState = {
     },
     {
       id: "quick-tip",
-      type: "weekly_progress", 
+      type: "tips", 
       title: "💡 Quick Tip",
-      message: "Treat your streak like a high score – don't break it! Find more tips on the help page.",
+      message: "Set 'easy wins' to build habit momentum. Find more tips on the help page.",
       timestamp: new Date().toISOString(),
       read: false,
     },
@@ -299,24 +299,43 @@ export const updateTodo = (id: string, updates: Partial<Todo>) => {
 
 // Avatar unlock levels
 export const AVATAR_OPTIONS = [
+  { emoji: '😊', level: 1 },
+  { emoji: '😇', level: 1 },
+  { emoji: '👨', level: 1 },
+  { emoji: '👩', level: 1 },
   { emoji: '🐱', level: 1 },
   { emoji: '🐶', level: 1 },
   { emoji: '🐻', level: 2 },
-  { emoji: '🦊', level: 3 },
   { emoji: '🐰', level: 2 },
-  { emoji: '🐼', level: 4 },
-  { emoji: '👨', level: 1 },
-  { emoji: '👩', level: 1 },
-  { emoji: '👦', level: 2 },
-  { emoji: '👧', level: 2 },
-  { emoji: '🧑', level: 3 },
-  { emoji: '👴', level: 5 },
-  { emoji: '🤖', level: 6 },
-  { emoji: '👽', level: 7 },
-  { emoji: '🎭', level: 4 },
+  { emoji: '🦊', level: 2 },
+  { emoji: '🌸', level: 3 },
+  { emoji: '🐼', level: 3 },
+  { emoji: '🎭', level: 3 },
+  { emoji: '🌈', level: 4 },
+  { emoji: '😎', level: 4 },
+  { emoji: '🌞', level: 4 },
+  { emoji: '🦄', level: 5 },
   { emoji: '🎨', level: 5 },
-  { emoji: '⭐', level: 8 },
-  { emoji: '🌟', level: 10 }
+  { emoji: '🧘', level: 5 },
+  { emoji: '🤖', level: 6 },
+  { emoji: '🐉', level: 6 },
+  { emoji: '👽', level: 7 },
+  { emoji: '👾', level: 7 },
+  { emoji: '🐸', level: 8 },
+  { emoji: '💎', level: 8 },
+  { emoji: '🧸', level: 9 },
+  { emoji: '🌟', level: 9 },
+  { emoji: '🚀', level: 10 },
+  { emoji: '🗡️', level: 11 },
+  { emoji: '🛡️', level: 12 },
+  { emoji: '⚔️', level: 13 },
+  { emoji: '🧞‍♂️', level: 14 },
+  { emoji: '🧟‍♀️', level: 15 },
+  { emoji: '🧚‍♀️', level: 16 },
+  { emoji: '🧌', level: 17 },
+  { emoji: '🧛‍♂️', level: 18 },
+  { emoji: '🧝‍♀️', level: 19 },
+  { emoji: '🧙‍♂️', level: 20 }
 ];
 
 const checkForUnlockedAvatars = (oldLevel: number, newLevel: number) => {
