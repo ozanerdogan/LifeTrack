@@ -447,8 +447,8 @@ export const completeHabit = (id: string) => {
       history: [
         {
           id: generateId(),
-          type: "habit",
-          action: "completed",
+          type: "habit" as const,
+          action: "completed" as const,
           title: habit.title,
           tags: habit.tags,
           difficulty: habit.difficulty,
