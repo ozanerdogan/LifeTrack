@@ -166,7 +166,11 @@ const SettingsSection: React.FC = () => {
                 </div>
               </div>
               <button
-                onClick={() => setSiteForm({...siteForm, darkMode: !siteForm.darkMode})}
+                onClick={() => {
+                  const newValue = !siteForm.darkMode;
+                  setSiteForm({...siteForm, darkMode: newValue});
+                  updateUser({ darkMode: newValue });
+                }}
                 className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
                   siteForm.darkMode ? 'bg-blue-600' : 'bg-gray-200'
                 }`}
@@ -179,12 +183,7 @@ const SettingsSection: React.FC = () => {
               </button>
             </div>
 
-            <button 
-              onClick={handleSiteSave}
-              className="w-full bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700 transition-colors duration-200"
-            >
-              Save Site Settings
-            </button>
+
           </div>
         </div>
 

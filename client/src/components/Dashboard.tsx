@@ -261,6 +261,12 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
                     type="text"
                     value={newChecklistItem}
                     onChange={(e) => setNewChecklistItem(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                        e.preventDefault();
+                        addChecklistItem();
+                      }
+                    }}
                     placeholder="Add checklist item"
                     className="flex-1 px-2 py-1 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded text-sm"
                   />
@@ -869,7 +875,7 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
                           e.stopPropagation();
                           setOpenTodoMenuId(openTodoMenuId === todo.id ? null : todo.id);
                         }}
-                        className="p-1 text-gray-400 hover:text-gray-600 opacity-0 group-hover:opacity-100 transition-opacity"
+                        className="p-1 text-gray-400 hover:text-gray-600 transition-colors"
                       >
                         <MoreVertical className="w-4 h-4" />
                       </button>
@@ -986,7 +992,7 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
                         {habit.streak > 0 && (
                           <button
                             onClick={() => handleHabitUncomplete(habit.id)}
-                            className="text-gray-400 dark:text-gray-500 hover:text-blue-600 dark:hover:text-blue-400 opacity-0 group-hover:opacity-100 transition-opacity"
+                            className="text-gray-400 dark:text-gray-500 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
                             title="Undo last completion"
                           >
                             <Undo className="w-4 h-4" />
@@ -998,7 +1004,7 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
                               e.stopPropagation();
                               setOpenHabitMenuId(openHabitMenuId === habit.id ? null : habit.id);
                             }}
-                            className="p-1 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 opacity-0 group-hover:opacity-100 transition-opacity"
+                            className="p-1 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
                           >
                             <MoreVertical className="w-4 h-4" />
                           </button>

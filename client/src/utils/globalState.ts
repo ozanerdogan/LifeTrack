@@ -105,7 +105,7 @@ const initialState: AppState = {
     health: 33,
     maxHealth: 50,
     exp: 12,
-    level: 1,
+    level: 2,
     language: "English",
     timezone: "America/New_York",
     dateFormat: "MM/DD/YYYY",
