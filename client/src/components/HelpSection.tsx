@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { HelpCircle, ChevronDown, ChevronRight, Mail, Bug, Lightbulb, Youtube, Twitter, Github } from 'lucide-react';
-import { FaDiscord, FaReddit } from 'react-icons/fa';
+import { FaDiscord, FaReddit, FaInstagram, FaFacebook } from 'react-icons/fa';
 
 const HelpSection: React.FC = () => {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
@@ -178,6 +178,26 @@ const HelpSection: React.FC = () => {
                 <div>
                   <p className="font-medium text-gray-900 dark:text-white">Reddit</p>
                   <p className="text-sm text-gray-600 dark:text-gray-300">r/LifeTrack</p>
+                </div>
+              </div>
+
+              <div className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200">
+                <div className="p-2 bg-pink-50 dark:bg-pink-900/30 text-pink-600 dark:text-pink-400 rounded-lg">
+                  <FaInstagram className="w-4 h-4" />
+                </div>
+                <div>
+                  <p className="font-medium text-gray-900 dark:text-white">Instagram</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-300">@lifetrack</p>
+                </div>
+              </div>
+
+              <div className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200">
+                <div className="p-2 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-lg">
+                  <FaFacebook className="w-4 h-4" />
+                </div>
+                <div>
+                  <p className="font-medium text-gray-900 dark:text-white">Facebook</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-300">@LifeTrack</p>
                 </div>
               </div>
 

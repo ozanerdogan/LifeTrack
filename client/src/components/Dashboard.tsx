@@ -594,19 +594,30 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
     <>
       {/* User stats */}
       <div className="relative bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-blue-900/20 dark:via-indigo-900/20 dark:to-purple-900/20 backdrop-blur-sm rounded-xl p-6 border border-gray-200/50 dark:border-gray-700/50 mb-6 overflow-hidden">
-        {/* Forest background */}
-        <div className="absolute right-0 top-0 bottom-0 w-1/3 opacity-10 dark:opacity-5">
-          <svg viewBox="0 0 400 200" className="w-full h-full">
-            {/* Trees silhouette */}
-            <path d="M350 200 L350 120 L340 120 L355 80 L340 80 L355 50 L370 80 L355 80 L370 120 L360 120 L360 200 Z" fill="currentColor" />
-            <path d="M320 200 L320 140 L310 140 L325 100 L310 100 L325 70 L340 100 L325 100 L340 140 L330 140 L330 200 Z" fill="currentColor" />
-            <path d="M380 200 L380 130 L370 130 L385 90 L370 90 L385 60 L400 90 L385 90 L400 130 L390 130 L390 200 Z" fill="currentColor" />
-            <path d="M290 200 L290 150 L280 150 L295 110 L280 110 L295 80 L310 110 L295 110 L310 150 L300 150 L300 200 Z" fill="currentColor" />
-            <path d="M260 200 L260 160 L250 160 L265 120 L250 120 L265 90 L280 120 L265 120 L280 160 L270 160 L270 200 Z" fill="currentColor" />
-            {/* Smaller trees */}
-            <path d="M370 200 L370 170 L365 170 L375 150 L365 150 L375 140 L385 150 L375 150 L385 170 L380 170 L380 200 Z" fill="currentColor" opacity="0.7" />
-            <path d="M340 200 L340 175 L335 175 L345 155 L335 155 L345 145 L355 155 L345 155 L355 175 L350 175 L350 200 Z" fill="currentColor" opacity="0.7" />
-            <path d="M310 200 L310 180 L305 180 L315 160 L305 160 L315 150 L325 160 L315 160 L325 180 L320 180 L320 200 Z" fill="currentColor" opacity="0.7" />
+        {/* Enhanced Forest background */}
+        <div className="absolute right-0 top-0 bottom-0 w-2/5 opacity-12 dark:opacity-8">
+          <svg viewBox="0 0 500 200" className="w-full h-full">
+            {/* Main forest layer */}
+            <path d="M450 200 L450 110 L440 110 L455 70 L440 70 L455 40 L470 70 L455 70 L470 110 L460 110 L460 200 Z" fill="currentColor" />
+            <path d="M420 200 L420 130 L410 130 L425 90 L410 90 L425 60 L440 90 L425 90 L440 130 L430 130 L430 200 Z" fill="currentColor" />
+            <path d="M480 200 L480 120 L470 120 L485 80 L470 80 L485 50 L500 80 L485 80 L500 120 L490 120 L490 200 Z" fill="currentColor" />
+            <path d="M390 200 L390 140 L380 140 L395 100 L380 100 L395 70 L410 100 L395 100 L410 140 L400 140 L400 200 Z" fill="currentColor" />
+            <path d="M360 200 L360 155 L350 155 L365 115 L350 115 L365 85 L380 115 L365 115 L380 155 L370 155 L370 200 Z" fill="currentColor" />
+            <path d="M330 200 L330 165 L320 165 L335 125 L320 125 L335 95 L350 125 L335 125 L350 165 L340 165 L340 200 Z" fill="currentColor" />
+            
+            {/* Medium trees layer */}
+            <path d="M470 200 L470 160 L465 160 L475 140 L465 140 L475 125 L485 140 L475 140 L485 160 L480 160 L480 200 Z" fill="currentColor" opacity="0.8" />
+            <path d="M440 200 L440 170 L435 170 L445 150 L435 150 L445 135 L455 150 L445 150 L455 170 L450 170 L450 200 Z" fill="currentColor" opacity="0.8" />
+            <path d="M410 200 L410 175 L405 175 L415 155 L405 155 L415 140 L425 155 L415 155 L425 175 L420 175 L420 200 Z" fill="currentColor" opacity="0.8" />
+            <path d="M380 200 L380 180 L375 180 L385 160 L375 160 L385 145 L395 160 L385 160 L395 180 L390 180 L390 200 Z" fill="currentColor" opacity="0.8" />
+            
+            {/* Small trees and bushes */}
+            <path d="M350 200 L350 185 L345 185 L355 170 L345 170 L355 160 L365 170 L355 170 L365 185 L360 185 L360 200 Z" fill="currentColor" opacity="0.6" />
+            <path d="M320 200 L320 190 L315 190 L325 175 L315 175 L325 165 L335 175 L325 175 L335 190 L330 190 L330 200 Z" fill="currentColor" opacity="0.6" />
+            <path d="M290 200 L290 188 L285 188 L295 173 L285 173 L295 163 L305 173 L295 173 L305 188 L300 188 L300 200 Z" fill="currentColor" opacity="0.6" />
+            
+            {/* Background hills and distant trees */}
+            <path d="M250 200 L250 170 L280 160 L310 165 L340 155 L370 160 L400 150 L430 155 L460 145 L490 150 L500 145 L500 200 Z" fill="currentColor" opacity="0.3" />
           </svg>
         </div>
           <div className="flex items-center space-x-6">
