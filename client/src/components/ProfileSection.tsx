@@ -241,8 +241,8 @@ const ProfileSection: React.FC<ProfileSectionProps> = ({ avatar, setAvatar }) =>
         {/* Bottom Row: Stats and Achievements */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Stats */}
-          <div className="bg-white/70 backdrop-blur-sm rounded-xl p-6 border border-gray-200/50">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Your Stats</h3>
+          <div className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-xl p-6 border border-gray-200/50 dark:border-gray-700/50">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Your Stats</h3>
             
             <div className="grid grid-cols-2 gap-4">
               <div className="text-center p-4 bg-blue-50 dark:bg-blue-900/30 rounded-lg">

@@ -158,29 +158,29 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
 
     return (
       <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-        <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4 max-h-[90vh] overflow-y-auto">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">
+        <div className="bg-white dark:bg-gray-800 rounded-lg p-6 max-w-md w-full mx-4 max-h-[90vh] overflow-y-auto">
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
             {editingTodo ? 'Edit To Do' : 'Add New To Do'}
           </h3>
           
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Title</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Title</label>
               <input
                 type="text"
                 value={formData.title}
                 onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="Enter to do title"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Description</label>
               <textarea
                 value={formData.description}
                 onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="Enter description"
                 rows={3}
               />
@@ -188,7 +188,7 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
 
             {/* Checklist */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Checklist</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Checklist</label>
               <div className="space-y-2">
                 {formData.checklist.map(item => (
                   <div key={item.id} className="flex items-center space-x-2">
@@ -203,7 +203,7 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
                           )
                         }));
                       }}
-                      className="rounded border-gray-300"
+                      className="rounded border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700"
                     />
                     <input
                       type="text"
@@ -216,7 +216,7 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
                           )
                         }));
                       }}
-                      className="flex-1 px-2 py-1 border border-gray-300 rounded text-sm"
+                      className="flex-1 px-2 py-1 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded text-sm"
                     />
                     <button
                       onClick={() => {
@@ -225,7 +225,7 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
                           checklist: prev.checklist.filter(i => i.id !== item.id)
                         }));
                       }}
-                      className="text-red-500 hover:text-red-700 text-sm"
+                      className="text-red-500 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 text-sm"
                     >
                       Remove
                     </button>
@@ -237,11 +237,11 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
                     value={newChecklistItem}
                     onChange={(e) => setNewChecklistItem(e.target.value)}
                     placeholder="Add checklist item"
-                    className="flex-1 px-2 py-1 border border-gray-300 rounded text-sm"
+                    className="flex-1 px-2 py-1 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded text-sm"
                   />
                   <button
                     onClick={addChecklistItem}
-                    className="bg-blue-500 text-white px-3 py-1 rounded text-sm hover:bg-blue-600"
+                    className="bg-blue-500 dark:bg-blue-600 text-white px-3 py-1 rounded text-sm hover:bg-blue-600 dark:hover:bg-blue-700"
                   >
                     Add
                   </button>
@@ -250,11 +250,11 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Difficulty</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Difficulty</label>
               <select
                 value={formData.difficulty}
                 onChange={(e) => setFormData(prev => ({ ...prev, difficulty: e.target.value as 'easy' | 'medium' | 'hard' | 'extreme' }))}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 <option value="easy">Easy (+1 EXP)</option>
                 <option value="medium">Medium (+2 EXP)</option>
@@ -264,12 +264,12 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Due Date</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Due Date</label>
               <input
                 type="date"
                 value={formData.dueDate}
                 onChange={(e) => setFormData(prev => ({ ...prev, dueDate: e.target.value }))}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
 
