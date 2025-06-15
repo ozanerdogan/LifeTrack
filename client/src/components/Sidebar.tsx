@@ -35,7 +35,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, activeSection, onSectionChang
         w-64 bg-white/90 backdrop-blur-md border-r border-gray-200/50
         transform transition-transform duration-300 ease-in-out
         ${isOpen ? 'translate-x-0' : '-translate-x-full'}
-        md:translate-x-0 md:static md:top-0 md:h-screen
+        md:translate-x-0 md:static md:top-0 md:h-full
       `}>
         <div className="flex flex-col h-full">
           {/* Close button for mobile */}
@@ -49,7 +49,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, activeSection, onSectionChang
           </div>
 
           {/* Menu Items - Scrollable if needed */}
-          <nav className="flex-1 overflow-y-auto px-4 py-4">
+          <nav className="flex-1 min-h-0 overflow-y-auto px-4 py-4">
             <ul className="space-y-2">
               {menuItems.map((item) => {
                 const Icon = item.icon;
@@ -81,7 +81,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, activeSection, onSectionChang
           </nav>
 
           {/* Logout Button - Fixed at bottom */}
-          <div className="flex-shrink-0 p-4 border-t border-gray-200/50">
+          <div className="mt-auto flex-shrink-0 p-4 border-t border-gray-200/50">
             <button
               onClick={() => setShowLogoutConfirm(true)}
               className="w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-red-600 hover:bg-red-50 transition-colors duration-200"
