@@ -159,10 +159,10 @@ const SettingsSection: React.FC = () => {
 
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-3">
-                {siteForm.darkMode ? <Moon className="w-5 h-5 text-gray-600" /> : <Sun className="w-5 h-5 text-gray-600" />}
+                {siteForm.darkMode ? <Moon className="w-5 h-5 text-gray-600 dark:text-gray-400" /> : <Sun className="w-5 h-5 text-gray-600 dark:text-gray-400" />}
                 <div>
-                  <p className="font-medium text-gray-900">Dark Mode</p>
-                  <p className="text-sm text-gray-600">Switch to dark theme</p>
+                  <p className="font-medium text-gray-900 dark:text-white">Dark Mode</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-300">Switch to dark theme</p>
                 </div>
               </div>
               <button
@@ -189,19 +189,19 @@ const SettingsSection: React.FC = () => {
         </div>
 
         {/* Notification Settings */}
-        <div className="bg-white/70 backdrop-blur-sm rounded-xl p-6 border border-gray-200/50">
+        <div className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-xl p-6 border border-gray-200/50 dark:border-gray-700/50">
           <div className="flex items-center space-x-3 mb-6">
-            <div className="p-2 bg-emerald-50 text-emerald-600 rounded-lg">
+            <div className="p-2 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 rounded-lg">
               <Bell className="w-5 h-5" />
             </div>
-            <h2 className="text-xl font-semibold text-gray-900">Notifications</h2>
+            <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Notifications</h2>
           </div>
 
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="font-medium text-gray-900">Streak Records</p>
-                <p className="text-sm text-gray-600">Get notified when you break habit streak records</p>
+                <p className="font-medium text-gray-900 dark:text-white">Streak Records</p>
+                <p className="text-sm text-gray-600 dark:text-gray-300">Get notified when you break habit streak records</p>
               </div>
               <button
                 onClick={() => handleNotificationSave({streakRecords: !state.user.notifications.streakRecords})}
@@ -219,8 +219,8 @@ const SettingsSection: React.FC = () => {
 
             <div className="flex items-center justify-between">
               <div>
-                <p className="font-medium text-gray-900">Habit Reminders</p>
-                <p className="text-sm text-gray-600">Get reminded about your daily habits</p>
+                <p className="font-medium text-gray-900 dark:text-white">Habit Reminders</p>
+                <p className="text-sm text-gray-600 dark:text-gray-300">Get reminded about your daily habits</p>
               </div>
               <button
                 onClick={() => handleNotificationSave({habitReminders: !state.user.notifications.habitReminders})}
@@ -238,8 +238,8 @@ const SettingsSection: React.FC = () => {
 
             <div className="flex items-center justify-between">
               <div>
-                <p className="font-medium text-gray-900">Task Deadlines</p>
-                <p className="text-sm text-gray-600">Notifications for upcoming task deadlines</p>
+                <p className="font-medium text-gray-900 dark:text-white">Task Deadlines</p>
+                <p className="text-sm text-gray-600 dark:text-gray-300">Notifications for upcoming task deadlines</p>
               </div>
               <button
                 onClick={() => handleNotificationSave({taskDeadlines: !state.user.notifications.taskDeadlines})}
@@ -257,8 +257,8 @@ const SettingsSection: React.FC = () => {
 
             <div className="flex items-center justify-between">
               <div>
-                <p className="font-medium text-gray-900">Weekly Summary</p>
-                <p className="text-sm text-gray-600">Weekly progress reports</p>
+                <p className="font-medium text-gray-900 dark:text-white">Weekly Summary</p>
+                <p className="text-sm text-gray-600 dark:text-gray-300">Weekly progress reports</p>
               </div>
               <button
                 onClick={() => handleNotificationSave({weeklyProgress: !state.user.notifications.weeklyProgress})}
@@ -277,26 +277,26 @@ const SettingsSection: React.FC = () => {
         </div>
 
         {/* Data & Privacy */}
-        <div className="bg-white/70 backdrop-blur-sm rounded-xl p-6 border border-gray-200/50">
+        <div className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-xl p-6 border border-gray-200/50 dark:border-gray-700/50">
           <div className="flex items-center space-x-3 mb-6">
-            <div className="p-2 bg-orange-50 text-orange-600 rounded-lg">
+            <div className="p-2 bg-orange-50 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 rounded-lg">
               <Shield className="w-5 h-5" />
             </div>
-            <h2 className="text-xl font-semibold text-gray-900">Data & Privacy</h2>
+            <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Data & Privacy</h2>
           </div>
 
           <div className="space-y-4">
-            <button className="w-full text-left p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors duration-200">
+            <button className="w-full text-left p-3 border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200">
               <div className="flex items-center space-x-3">
-                <Database className="w-5 h-5 text-gray-600" />
+                <Database className="w-5 h-5 text-gray-600 dark:text-gray-400" />
                 <div>
-                  <p className="font-medium text-gray-900">Export Data</p>
-                  <p className="text-sm text-gray-600">Download all your data</p>
+                  <p className="font-medium text-gray-900 dark:text-white">Export Data</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-300">Download all your data</p>
                 </div>
               </div>
             </button>
 
-            <button className="w-full text-left p-3 border border-red-200 rounded-lg hover:bg-red-50 transition-colors duration-200 text-red-600">
+            <button className="w-full text-left p-3 border border-red-200 dark:border-red-700 bg-white dark:bg-gray-800 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/30 transition-colors duration-200 text-red-600 dark:text-red-400">
               <div className="flex items-center space-x-3">
                 <Shield className="w-5 h-5" />
                 <div>

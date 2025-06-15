@@ -596,13 +596,13 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
               
               <div>
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-base font-medium text-gray-700 flex items-center">
+                  <span className="text-base font-medium text-gray-700 dark:text-gray-300 flex items-center">
                     <Star className="w-5 h-5 text-yellow-500 mr-2" />
                     Experience
                   </span>
-                  <span className="text-base text-gray-600 font-semibold">{user.exp % 10}/10</span>
+                  <span className="text-base text-gray-600 dark:text-gray-400 font-semibold">{user.exp % 10}/10</span>
                 </div>
-                <div className="w-full bg-gray-200 rounded-full h-6">
+                <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-6">
                   <div 
                     className="bg-yellow-500 h-6 rounded-full transition-all duration-300" 
                     style={{ width: `${(user.exp % 10) * 10}%` }}
@@ -615,22 +615,22 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
 
         {/* Search and filter bar */}
         <div className="max-w-4xl mx-auto mb-6">
-          <div className="bg-white rounded-lg shadow-sm p-4 flex items-center space-x-4">
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 flex items-center space-x-4">
             <div className="flex-1 relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 w-5 h-5" />
               <input
                 type="text"
                 placeholder="Search to dos and habits..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
             <div className="relative">
               <select
                 value={selectedTag}
                 onChange={(e) => setSelectedTag(e.target.value)}
-                className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+                className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
               >
                 <option value="All Tags">All Tags</option>
                 {availableTags.map(tag => (

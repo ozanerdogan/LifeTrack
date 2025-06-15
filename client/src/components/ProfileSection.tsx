@@ -245,9 +245,9 @@ const ProfileSection: React.FC<ProfileSectionProps> = ({ avatar, setAvatar }) =>
             <h3 className="text-lg font-semibold text-gray-900 mb-4">Your Stats</h3>
             
             <div className="grid grid-cols-2 gap-4">
-              <div className="text-center p-4 bg-blue-50 rounded-lg">
-                <p className="text-2xl font-bold text-blue-600">{stats.completedTasks}</p>
-                <p className="text-sm text-gray-600">Tasks Completed</p>
+              <div className="text-center p-4 bg-blue-50 dark:bg-blue-900/30 rounded-lg">
+                <p className="text-2xl font-bold text-blue-600 dark:text-blue-400">{stats.completedTasks}</p>
+                <p className="text-sm text-gray-600 dark:text-gray-300">Tasks Completed</p>
               </div>
               <div className="text-center p-4 bg-emerald-50 dark:bg-emerald-900/30 rounded-lg">
                 <p className="text-2xl font-bold text-emerald-600 dark:text-emerald-400">{stats.totalHabits}</p>
