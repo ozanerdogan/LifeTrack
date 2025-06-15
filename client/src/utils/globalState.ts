@@ -120,28 +120,36 @@ const initialState: AppState = {
   todos: [
     {
       id: "1",
-      title: "Review project proposal",
-      description: "Go through the Q4 project proposal and provide feedback",
+      title: "Grocery shopping for the week",
+      description: "Buy veggies",
       completed: false,
-      difficulty: "medium",
-      tags: ["work", "important"],
-      dueDate: "2024-01-20",
-      checklist: [],
-      createdAt: "2024-01-15T10:00:00Z",
+      difficulty: "easy",
+      tags: ["home", "shopping"],
+      dueDate: "2024-01-22",
+      checklist: [
+        { id: "c1", text: "Carrots", completed: false },
+        { id: "c2", text: "Spinach", completed: false },
+        { id: "c3", text: "Eggs", completed: false },
+        { id: "c4", text: "Dish soap", completed: false },
+        { id: "c5", text: "Paper towels", completed: false }
+      ],
+      createdAt: "2024-01-20T09:30:00Z",
     },
     {
       id: "2",
-      title: "Update portfolio website",
-      description: "Add recent projects and update skills section",
-      completed: true,
+      title: "Prepare final presentation deck",
+      description: "Design and organize slides for the 318 presentation",
+      completed: false,
       difficulty: "hard",
-      tags: ["personal", "coding"],
+      tags: ["work", "productivity"],
+      dueDate: "2025-06-16",
       checklist: [
-        { id: "1", text: "Update projects section", completed: true },
-        { id: "2", text: "Refresh skills list", completed: true },
+        { id: "c1", text: "Outline the presentation structure", completed: false },
+        { id: "c2", text: "Deploy site", completed: false },
+        { id: "c3", text: "Design slide layout and visuals", completed: false },
+        { id: "c4", text: "Test - final", completed: false }
       ],
-      createdAt: "2024-01-10T09:00:00Z",
-      completedAt: "2024-01-14T15:30:00Z",
+      createdAt: "2024-01-20T14:00:00Z"
     },
   ],
   habits: [
@@ -166,16 +174,29 @@ const initialState: AppState = {
       streak: 4,
       createdAt: "2024-01-05T12:00:00Z",
     },
+    {
+      id: "3",
+      title: "Write Daily Journal",
+      description: "Reflect on your day by writing a short journal entry",
+      type: "positive",
+      difficulty: "hard",
+      tags: ["personal", "productivity"],
+      streak: 7,
+      lastCompleted: "2024-01-20",
+      createdAt: "2024-01-08T22:15:00Z"
+    }
   ],
   tags: [
     "work",
+    "productivity",
+    "shopping",
+    "home",
     "important",
     "personal",
     "coding",
     "health",
     "fitness",
     "digital-wellness",
-    "productivity",
   ],
   history: [
     {
