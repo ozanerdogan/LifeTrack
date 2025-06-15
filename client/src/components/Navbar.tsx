@@ -6,9 +6,10 @@ interface NavbarProps {
   onMenuToggle: () => void;
   onProfileClick: () => void;
   onLogoClick: () => void;
+  avatar: string;
 }
 
-const Navbar: React.FC<NavbarProps> = ({ onMenuToggle, onProfileClick, onLogoClick }) => {
+const Navbar: React.FC<NavbarProps> = ({ onMenuToggle, onProfileClick, onLogoClick, avatar }) => {
   const [showNotifications, setShowNotifications] = useState(false);
   const [state, setState] = useState(getState());
 
@@ -105,10 +106,15 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuToggle, onProfileClick, onLogoCli
             
             <button 
               onClick={onProfileClick}
-              className="p-2 rounded-lg hover:bg-gray-100 transition-colors duration-200"
+              className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200"
             >
-              <div className="w-8 h-8 bg-gradient-to-br from-emerald-400 to-blue-500 rounded-full flex items-center justify-center">
-                <User className="w-4 h-4 text-white" />
+              <div 
+                className="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-sm"
+                style={{ 
+                  background: `linear-gradient(135deg, ${state.user.avatarBgColor}, ${state.user.avatarBgColor}dd)`
+                }}
+              >
+                {avatar || state.user.username.charAt(0).toUpperCase()}
               </div>
             </button>
           </div>

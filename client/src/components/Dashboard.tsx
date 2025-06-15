@@ -665,8 +665,13 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
             <div className="md:hidden">
               <div className="flex items-start space-x-4">
                 {/* Avatar on left */}
-                <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-lg flex-shrink-0">
-                  {avatar || user.name.charAt(0).toUpperCase()}
+                <div 
+                  className="w-20 h-20 rounded-full flex items-center justify-center text-white font-bold text-xl flex-shrink-0"
+                  style={{ 
+                    background: `linear-gradient(135deg, ${user.avatarBgColor}, ${user.avatarBgColor}dd)`
+                  }}
+                >
+                  <span className="text-xl">{avatar || user.name.charAt(0).toUpperCase()}</span>
                 </div>
                 
                 {/* Name, level and progress bars on right */}

@@ -96,6 +96,7 @@ function App() {
         onMenuToggle={() => setSidebarOpen(!sidebarOpen)} 
         onProfileClick={handleProfileClick}
         onLogoClick={handleLogoClick}
+        avatar={avatar}
       />
       
       <div className="flex flex-1 overflow-hidden">
