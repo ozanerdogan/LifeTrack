@@ -593,7 +593,22 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
   return (
     <>
       {/* User stats */}
-      <div className="bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-blue-900/20 dark:via-indigo-900/20 dark:to-purple-900/20 backdrop-blur-sm rounded-xl p-6 border border-gray-200/50 dark:border-gray-700/50 mb-6">
+      <div className="relative bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-blue-900/20 dark:via-indigo-900/20 dark:to-purple-900/20 backdrop-blur-sm rounded-xl p-6 border border-gray-200/50 dark:border-gray-700/50 mb-6 overflow-hidden">
+        {/* Forest background */}
+        <div className="absolute right-0 top-0 bottom-0 w-1/3 opacity-10 dark:opacity-5">
+          <svg viewBox="0 0 400 200" className="w-full h-full">
+            {/* Trees silhouette */}
+            <path d="M350 200 L350 120 L340 120 L355 80 L340 80 L355 50 L370 80 L355 80 L370 120 L360 120 L360 200 Z" fill="currentColor" />
+            <path d="M320 200 L320 140 L310 140 L325 100 L310 100 L325 70 L340 100 L325 100 L340 140 L330 140 L330 200 Z" fill="currentColor" />
+            <path d="M380 200 L380 130 L370 130 L385 90 L370 90 L385 60 L400 90 L385 90 L400 130 L390 130 L390 200 Z" fill="currentColor" />
+            <path d="M290 200 L290 150 L280 150 L295 110 L280 110 L295 80 L310 110 L295 110 L310 150 L300 150 L300 200 Z" fill="currentColor" />
+            <path d="M260 200 L260 160 L250 160 L265 120 L250 120 L265 90 L280 120 L265 120 L280 160 L270 160 L270 200 Z" fill="currentColor" />
+            {/* Smaller trees */}
+            <path d="M370 200 L370 170 L365 170 L375 150 L365 150 L375 140 L385 150 L375 150 L385 170 L380 170 L380 200 Z" fill="currentColor" opacity="0.7" />
+            <path d="M340 200 L340 175 L335 175 L345 155 L335 155 L345 145 L355 155 L345 155 L355 175 L350 175 L350 200 Z" fill="currentColor" opacity="0.7" />
+            <path d="M310 200 L310 180 L305 180 L315 160 L305 160 L315 150 L325 160 L315 160 L325 180 L320 180 L320 200 Z" fill="currentColor" opacity="0.7" />
+          </svg>
+        </div>
           <div className="flex items-center space-x-6">
             {/* Avatar - bigger */}
             <div className="w-24 h-24 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-2xl flex-shrink-0">
