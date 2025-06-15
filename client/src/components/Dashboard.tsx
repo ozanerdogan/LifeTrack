@@ -774,12 +774,25 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
                 <Target className="w-5 h-5 text-blue-600 mr-2" />
                 To Dos ({filteredTodos.filter(t => !t.completed).length})
               </h2>
-              <button
-                onClick={() => setShowTodoModal(true)}
-                className="p-2 text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/30 rounded-lg transition-colors"
-              >
-                <Plus className="w-5 h-5" />
-              </button>
+              <div className="flex items-center space-x-2">
+                <button
+                  onClick={() => setShowTodoModal(true)}
+                  className="p-2 text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/30 rounded-lg transition-colors"
+                >
+                  <Plus className="w-5 h-5" />
+                </button>
+                {/* Mobile-only collapse button */}
+                <button
+                  onClick={() => toggleSection('todos')}
+                  className="md:hidden p-2 hover:bg-gray-100 dark:hover:bg-gray-600 rounded-lg transition-colors"
+                >
+                  {collapsedSections.has('todos') ? (
+                    <ChevronRight className="w-5 h-5 text-gray-500 dark:text-gray-400" />
+                  ) : (
+                    <ChevronDown className="w-5 h-5 text-gray-500 dark:text-gray-400" />
+                  )}
+                </button>
+              </div>
             </div>
             <div className="p-4 space-y-3 max-h-96 overflow-y-auto">
               {filteredTodos.length === 0 ? (
@@ -914,14 +927,27 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
                 <Flame className="w-5 h-5 text-orange-600 mr-2" />
                 Habits ({filteredHabits.length})
               </h2>
-              <button
-                onClick={() => setShowHabitModal(true)}
-                className="p-2 text-orange-600 dark:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-900/30 rounded-lg transition-colors"
-              >
-                <Plus className="w-5 h-5" />
-              </button>
+              <div className="flex items-center space-x-2">
+                <button
+                  onClick={() => setShowHabitModal(true)}
+                  className="p-2 text-orange-600 dark:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-900/30 rounded-lg transition-colors"
+                >
+                  <Plus className="w-5 h-5" />
+                </button>
+                {/* Mobile-only collapse button */}
+                <button
+                  onClick={() => toggleSection('habits')}
+                  className="md:hidden p-2 hover:bg-gray-100 dark:hover:bg-gray-600 rounded-lg transition-colors"
+                >
+                  {collapsedSections.has('habits') ? (
+                    <ChevronRight className="w-5 h-5 text-gray-500 dark:text-gray-400" />
+                  ) : (
+                    <ChevronDown className="w-5 h-5 text-gray-500 dark:text-gray-400" />
+                  )}
+                </button>
+              </div>
             </div>
-            <div className="p-4 space-y-3 max-h-96 overflow-y-auto">
+            <div className={`p-4 space-y-3 max-h-96 overflow-y-auto ${collapsedSections.has('habits') ? 'md:block hidden' : 'block'}`}>
               {filteredHabits.length === 0 ? (
                 <div className="text-center py-8 text-gray-500 dark:text-gray-400">
                   <Flame className="w-12 h-12 mx-auto mb-3 text-gray-300 dark:text-gray-600" />
