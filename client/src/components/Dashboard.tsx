@@ -283,17 +283,17 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Tags</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Tags</label>
               <div className="relative">
                 <button
                   onClick={() => setShowTagDropdown(!showTagDropdown)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-left"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-left"
                 >
                   {formData.tags.length > 0 ? formData.tags.join(', ') : 'Select tags'}
                 </button>
                 
                 {showTagDropdown && (
-                  <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-300 rounded-lg shadow-lg z-10 max-h-48 overflow-y-auto">
+                  <div className="absolute top-full left-0 right-0 mt-1 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg shadow-lg z-10 max-h-48 overflow-y-auto">
                     {availableTags.map(tag => (
                       <div
                         key={tag}
@@ -492,11 +492,11 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Tags</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Tags</label>
               <div className="relative">
                 <button
                   onClick={() => setShowTagDropdown(!showTagDropdown)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-left"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-left"
                 >
                   {formData.tags.length > 0 ? formData.tags.join(', ') : 'Select tags'}
                 </button>
