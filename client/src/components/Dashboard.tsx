@@ -298,21 +298,21 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
                       <div
                         key={tag}
                         onMouseDown={() => toggleTag(tag)}
-                        className={`px-3 py-2 cursor-pointer hover:bg-gray-50 ${
-                          formData.tags.includes(tag) ? 'bg-blue-50 text-blue-600' : ''
+                        className={`px-3 py-2 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-900 dark:text-white ${
+                          formData.tags.includes(tag) ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400' : ''
                         }`}
                       >
                         {tag}
                       </div>
                     ))}
-                    <div className="border-t border-gray-200 p-2">
+                    <div className="border-t border-gray-200 dark:border-gray-600 p-2">
                       <div className="flex space-x-2">
                         <input
                           type="text"
                           value={newTagName}
                           onChange={(e) => setNewTagName(e.target.value)}
                           placeholder="New tag name"
-                          className="flex-1 px-2 py-1 text-sm border border-gray-300 rounded"
+                          className="flex-1 px-2 py-1 text-sm border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded"
                           onKeyPress={(e) => {
                             if (e.key === 'Enter') {
                               e.preventDefault();
@@ -324,7 +324,7 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
                           onMouseDown={() => {
                             handleAddNewTag(newTagName);
                           }}
-                          className="px-2 py-1 text-sm bg-blue-600 text-white rounded hover:bg-blue-700"
+                          className="px-2 py-1 text-sm bg-blue-600 dark:bg-blue-500 text-white rounded hover:bg-blue-700 dark:hover:bg-blue-600"
                         >
                           Add
                         </button>
@@ -502,26 +502,26 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
                 </button>
                 
                 {showTagDropdown && (
-                  <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-300 rounded-lg shadow-lg z-10 max-h-48 overflow-y-auto">
+                  <div className="absolute top-full left-0 right-0 mt-1 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg shadow-lg z-10 max-h-48 overflow-y-auto">
                     {availableTags.map(tag => (
                       <div
                         key={tag}
                         onMouseDown={() => toggleTag(tag)}
-                        className={`px-3 py-2 cursor-pointer hover:bg-gray-50 ${
-                          formData.tags.includes(tag) ? 'bg-blue-50 text-blue-600' : ''
+                        className={`px-3 py-2 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-900 dark:text-white ${
+                          formData.tags.includes(tag) ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400' : ''
                         }`}
                       >
                         {tag}
                       </div>
                     ))}
-                    <div className="border-t border-gray-200 p-2">
+                    <div className="border-t border-gray-200 dark:border-gray-600 p-2">
                       <div className="flex space-x-2">
                         <input
                           type="text"
                           value={newTagName}
                           onChange={(e) => setNewTagName(e.target.value)}
                           placeholder="New tag name"
-                          className="flex-1 px-2 py-1 text-sm border border-gray-300 rounded"
+                          className="flex-1 px-2 py-1 text-sm border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded"
                           onKeyPress={(e) => {
                             if (e.key === 'Enter') {
                               e.preventDefault();
@@ -533,7 +533,7 @@ const Dashboard: React.FC<DashboardProps> = ({ avatar }) => {
                           onMouseDown={() => {
                             handleAddNewTag(newTagName);
                           }}
-                          className="px-2 py-1 text-sm bg-blue-600 text-white rounded hover:bg-blue-700"
+                          className="px-2 py-1 text-sm bg-blue-600 dark:bg-blue-500 text-white rounded hover:bg-blue-700 dark:hover:bg-blue-600"
                         >
                           Add
                         </button>
